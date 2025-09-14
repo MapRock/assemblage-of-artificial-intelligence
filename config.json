@@ -1,0 +1,45 @@
+{
+    "site": {
+        "title": "The Assemblage of Artificial Intelligence",
+        "description": "Exploring the interconnected landscape of artificial intelligence, its components, and emergent properties.",
+        "author": "AI Researcher",
+        "baseUrl": "",
+        "language": "en",
+        "timezone": "UTC"
+    },
+    "blog": {
+        "postsPerPage": 6,
+        "dateFormat": "MMMM d, yyyy",
+        "enableComments": false,
+        "enableSearch": false,
+        "featuredPostsCount": 3
+    },
+    "theme": {
+        "primaryColor": "#2c3e50",
+        "secondaryColor": "#3498db",
+        "accentColor": "#e74c3c",
+        "fontFamily": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+    },
+    "social": {
+        "twitter": "",
+        "github": "https://github.com/MapRock/assemblage-of-artificial-intelligence",
+        "email": ""
+    },
+    "seo": {
+        "enableOpenGraph": true,
+        "enableTwitterCards": true,
+        "defaultImage": "",
+        "keywords": [
+            "artificial intelligence",
+            "assemblage theory",
+            "AI ethics",
+            "technology studies",
+            "digital sociology",
+            "critical AI studies"
+        ]
+    },
+    "analytics": {
+        "googleAnalytics": "",
+        "enableTracking": false
+    }
+}

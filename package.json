@@ -1,0 +1,26 @@
+{
+  "name": "assemblage-of-artificial-intelligence",
+  "version": "1.0.0",
+  "description": "A blog exploring artificial intelligence through the lens of assemblage theory",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "build": "echo 'No build step required for static site'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": [
+    "artificial-intelligence",
+    "assemblage-theory",
+    "blog",
+    "ai-ethics",
+    "technology-studies"
+  ],
+  "author": "MapRock",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MapRock/assemblage-of-artificial-intelligence.git"
+  },
+  "homepage": "https://github.com/MapRock/assemblage-of-artificial-intelligence#readme"
+}

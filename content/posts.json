@@ -1,0 +1,62 @@
+[
+    {
+        "id": 1,
+        "title": "Understanding AI as Assemblage",
+        "excerpt": "Exploring how artificial intelligence emerges from complex interactions between algorithms, data, infrastructure, and human practices rather than existing as isolated systems.",
+        "date": "2025-01-14",
+        "slug": "understanding-ai-as-assemblage",
+        "content": "posts/understanding-ai-as-assemblage.md",
+        "tags": ["assemblage theory", "AI philosophy", "systems thinking"],
+        "author": "AI Researcher"
+    },
+    {
+        "id": 2,
+        "title": "The Materiality of Machine Learning",
+        "excerpt": "Examining the physical infrastructure, energy consumption, and material resources that underpin seemingly ethereal AI systems.",
+        "date": "2025-01-10",
+        "slug": "materiality-of-machine-learning",
+        "content": "posts/materiality-of-machine-learning.md",
+        "tags": ["infrastructure", "sustainability", "material conditions"],
+        "author": "AI Researcher"
+    },
+    {
+        "id": 3,
+        "title": "Human-AI Entanglements",
+        "excerpt": "How human labor, cognitive processes, and social structures become intertwined with AI systems in unexpected ways.",
+        "date": "2025-01-05",
+        "slug": "human-ai-entanglements",
+        "content": "posts/human-ai-entanglements.md",
+        "tags": ["human-AI interaction", "labor", "social structures"],
+        "author": "AI Researcher"
+    },
+    {
+        "id": 4,
+        "title": "Data Flows and Power Networks",
+        "excerpt": "Analyzing how data circulation creates new forms of power relations and governance in AI-driven societies.",
+        "date": "2025-01-01",
+        "slug": "data-flows-and-power-networks",
+        "content": "posts/data-flows-and-power-networks.md",
+        "tags": ["data governance", "power structures", "surveillance"],
+        "author": "AI Researcher"
+    },
+    {
+        "id": 5,
+        "title": "Algorithmic Agencies and Non-Human Actors",
+        "excerpt": "Investigating how algorithms develop their own forms of agency within sociotechnical assemblages, acting as non-human participants in decision-making processes.",
+        "date": "2024-12-28",
+        "slug": "algorithmic-agencies-non-human-actors",
+        "content": "posts/algorithmic-agencies-non-human-actors.md",
+        "tags": ["agency", "non-human actors", "algorithmic governance"],
+        "author": "AI Researcher"
+    },
+    {
+        "id": 6,
+        "title": "The Geography of AI: Spatial Assemblages",
+        "excerpt": "Mapping the spatial dimensions of AI development, deployment, and impact across different geographical and cultural contexts.",
+        "date": "2024-12-25",
+        "slug": "geography-of-ai-spatial-assemblages",
+        "content": "posts/geography-of-ai-spatial-assemblages.md",
+        "tags": ["geography", "spatial analysis", "global AI"],
+        "author": "AI Researcher"
+    }
+]
