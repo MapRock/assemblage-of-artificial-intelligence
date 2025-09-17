@@ -1,4 +1,9 @@
+# Contents
+
+This repository holds code related to all blogs on my site, eugeneasahara.com (or softcodedlogic.com).
+
 # Assemblage of Artificial Intelligence
+
 
 Over the past few years (ca. 2023–2025) I’ve been writing long-form essays (blogs) on AI—15 to 45 minutes each—grounded in 25+ years as a BI developer/architect and driven by an obsession with thinking about thinking. Along the way I wrote two printed books—Enterprise Intelligence (06-21-2024) and Time Molecules (06-04-2025), both from Technics Publications.
 
