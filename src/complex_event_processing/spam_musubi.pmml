@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PMML version="4.4" xmlns="http://www.dmg.org/PMML-4_4">
+  <Header copyright="xAI Musubi Model" description="Simple DT for musubi ingredients"/>
+  
+  <DataDictionary numberOfFields="4">
+    <DataField name="rice_present" optype="categorical" dataType="boolean">
+      <Value value="true"/>
+      <Value value="false"/>
+    </DataField>
+    <DataField name="spam_present" optype="categorical" dataType="boolean">
+      <Value value="true"/>
+      <Value value="false"/>
+    </DataField>
+    <DataField name="nori_present" optype="categorical" dataType="boolean">
+      <Value value="true"/>
+      <Value value="false"/>
+    </DataField>
+    <DataField name="teriyaki_present" optype="categorical" dataType="boolean">
+      <Value value="true"/>
+      <Value value="false"/>
+    </DataField>
+    <TargetField name="musubi_quality" optype="categorical" dataType="string">
+      <Value value="Excellent"/>
+      <Value value="Good"/>
+      <Value value="Poor"/>
+    </TargetField>
+  </DataDictionary>
+  
+  <TreeModel functionName="classification" algorithmName="musubi_tree" splitCharacteristic="binarySplit">
+    <MiningSchema>
+      <MiningField name="rice_present"/>
+      <MiningField name="spam_present"/>
+      <MiningField name="nori_present"/>
+      <MiningField name="teriyaki_present"/>
+      <MiningField name="musubi_quality" usageType="target"/>
+    </MiningSchema>
+    
+    <Node score="Poor" recordCount="100">
+      <CompoundPredicate booleanOperator="or">
+        <SimplePredicate field="rice_present" operator="equal" value="false"/>
+        <SimplePredicate field="spam_present" operator="equal" false="false"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="Poor" recordCount="80" confidence="0.8"/>
+      <ScoreDistribution value="Good" recordCount="15" confidence="0.15"/>
+      <ScoreDistribution value="Excellent" recordCount="5" confidence="0.05"/>
+      
+      <Node score="Good" recordCount="50">
+        <SimplePredicate field="nori_present" operator="equal" value="true"/>
+        <ScoreDistribution value="Good" recordCount="45" confidence="0.9"/>
+        <ScoreDistribution value="Excellent" recordCount="5" confidence="0.1"/>
+        
+        <Node score="Excellent" recordCount="30">
+          <SimplePredicate field="teriyaki_present" operator="equal" value="true"/>
+          <ScoreDistribution value="Excellent" recordCount="30" confidence="1.0"/>
+        </Node>
+      </Node>
+      
+      <Node score="Poor" recordCount="50">
+        <SimplePredicate field="nori_present" operator="equal" value="false"/>
+        <ScoreDistribution value="Poor" recordCount="50" confidence="1.0"/>
+      </Node>
+    </Node>
+  </TreeModel>
+</PMML>
