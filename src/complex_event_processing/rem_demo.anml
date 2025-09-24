@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<anml version="1.0">
+  <automata-network id="rem_demo">
+
+    <!-- State-Transition Elements (STEs) -->
+    <!-- 'start' means the STE is enabled at the start of data. 
+         'symbol-set' lists the byte(s) this STE accepts. -->
+
+    <!-- Detect theta-high -->
+    <state-transition-element id="ste_theta" start="start" symbol-set="[0x54]"/>
+    <!-- Detect muscle atonia (only after theta) -->
+    <state-transition-element id="ste_atonia" start="none" symbol-set="[0x41]"/>
+    <!-- Detect rapid eye movement (only after atonia) -->
+    <state-transition-element id="ste_rem" start="none" symbol-set="[0x52]"/>
+
+    <!-- Wire the sequence: T -> A -> R -->
+    <edge source="ste_theta" target="ste_atonia"/>
+    <edge source="ste_atonia" target="ste_rem"/>
+
+    <!-- Report when the last STE matches -->
+    <report-on-match element="ste_rem" id="REM_detected" message="REM pattern T->A->R"/>
+  </automata-network>
+</anml>
