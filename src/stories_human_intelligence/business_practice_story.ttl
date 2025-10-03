@@ -1,0 +1,101 @@
+@prefix ex:   <https://example.org/strat#> .
+@prefix sb:   <https://example.org/sbar#> .
+@prefix kpi:  <https://enterprise.example/kpi#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@base         <https://example.org/ont/business_practice_story> .
+
+<https://example.org/ont/business_practice_story> a owl:Ontology .
+
+# Classes
+ex:StrategyMap a owl:Class .  ex:Objective a owl:Class .  ex:Action a owl:Class .
+ex:CausalClaim a owl:Class .  ex:Risk a owl:Class .       ex:Constraint a owl:Class .
+ex:Driver a owl:Class .       ex:Scenario a owl:Class .   ex:Event a owl:Class .
+sb:Situation a owl:Class .    sb:Background a owl:Class .
+sb:Assessment a owl:Class .   sb:Recommendation a owl:Class .
+
+# Object properties
+ex:onMap a owl:ObjectProperty ; rdfs:domain ex:Objective ;  rdfs:range ex:StrategyMap .
+ex:causes a owl:ObjectProperty ; rdfs:domain ex:Objective ; rdfs:range ex:Objective .
+ex:targetsKPI a owl:ObjectProperty ; rdfs:domain ex:Action ; rdfs:range ex:Objective .
+ex:hasDriver a owl:ObjectProperty ; rdfs:domain sb:Assessment ; rdfs:range ex:Driver .
+ex:hasConstraint a owl:ObjectProperty ; rdfs:domain sb:Assessment ; rdfs:range ex:Constraint .
+ex:hasRisk a owl:ObjectProperty ; rdfs:domain sb:Assessment ; rdfs:range ex:Risk .
+sb:hasSituation a owl:ObjectProperty ; rdfs:domain ex:StrategyMap ; rdfs:range sb:Situation .
+sb:hasBackground a owl:ObjectProperty ; rdfs:domain ex:StrategyMap ; rdfs:range sb:Background .
+sb:hasAssessment a owl:ObjectProperty ; rdfs:domain ex:StrategyMap ; rdfs:range sb:Assessment .
+sb:hasRecommendation a owl:ObjectProperty ; rdfs:domain ex:StrategyMap ; rdfs:range sb:Recommendation .
+
+# Datatype properties
+ex:probability a owl:DatatypeProperty ; rdfs:domain ex:Scenario ; rdfs:range xsd:decimal .
+ex:expectedDelta a owl:DatatypeProperty ; rdfs:domain ex:Scenario ; rdfs:range xsd:string .
+ex:ownedBy a owl:DatatypeProperty ; rdfs:domain ex:Action ; rdfs:range xsd:string .
+ex:costBand a owl:DatatypeProperty ; rdfs:domain ex:Action ; rdfs:range xsd:string .
+ex:timeToImpact a owl:DatatypeProperty ; rdfs:domain ex:Action ; rdfs:range xsd:string .
+
+######## S — Situation (Figure 1)
+ex:S_Map2025 a ex:StrategyMap, sb:Situation ; rdfs:label "Current Strategy Map (Small Business)" .
+
+ex:Obj_Profitability    a ex:Objective ; rdfs:label "Profitability"     ; ex:onMap ex:S_Map2025 .
+ex:Obj_Growth           a ex:Objective ; rdfs:label "Growth"            ; ex:onMap ex:S_Map2025 .
+ex:Obj_NewCustomers     a ex:Objective ; rdfs:label "New Customers"     ; ex:onMap ex:S_Map2025 .
+ex:Obj_Referrals        a ex:Objective ; rdfs:label "Referrals"         ; ex:onMap ex:S_Map2025 .
+ex:Obj_ReturnVisits     a ex:Objective ; rdfs:label "Return Visits"     ; ex:onMap ex:S_Map2025 .
+ex:Obj_Capacity         a ex:Objective ; rdfs:label "Capacity"          ; ex:onMap ex:S_Map2025 .
+ex:Obj_ServiceOfferings a ex:Objective ; rdfs:label "Service Offerings" ; ex:onMap ex:S_Map2025 .
+
+ex:Obj_ReturnVisits  ex:causes ex:Obj_Referrals .
+ex:Obj_Referrals     ex:causes ex:Obj_NewCustomers .
+ex:Obj_ServiceOfferings ex:causes ex:Obj_NewCustomers .
+ex:Obj_Capacity      ex:causes ex:Obj_ServiceOfferings .
+ex:Obj_NewCustomers  ex:causes ex:Obj_Growth .
+
+######## B — Background (prior map + events)
+ex:B_Background a sb:Background ; rdfs:label "Background to Current State" .
+ex:B_Map2023 a ex:StrategyMap ; rdfs:label "Prior Strategy Map (2023)" .
+
+ex:Obj_Referrals    ex:onMap ex:B_Map2023 .
+ex:Obj_NewCustomers ex:onMap ex:B_Map2023 .
+ex:Obj_Referrals    ex:causes ex:Obj_NewCustomers .
+
+ex:Ev_InsuranceShift a ex:Event ; rdfs:label "Payer mix shift lowered margins" .
+ex:Ev_LeasePressure  a ex:Event ; rdfs:label "Office lease limited room count" .
+ex:Ev_NewCompetitor  a ex:Event ; rdfs:label "New competitor siphoned referrals" .
+
+######## A — Assessment (drivers/constraints/risks + scenarios)
+ex:A_Assessment a sb:Assessment ;
+  ex:hasDriver ex:Drv_BISystem, ex:Drv_ServiceOfferings ;
+  ex:hasConstraint ex:Cst_LeaseSize, ex:Cst_LicensedProviderAvailability ;
+  ex:hasRisk ex:Risk_Supply, ex:Risk_Adoption .
+
+ex:Drv_BISystem a ex:Driver ; rdfs:label "BI System (optimize ops, understand customers)" .
+ex:Drv_ServiceOfferings a ex:Driver ; rdfs:label "Service Offerings Mix" .
+ex:Cst_LeaseSize a ex:Constraint ; rdfs:label "Current office size limits rooms" .
+ex:Cst_LicensedProviderAvailability a ex:Constraint ; rdfs:label "Limited supply of providers" .
+ex:Risk_Supply a ex:Risk ; rdfs:label "Delay in sourcing providers/equipment" .
+ex:Risk_Adoption a ex:Risk ; rdfs:label "Staff adoption of new workflows" .
+
+ex:Scn_AddDoctor   a ex:Scenario ; rdfs:label "Add Doctor"    ;
+  ex:probability 0.55 ; ex:expectedDelta "+ NewPatients, + Revenue, + Capacity ; – WaitTimes" .
+ex:Scn_BiggerOffice a ex:Scenario ; rdfs:label "Bigger Office" ;
+  ex:probability 0.45 ; ex:expectedDelta "+ Capacity ; + ServiceOfferings ; + Growth" .
+
+######## R — Recommendation (Figure 2)
+ex:R_Map2025_Prop a ex:StrategyMap, sb:Recommendation ; rdfs:label "Proposed Strategy Map (Apply Recommendations)" .
+
+ex:Act_AddDoctor a ex:Action ; rdfs:label "Add Doctor" ; ex:ownedBy "Operations/HR" ; ex:costBand "$$" ;    ex:timeToImpact "P1Q" .
+ex:Act_BiggerOffice a ex:Action ; rdfs:label "Bigger Office" ; ex:ownedBy "Operations" ;   ex:costBand "$$-$$$" ; ex:timeToImpact "P2M" .
+
+ex:Act_AddDoctor    ex:targetsKPI ex:Obj_Capacity .
+ex:Act_BiggerOffice ex:targetsKPI ex:Obj_Capacity, ex:Obj_ServiceOfferings .
+
+# Proposed propagation (what Figure 2 visualizes)
+ex:Obj_Capacity         ex:onMap  ex:R_Map2025_Prop .
+ex:Obj_ServiceOfferings ex:onMap  ex:R_Map2025_Prop .
+ex:Obj_Capacity         ex:causes ex:Obj_NewCustomers .
+ex:Obj_ServiceOfferings ex:causes ex:Obj_NewCustomers .
+ex:Obj_NewCustomers     ex:causes ex:Obj_Growth .
+ex:Obj_Profitability    ex:onMap  ex:R_Map2025_Prop .
+ex:Obj_Growth           ex:onMap  ex:R_Map2025_Prop .
