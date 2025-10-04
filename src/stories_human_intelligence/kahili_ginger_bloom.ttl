@@ -1,0 +1,195 @@
+@prefix ex:     <https://example.org/ginger#> .
+@prefix sb:     <https://example.org/sbar#> .
+@prefix map:    <https://example.org/strategy#> .
+@prefix schema: <http://schema.org/> .
+@prefix dbr:    <http://dbpedia.org/resource/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@base           <https://example.org/ont/ginger_story_map> .
+
+<https://example.org/ont/ginger_story_map> a owl:Ontology ;
+  rdfs:label "Kahili Ginger – Story/Strategy Map (SBAR)" ;
+  rdfs:comment "POC: LLM-drafted RDF map from the narrative of a 22-year journey to first bloom in Boise." .
+
+########## Minimal vocabulary
+map:StrategyMap a owl:Class .
+map:Objective   a owl:Class .
+ex:Actor        a owl:Class .
+ex:Object       a owl:Class .
+ex:Place        a owl:Class .
+ex:Action       a owl:Class .
+ex:Constraint   a owl:Class .
+ex:Risk         a owl:Class .
+ex:Scenario     a owl:Class .
+sb:Situation      a owl:Class .
+sb:Background     a owl:Class .
+sb:Assessment     a owl:Class .
+sb:Recommendation a owl:Class .
+
+# Object properties
+map:onMap        a owl:ObjectProperty .
+ex:causes        a owl:ObjectProperty .
+ex:inhibits      a owl:ObjectProperty .
+ex:mitigates     a owl:ObjectProperty .
+ex:targetsKPI    a owl:ObjectProperty .
+ex:atPlace       a owl:ObjectProperty .
+ex:owns          a owl:ObjectProperty .
+
+# Datatype properties (optional weights/notes)
+map:polarity     a owl:DatatypeProperty ; rdfs:range xsd:integer .
+map:strength     a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+ex:probability   a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+ex:expectedDelta a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+########## Core entities from the story
+ex:Owner a ex:Actor ;
+  rdfs:label "Owner/Gardener" ;
+  rdfs:comment "Narrator who bought the root at Hilo Hattie (Oʻahu, 2003) and tended it in Boise." .
+
+ex:KahiliGinger a ex:Object, schema:Thing ;
+  rdfs:label "Kahili ginger (Hedychium gardnerianum)" ;
+  rdfs:comment "Souvenir root purchased in 2003; grew well for years without blooming; first bloom in 2025." ;
+  owl:sameAs dbr:Hedychium_gardnerianum .
+
+ex:Boise a ex:Place ;
+  rdfs:label "Boise, Idaho" .
+
+########## Strategy objectives (KPI-like nodes)
+ex:SunlightExposure     a map:Objective ; rdfs:label "Sunlight Exposure (hours/day)" .
+ex:HeatStress           a map:Objective ; rdfs:label "Heat Stress" .
+ex:LeafCooling          a map:Objective ; rdfs:label "Leaf Cooling/Misting" .
+ex:NutrientAvailability a map:Objective ; rdfs:label "Nutrient Availability" .
+ex:SoilMoisture         a map:Objective ; rdfs:label "Soil Moisture (even)" .
+ex:SeasonWindow         a map:Objective ; rdfs:label "Season Window (time to finish bloom)" .
+ex:BudInitiation        a map:Objective ; rdfs:label "Bud Initiation" .
+ex:BudDevelopment       a map:Objective ; rdfs:label "Bud Development" .
+ex:BloomSuccess         a map:Objective ; rdfs:label "Bloom Success (flower spike completes)" .
+ex:IndoorDryness        a map:Objective ; rdfs:label "Indoor Dryness" .
+ex:ShadePlacement       a map:Objective ; rdfs:label "Shaded Placement" .
+ex:DirectSunPlacement   a map:Objective ; rdfs:label "Direct Sun Placement (few hrs)" .
+ex:BudTiming            a map:Objective ; rdfs:label "Bud Timing (month of first bud)" .
+
+########## Constraints and risks
+ex:BoiseClimate a ex:Constraint ;
+  rdfs:label "Boise Climate Constraint" ;
+  rdfs:comment "Dry, hot summers; very cold winters; short safe outdoor season (mid-May–early Oct)." .
+
+ex:SpaceLayout a ex:Constraint ;
+  rdfs:label "Space/Layout Constraint" ;
+  rdfs:comment "Under-tree location blocked sprinklers; limited alternative locations." .
+
+ex:Risk_Desiccation a ex:Risk ; rdfs:label "Risk: Desiccation/Sunburn" .
+ex:Risk_LateBud     a ex:Risk ; rdfs:label "Risk: Late Bud (misses season)" .
+
+########## SBAR container (this story instance)
+ex:StoryMap a map:StrategyMap ;
+  rdfs:label "Kahili Ginger Story Map" ;
+  sb:hasSituation ex:S_Situation ;
+  sb:hasBackground ex:S_Background ;
+  sb:hasAssessment ex:S_Assessment ;
+  sb:hasRecommendation ex:S_Recommendation .
+
+########## S — Situation (current outcome: bloom achieved 2025-08)
+ex:S_Situation a sb:Situation ;
+  rdfs:label "Situation – Current (Bloom Achieved, Aug 2025)" ;
+  rdfs:comment "Bud appeared late July; flower spike progressed to completion through August." .
+
+# Put key objectives on the current map
+ex:SunlightExposure     map:onMap ex:StoryMap .
+ex:LeafCooling          map:onMap ex:StoryMap .
+ex:NutrientAvailability map:onMap ex:StoryMap .
+ex:SeasonWindow         map:onMap ex:StoryMap .
+ex:BudInitiation        map:onMap ex:StoryMap .
+ex:BudDevelopment       map:onMap ex:StoryMap .
+ex:BloomSuccess         map:onMap ex:StoryMap .
+ex:HeatStress           map:onMap ex:StoryMap .
+ex:BudTiming            map:onMap ex:StoryMap .
+
+# Current causal skeleton (intended/observed)
+ex:DirectSunPlacement   ex:causes   ex:SunlightExposure .
+ex:SunlightExposure     ex:causes   ex:BudInitiation .
+ex:BudTiming            ex:causes   ex:SeasonWindow .
+ex:SeasonWindow         ex:causes   ex:BudDevelopment .
+ex:NutrientAvailability ex:causes   ex:BudDevelopment .
+ex:BudDevelopment       ex:causes   ex:BloomSuccess .
+ex:HeatStress           ex:inhibits ex:BudDevelopment .
+ex:LeafCooling          ex:mitigates ex:HeatStress .
+
+########## B — Background (history and prior setup)
+ex:S_Background a sb:Background ;
+  rdfs:label "Background – 2003→2024 (No Bloom)" ;
+  rdfs:comment "Root bought at Hilo Hattie (Oʻahu, 2003). Summers: under-tree partial sun with sprinklers; rest of year: garage; occasional indoor moves (too dry). First observed buds in Sep two prior years; dried before opening (late timing + indoor move)." .
+
+# Background map placement and inhibitory paths (historical)
+ex:ShadePlacement       map:onMap ex:StoryMap .
+ex:IndoorDryness        map:onMap ex:StoryMap .
+ex:ShadePlacement       ex:inhibits ex:SunlightExposure .
+ex:IndoorDryness        ex:inhibits ex:BudDevelopment .
+ex:BoiseClimate         a ex:Constraint .
+ex:BoiseClimate         rdfs:comment "Short outdoor window; hot/dry exposure risk; cold winters force overwintering." .
+
+########## A — Assessment (drivers, constraints, risks, scenarios)
+ex:S_Assessment a sb:Assessment ;
+  rdfs:label "Assessment – Levers, Constraints, Risks" ;
+  rdfs:comment "Key manipulable drivers: limited direct sun; leaf cooling during sun; organic fertilizer. Constraints: Boise climate, space/layout. Risks: desiccation/sunburn; late bud." .
+
+# Scenarios derived from the story
+ex:Scn_ShadeStatusQuo a ex:Scenario ;
+  rdfs:label "Scenario: Keep in Shade Under Tree" ;
+  rdfs:comment "Low sunlight; buds rare/late; no bloom completion." ;
+  ex:probability 0.2 ;
+  ex:expectedDelta "BudInitiation low; BudTiming late; BloomSuccess unlikely" .
+
+ex:Scn_SunNoCooling a ex:Scenario ;
+  rdfs:label "Scenario: Move to Sun Without Cooling" ;
+  rdfs:comment "Higher sunlight but heat stress; buds may abort." ;
+  ex:probability 0.3 ;
+  ex:expectedDelta "BudInitiation up; BudDevelopment down via HeatStress" .
+
+ex:Scn_SunWithCoolingFert a ex:Scenario ;
+  rdfs:label "Scenario: Sun + Leaf Cooling + Organic Fertilizer" ;
+  rdfs:comment "Few hours direct sun, leaf misting during sun, organic fertilizer; earlier bud, completion likely." ;
+  ex:probability 0.5 ;
+  ex:expectedDelta "BudInitiation up; BudTiming earlier; BudDevelopment supported; BloomSuccess likely" .
+
+########## R — Recommendation (the chosen actions and propagation)
+ex:S_Recommendation a sb:Recommendation ;
+  rdfs:label "Recommendation – Maintain Practice That Led to Bloom" ;
+  rdfs:comment "Continue placement with a few hours of direct sun; actively cool leaves during sun; maintain organic feeding; monitor soil moisture; aim for early bud timing." .
+
+# Actions taken in 2025
+ex:Act_MoveToSun a ex:Action ;
+  rdfs:label "Action: Place for a few hours of direct sun" ;
+  rdfs:comment "Relocated due to size/sprinkler blockage; accepted brief direct sun exposure." ;
+  ex:targetsKPI ex:DirectSunPlacement .
+
+ex:Act_LeafMisting a ex:Action ;
+  rdfs:label "Action: Leaf misting during sunny hours" ;
+  rdfs:comment "Evaporative cooling to mitigate heat stress during direct sun." ;
+  ex:targetsKPI ex:LeafCooling .
+
+ex:Act_OrganicFertilizer a ex:Action ;
+  rdfs:label "Action: Organic fertilizer (Zamzows)" ;
+  rdfs:comment "Nutrient support for spike formation and development." ;
+  ex:targetsKPI ex:NutrientAvailability .
+
+# Propagation from actions to outcomes
+ex:DirectSunPlacement   ex:causes   ex:SunlightExposure .
+ex:LeafCooling          ex:mitigates ex:HeatStress .
+ex:NutrientAvailability ex:causes   ex:BudDevelopment .
+ex:SunlightExposure     ex:causes   ex:BudInitiation .
+ex:BudInitiation        ex:causes   ex:BudTiming .
+ex:BudTiming            ex:causes   ex:SeasonWindow .
+ex:SeasonWindow         ex:causes   ex:BudDevelopment .
+ex:BudDevelopment       ex:causes   ex:BloomSuccess .
+
+# Risk ties
+ex:Risk_Desiccation ex:inhibits ex:BudDevelopment .
+ex:Risk_LateBud     ex:inhibits ex:SeasonWindow .
+ex:Act_LeafMisting  ex:mitigates ex:Risk_Desiccation .
+
+# Locations / ownership
+ex:Owner ex:owns ex:KahiliGinger .
+ex:KahiliGinger ex:atPlace ex:Boise .
