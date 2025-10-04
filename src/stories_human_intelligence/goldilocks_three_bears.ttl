@@ -1,0 +1,199 @@
+@prefix ex:    <https://example.org/story#> .
+@prefix sb:    <https://example.org/sbar#> .
+@prefix map:   <https://example.org/strategy#> .
+@prefix dbo:   <http://dbpedia.org/ontology/> .
+@prefix dbr:   <http://dbpedia.org/resource/> .
+@prefix schema:<http://schema.org/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@base          <https://example.org/ont/goldilocks> .
+
+<https://example.org/ont/goldilocks> a owl:Ontology ;
+  rdfs:label "Goldilocks and the Three Bears – Story Graph Unit" ;
+  rdfs:comment "SBAR-framed story graph with minimal strategy-map style causality and a moral." .
+
+########## Minimal vocabulary (classes)
+ex:Story        a owl:Class .
+ex:Actor        a owl:Class .
+ex:Object       a owl:Class .
+ex:Place        a owl:Class .
+ex:Action       a owl:Class .
+ex:State        a owl:Class .
+ex:Goal         a owl:Class .
+ex:Moral        a owl:Class .
+ex:CausalClaim  a owl:Class .
+ex:Scenario     a owl:Class .
+
+map:StrategyMap a owl:Class .
+map:Objective   a owl:Class .   # we’ll reuse this to show “comfort/fit” as objectives
+
+sb:Situation      a owl:Class .
+sb:Background     a owl:Class .
+sb:Assessment     a owl:Class .
+sb:Recommendation a owl:Class .
+
+########## Minimal vocabulary (properties)
+ex:inStory       a owl:ObjectProperty .
+ex:atPlace       a owl:ObjectProperty .
+ex:actsOn        a owl:ObjectProperty .
+ex:hasState      a owl:ObjectProperty .
+ex:seeks         a owl:ObjectProperty .
+ex:causes        a owl:ObjectProperty .   # causal edge (typed but simple)
+ex:precedes      a owl:ObjectProperty .
+ex:chooses       a owl:ObjectProperty .
+ex:outcome       a owl:ObjectProperty .
+ex:hasMoral      a owl:ObjectProperty .
+ex:sameAsIRI     a owl:ObjectProperty .   # for linking to public IRIs (alt to owl:sameAs when we want soft links)
+
+map:onMap        a owl:ObjectProperty .
+map:targets      a owl:ObjectProperty .   # Action -> Objective
+map:polarity     a owl:DatatypeProperty ; rdfs:range xsd:integer . # +1 or -1 on causal edges (optional)
+map:strength     a owl:DatatypeProperty ; rdfs:range xsd:decimal . # 0..1 (optional)
+
+########## The Story container
+ex:GoldiStory a ex:Story ;
+  rdfs:label "Goldilocks and the Three Bears" ;
+  rdfs:comment "A traveler enters a house, tests extremes, chooses the 'just right' middle, is discovered, and flees; moral: respect others and seek fitting balance." ;
+  sb:hasSituation      ex:S_Situation ;
+  sb:hasBackground     ex:S_Background ;
+  sb:hasAssessment     ex:S_Assessment ;
+  sb:hasRecommendation ex:S_Recommendation .
+
+########## ACTORS (with external IRIs for bears)
+ex:Goldilocks a ex:Actor, schema:Person ;
+  rdfs:label "Goldilocks" ;
+  rdfs:comment "Curious child who enters the bears' home." .
+
+ex:PapaBear a ex:Actor ;
+  rdfs:label "Papa Bear" ;
+  rdfs:comment "Adult bear; large; porridge/chair/bed too much for Goldilocks." ;
+  ex:sameAsIRI dbr:Brown_bear .
+
+ex:MamaBear a ex:Actor ;
+  rdfs:label "Mama Bear" ;
+  rdfs:comment "Adult bear; moderate; porridge/chair/bed too much/too little contrasts." ;
+  ex:sameAsIRI dbr:Brown_bear .
+
+ex:BabyBear a ex:Actor ;
+  rdfs:label "Baby Bear" ;
+  rdfs:comment "Young bear; small; 'just right' fit for Goldilocks." ;
+  ex:sameAsIRI dbr:Brown_bear .
+
+########## PLACES & OBJECTS
+ex:BearsHouse a ex:Place ;
+  rdfs:label "Bears' Cottage" ;
+  rdfs:comment "Home in the forest with table, chairs, beds." .
+
+ex:Porridge_Papa a ex:Object ; rdfs:label "Papa's porridge" ; rdfs:comment "Too hot." .
+ex:Porridge_Mama a ex:Object ; rdfs:label "Mama's porridge" ; rdfs:comment "Too cold." .
+ex:Porridge_Baby a ex:Object ; rdfs:label "Baby's porridge" ; rdfs:comment "Just right." .
+
+ex:Chair_Papa a ex:Object ; rdfs:label "Papa's chair" ; rdfs:comment "Too big/firm." .
+ex:Chair_Mama a ex:Object ; rdfs:label "Mama's chair" ; rdfs:comment "Too soft." .
+ex:Chair_Baby a ex:Object ; rdfs:label "Baby's chair" ; rdfs:comment "Just right (but breaks)." .
+
+ex:Bed_Papa a ex:Object ; rdfs:label "Papa's bed" ; rdfs:comment "Too hard." .
+ex:Bed_Mama a ex:Object ; rdfs:label "Mama's bed" ; rdfs:comment "Too soft." .
+ex:Bed_Baby a ex:Object ; rdfs:label "Baby's bed" ; rdfs:comment "Just right." .
+
+########## GOALS / “OBJECTIVES” (strategy-map style)
+ex:Comfort a map:Objective ; rdfs:label "Comfort" ; rdfs:comment "Immediate bodily ease (food, seating, rest)." .
+ex:Fit     a map:Objective ; rdfs:label "Fit"     ; rdfs:comment "Matching means to the agent (not too much, not too little)." .
+ex:Respect a map:Objective ; rdfs:label "Respect" ; rdfs:comment "Consideration for others' property and boundaries." .
+ex:Safety  a map:Objective ; rdfs:label "Safety"  ; rdfs:comment "Avoiding harm when discovered." .
+
+########## SBAR — S: Situation (now)
+ex:S_Situation a sb:Situation ;
+  rdfs:label "Situation" ;
+  rdfs:comment "Goldilocks, hungry and tired, finds an empty cottage in the forest." .
+
+# Initial states and setting
+ex:Goldilocks ex:hasState ex:Hungry, ex:Tired ; ex:atPlace ex:BearsHouse ; ex:inStory ex:GoldiStory .
+ex:Hungry a ex:State ; rdfs:label "Hungry" .
+ex:Tired  a ex:State ; rdfs:label "Tired" .
+
+# Current causal skeleton on the “map”
+ex:Comfort map:polarity 1 .
+ex:Fit     map:polarity 1 .
+ex:Respect map:polarity 1 .
+ex:Safety  map:polarity 1 .
+
+# (Illustrative causal intents)
+ex:Fit     ex:causes ex:Comfort .
+ex:Respect ex:causes ex:Safety .
+
+########## SBAR — B: Background (how we got here)
+ex:S_Background a sb:Background ;
+  rdfs:label "Background" ;
+  rdfs:comment "Bears cooked porridge; it was too hot; they walked to let it cool. House left unattended." .
+
+# (Events narrated as states)
+ex:PorridgeTooHot a ex:State ; rdfs:label "Porridge too hot" .
+ex:PorridgeCools  a ex:State ; rdfs:label "Porridge cooling" .
+
+########## SBAR — A: Assessment (options, constraints, risks)
+ex:S_Assessment a sb:Assessment ;
+  rdfs:label "Assessment" ;
+  rdfs:comment "Goldilocks can test options to meet Comfort via Fit, but risks disrespect and discovery." .
+
+# Options as simple scenarios (too X / too Y / just right)
+ex:Scn_TooMuch a ex:Scenario ;
+  rdfs:label "Too Much" ;
+  rdfs:comment "Choosing extremes (too hot/large/hard) fails Fit and Comfort." .
+
+ex:Scn_TooLittle a ex:Scenario ;
+  rdfs:label "Too Little" ;
+  rdfs:comment "Choosing the opposite extremes (too cold/small/soft) also fails." .
+
+ex:Scn_JustRight a ex:Scenario ;
+  rdfs:label "Just Right" ;
+  rdfs:comment "Choosing a middle option achieves Fit → Comfort." .
+
+# Risks
+ex:Risk_Discovery a ex:State ; rdfs:label "Risk: discovered by the bears" .
+
+########## SBAR — R: Recommendation (chosen acts / deltas)
+ex:S_Recommendation a sb:Recommendation ;
+  rdfs:label "Recommendation" ;
+  rdfs:comment "Choose 'Just Right' options to satisfy Fit → Comfort; accept discovery risk and flee if needed." ;
+  ex:hasMoral ex:M_Moral .
+
+# Chosen actions (“tests”)
+ex:TryPorridge a ex:Action ; rdfs:label "Taste porridge" ; rdfs:comment "Too hot → too cold → just right." ; ex:actsOn ex:Porridge_Papa, ex:Porridge_Mama, ex:Porridge_Baby .
+ex:TryChairs  a ex:Action ; rdfs:label "Try chairs"     ; rdfs:comment "Too big/firm → too soft → just right (breaks)." ; ex:actsOn ex:Chair_Papa, ex:Chair_Mama, ex:Chair_Baby .
+ex:TryBeds    a ex:Action ; rdfs:label "Test beds"       ; rdfs:comment "Too hard → too soft → just right (sleeps)." ; ex:actsOn ex:Bed_Papa, ex:Bed_Mama, ex:Bed_Baby .
+ex:Flee       a ex:Action ; rdfs:label "Flee"            ; rdfs:comment "On discovery, leave house; restore safety." .
+
+# Intent: seek Comfort via Fit; also (ideally) respect
+ex:Goldilocks ex:seeks ex:Comfort, ex:Fit, ex:Safety ; ex:inStory ex:GoldiStory .
+
+# Propagation (strategy-map style)
+ex:Fit        ex:causes ex:Comfort .
+ex:Comfort    ex:causes ex:Safety .      # she sleeps → recovered; but discovery interrupts
+ex:TryPorridge map:targets ex:Fit .
+ex:TryChairs  map:targets ex:Fit .
+ex:TryBeds    map:targets ex:Fit .
+ex:Flee       map:targets ex:Safety .
+
+# Outcome edges
+ex:TryPorridge ex:precedes ex:TryChairs .
+ex:TryChairs   ex:precedes ex:TryBeds .
+ex:TryBeds     ex:precedes ex:Flee .
+
+########## Moral
+ex:M_Moral a ex:Moral ;
+  rdfs:label "Moral: Seek the fitting middle; respect others' property." ;
+  rdfs:comment "Moderation/appropriateness ('just right') brings comfort, but disregard for others invites consequences." .
+
+########## Light causal claims (optional, human-readable)
+ex:C_FitComfort a ex:CausalClaim ;
+  rdfs:label "Fit → Comfort" ;
+  rdfs:comment "Choosing the appropriately sized/tempered option increases comfort." ;
+  ex:outcome ex:Comfort .
+
+ex:C_RespectSafety a ex:CausalClaim ;
+  rdfs:label "Respect → Safety" ;
+  rdfs:comment "Respecting others' property maintains safety; trespass raises risk of conflict." ;
+  ex:outcome ex:Safety .
