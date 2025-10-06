@@ -12,6 +12,19 @@
   rdfs:label "McDonald’s Hamburger – SBAR Story/Strategy Map" ;
   rdfs:comment "Why a baseline hamburger persists: Availability → Predictability → Trust → Habit, reinforced by Speed, Price, Ritual, and Cultural Reference." .
 
+# Simple class you can reuse elsewhere
+ex:MenuItem a owl:Class ; rdfs:label "Menu Item" .
+
+# Anchor the plain McDonald’s hamburger to its official product page
+<https://www.mcdonalds.com/us/en-us/product/hamburger.html>
+  a ex:MenuItem, schema:MenuItem ;
+  rdfs:label "McDonald’s Hamburger (US)"@en ;
+  rdfs:comment "Baseline McDonald’s hamburger as defined on the official US product page; used as the anchor IRI for story/strategy mapping."@en ;
+  schema:name "Hamburger"@en ;
+  schema:url <https://www.mcdonalds.com/us/en-us/product/hamburger.html> ;
+  schema:brand <https://www.wikidata.org/entity/Q38076> ;      # McDonald’s (organization)
+  skos:closeMatch <https://www.wikidata.org/entity/Q6663> .     # Hamburger (generic concept)
+
 ############## Classes (minimal vocabulary)
 map:StrategyMap a owl:Class .
 map:Objective   a owl:Class .
