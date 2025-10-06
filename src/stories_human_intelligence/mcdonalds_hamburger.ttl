@@ -1,0 +1,138 @@
+@prefix ex:     <https://example.org/strat#> .
+@prefix sb:     <https://example.org/sbar#> .
+@prefix map:    <https://example.org/strategy#> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbr:    <http://dbpedia.org/resource/> .
+@base           <https://example.org/ont/mcd_story_map> .
+
+<https://example.org/ont/mcd_story_map> a owl:Ontology ;
+  rdfs:label "McDonald’s Hamburger – SBAR Story/Strategy Map" ;
+  rdfs:comment "Why a baseline hamburger persists: Availability → Predictability → Trust → Habit, reinforced by Speed, Price, Ritual, and Cultural Reference." .
+
+############## Classes (minimal vocabulary)
+map:StrategyMap a owl:Class .
+map:Objective   a owl:Class .
+ex:Action       a owl:Class .
+ex:Driver       a owl:Class .
+ex:Constraint   a owl:Class .
+ex:Risk         a owl:Class .
+ex:Scenario     a owl:Class .
+sb:Situation      a owl:Class .
+sb:Background     a owl:Class .
+sb:Assessment     a owl:Class .
+sb:Recommendation a owl:Class .
+
+############## Properties
+map:onMap      a owl:ObjectProperty .
+ex:causes      a owl:ObjectProperty .
+ex:inhibits    a owl:ObjectProperty .
+ex:mitigates   a owl:ObjectProperty .
+ex:targetsKPI  a owl:ObjectProperty .
+
+############## Key entities
+ex:Brand_McDonalds a map:Objective ;
+  rdfs:label "Brand: McDonald’s" ;
+  rdfs:comment "Baseline burger brand and cultural reference point." ;
+  owl:sameAs <http://dbpedia.org/resource/McDonald%27s> .
+
+# Objectives (KPI-like nodes)
+ex:Availability          a map:Objective ; rdfs:label "Availability" ; rdfs:comment "Store density, hours, drive-thru presence." .
+ex:AccessInfrastructure  a map:Objective ; rdfs:label "Access & Infrastructure" ; rdfs:comment "Bathrooms, lighting, parking; reliable facilities." .
+ex:Speed                 a map:Objective ; rdfs:label "Speed" ; rdfs:comment "Short cycle times; drive-thru throughput." .
+ex:TasteReliability      a map:Objective ; rdfs:label "Taste Reliability" ; rdfs:comment "Engineered, repeatable flavor profile (salt/fat/umami balance)." .
+ex:Predictability        a map:Objective ; rdfs:label "Predictability" ; rdfs:comment "Consistent product and service across locations." .
+ex:PriceValue            a map:Objective ; rdfs:label "Price/Value" ; rdfs:comment "Low, transparent price; deal framing and bundles." .
+ex:JobFit                a map:Objective ; rdfs:label "Job-to-be-Done Fit" ; rdfs:comment "Solve hunger now, predictably and affordably." .
+ex:Trust                 a map:Objective ; rdfs:label "Trust" ; rdfs:comment "Confidence in outcome under uncertainty." .
+ex:RitualNostalgia       a map:Objective ; rdfs:label "Ritual & Nostalgia" ; rdfs:comment "Childhood cues, road-trip rituals; comfort associations." .
+ex:CulturalReference     a map:Objective ; rdfs:label "Cultural Reference" ; rdfs:comment "Top-of-mind baseline burger in media and conversation." .
+ex:Habit                 a map:Objective ; rdfs:label "Habit" ; rdfs:comment "Repeated choice from learned reliability and cues." .
+ex:ChoiceShare           a map:Objective ; rdfs:label "Share of Choice" ; rdfs:comment "Likelihood McDonald’s is selected in a given occasion." .
+
+############## SBAR container: two maps + panes
+ex:S_Map a map:StrategyMap, sb:Situation ;
+  rdfs:label "Situation – Current Map" ;
+  rdfs:comment "Present causal skeleton that explains persistent selection of McDonald’s hamburger." .
+
+ex:R_Map a map:StrategyMap, sb:Recommendation ;
+  rdfs:label "Recommendation – Proposed Deltas" ;
+  rdfs:comment "Edges to reinforce the dominant story without chasing 'best burger' positioning." .
+
+ex:B a sb:Background ;
+  rdfs:label "Background" ;
+  rdfs:comment "Decades of standardization, global expansion, price discipline, and childhood rituals established the baseline." .
+
+ex:A a sb:Assessment ;
+  rdfs:label "Assessment" ;
+  rdfs:comment "Drivers/levers, constraints, and risks inferred from the story." .
+
+############## Put objectives on both maps (we’ll edit edges only in R)
+ex:Availability         map:onMap ex:S_Map, ex:R_Map .
+ex:AccessInfrastructure map:onMap ex:S_Map, ex:R_Map .
+ex:Speed                map:onMap ex:S_Map, ex:R_Map .
+ex:TasteReliability     map:onMap ex:S_Map, ex:R_Map .
+ex:Predictability       map:onMap ex:S_Map, ex:R_Map .
+ex:PriceValue           map:onMap ex:S_Map, ex:R_Map .
+ex:JobFit               map:onMap ex:S_Map, ex:R_Map .
+ex:Trust                map:onMap ex:S_Map, ex:R_Map .
+ex:RitualNostalgia      map:onMap ex:S_Map, ex:R_Map .
+ex:CulturalReference    map:onMap ex:S_Map, ex:R_Map .
+ex:Habit                map:onMap ex:S_Map, ex:R_Map .
+ex:ChoiceShare          map:onMap ex:S_Map, ex:R_Map .
+ex:Brand_McDonalds      map:onMap ex:S_Map, ex:R_Map .
+
+############## Situation — existing causal links
+ex:Availability         ex:causes   ex:AccessInfrastructure .
+ex:Availability         ex:causes   ex:CulturalReference .
+ex:Speed                ex:causes   ex:JobFit .
+ex:TasteReliability     ex:causes   ex:Predictability .
+ex:Predictability       ex:causes   ex:Trust .
+ex:AccessInfrastructure ex:causes   ex:Trust .
+ex:JobFit               ex:causes   ex:Trust .
+ex:Trust                ex:causes   ex:Habit .
+ex:RitualNostalgia      ex:causes   ex:Habit .
+ex:CulturalReference    ex:causes   ex:ChoiceShare .
+ex:Habit                ex:causes   ex:ChoiceShare .
+ex:PriceValue           ex:causes   ex:ChoiceShare .
+
+############## Assessment — levers, constraints, risks (no new edges here)
+# Drivers (manipulable)
+ex:Drv_Availability a ex:Driver ; rdfs:label "Driver: Availability" ; rdfs:comment "Store density, hours, drive-thru coverage." .
+ex:Drv_Speed        a ex:Driver ; rdfs:label "Driver: Speed" ; rdfs:comment "Queue management, throughput tooling." .
+ex:Drv_Predict      a ex:Driver ; rdfs:label "Driver: Predictability" ; rdfs:comment "Process control, training, QA." .
+ex:Drv_Price        a ex:Driver ; rdfs:label "Driver: Price/Deals" ; rdfs:comment "Bundles, app offers, clear pricing." .
+ex:Drv_Taste        a ex:Driver ; rdfs:label "Driver: Taste Reliability" ; rdfs:comment "Strict spec on flavor profile; limited, localized tweaks." .
+ex:Drv_Ritual       a ex:Driver ; rdfs:label "Driver: Ritual Cues" ; rdfs:comment "Clean facilities, kid options, road-trip conveniences." .
+ex:A ex:hasDriver ex:Drv_Availability, ex:Drv_Speed, ex:Drv_Predict, ex:Drv_Price, ex:Drv_Taste, ex:Drv_Ritual .
+
+# Constraints (less manipulable)
+ex:Cst_RealEstateLabor a ex:Constraint ; rdfs:label "Constraint: Real Estate & Labor" .
+ex:Cst_BaselineBrand   a ex:Constraint ; rdfs:label "Constraint: Baseline Brand Positioning" ; rdfs:comment "Hard to pivot to 'gourmet' without breaking the core story." .
+ex:A ex:hasConstraint ex:Cst_RealEstateLabor, ex:Cst_BaselineBrand .
+
+# Risks
+ex:Risk_HealthPerception a ex:Risk ; rdfs:label "Risk: Health Perception" .
+ex:Risk_Competitors       a ex:Risk ; rdfs:label "Risk: Better-Burger Narratives" .
+ex:Risk_OperationalMiss   a ex:Risk ; rdfs:label "Risk: Operational Misses (slow/variable)" .
+ex:A ex:hasRisk ex:Risk_HealthPerception, ex:Risk_Competitors, ex:Risk_OperationalMiss .
+
+############## Recommendation — actions + NEW/strengthened edges (deltas only)
+# Actions (tie to targeted objectives/KPIs)
+ex:Act_ProtectPredictability a ex:Action ; rdfs:label "Action: Protect Predictability" ; rdfs:comment "Process control and training under load." ; ex:targetsKPI ex:Predictability .
+ex:Act_AccelerateDriveThru   a ex:Action ; rdfs:label "Action: Accelerate Drive-Thru" ; rdfs:comment "Queue tooling and flow redesign." ; ex:targetsKPI ex:Speed .
+ex:Act_PriceSignaling        a ex:Action ; rdfs:label "Action: Price Signaling" ; rdfs:comment "Simple bundles and app deals." ; ex:targetsKPI ex:PriceValue .
+ex:Act_RitualRefresh         a ex:Action ; rdfs:label "Action: Refresh Ritual Cues" ; rdfs:comment "Facilities, kid-friendly touches, travel convenience." ; ex:targetsKPI ex:RitualNostalgia .
+ex:Act_LocalTasteTuning      a ex:Action ; rdfs:label "Action: Local Taste Tuning" ; rdfs:comment "Selective, localized tweaks without breaking spec." ; ex:targetsKPI ex:TasteReliability .
+
+# New causal links proposed (appear ONLY on R_Map)
+ex:PriceValue      ex:causes ex:Trust .
+ex:Speed           ex:causes ex:Trust .
+ex:RitualNostalgia ex:causes ex:ChoiceShare .
+
+# Mitigations (optional)
+ex:Act_ProtectPredictability ex:mitigates ex:Risk_OperationalMiss .
+ex:Act_AccelerateDriveThru   ex:mitigates ex:Risk_OperationalMiss .
+ex:Act_PriceSignaling        ex:mitigates ex:Risk_Competitors .
