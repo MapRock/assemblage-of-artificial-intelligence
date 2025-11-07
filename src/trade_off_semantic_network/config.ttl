@@ -1,0 +1,132 @@
+@prefix ex:   <http://example.org/ex#> .
+@prefix sn:   <http://example.org/sn#> .
+@prefix mt:   <http://example.org/metric#> .
+@prefix cfg:  <http://example.org/config#> .
+@prefix to:   <http://example.org/to#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+#################################################################
+# Classes
+#################################################################
+
+cfg:ConfigSetting   a owl:Class .
+cfg:SqlConfig       a owl:Class ; rdfs:subClassOf cfg:ConfigSetting .
+cfg:WindowsConfig   a owl:Class ; rdfs:subClassOf cfg:ConfigSetting .
+
+#################################################################
+# Properties
+#################################################################
+
+cfg:appliesTo     a owl:ObjectProperty ; rdfs:domain cfg:ConfigSetting ; rdfs:range sn:Thing .
+cfg:currentValue  a owl:DatatypeProperty ; rdfs:range xsd:string .
+cfg:defaultValue  a owl:DatatypeProperty ; rdfs:range xsd:string .
+cfg:minValue      a owl:DatatypeProperty ; rdfs:range xsd:string .
+cfg:maxValue      a owl:DatatypeProperty ; rdfs:range xsd:string .
+cfg:unit          a owl:DatatypeProperty ; rdfs:range xsd:string .
+cfg:desc          a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+# Causal/Trade-off edges (elemental “affects” links)
+to:affects        a owl:ObjectProperty ; rdfs:domain cfg:ConfigSetting ; rdfs:range mt:Metric .
+to:expectedDirection a owl:DatatypeProperty ; rdfs:range xsd:string .  # "+", "-", "nonlinear"
+to:explanation    a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+#################################################################
+# SQL Server configs (limited core set)
+#################################################################
+
+ex:MaxServerMemory a cfg:SqlConfig ;
+  cfg:desc "Max server memory (MB)" ;
+  cfg:unit "MB" ;
+  cfg:defaultValue "2147483647" ;
+  cfg:currentValue "440000" ;
+  cfg:minValue "128" ;
+  cfg:maxValue "2147483647" ;
+  cfg:appliesTo ex:SQLInstanceA ;
+  to:affects ex:PLE ;
+  to:expectedDirection "+" ;
+  to:explanation "More buffer pool reduces churn; PLE tends to rise (up to workload saturation)."
+
+ex:CostThresholdForParallelism a cfg:SqlConfig ;
+  cfg:desc "Cost Threshold for Parallelism" ;
+  cfg:unit "cost_units" ;
+  cfg:defaultValue "5" ;
+  cfg:currentValue "30" ;
+  cfg:minValue "0" ;
+  cfg:maxValue "32767" ;
+  cfg:appliesTo ex:SQLInstanceA ;
+  to:affects ex:BatchReqPerSec ;
+  to:expectedDirection "nonlinear" ;
+  to:explanation "Higher threshold reduces parallel plans; may improve or hurt throughput depending on plan quality."
+
+ex:MaxDOP a cfg:SqlConfig ;
+  cfg:desc "Max Degree of Parallelism" ;
+  cfg:unit "cores" ;
+  cfg:defaultValue "0" ;
+  cfg:currentValue "8" ;
+  cfg:minValue "0" ;
+  cfg:maxValue "1024" ;
+  cfg:appliesTo ex:SQLInstanceA ;
+  to:affects ex:CPU_Util ;
+  to:expectedDirection "nonlinear" ;
+  to:explanation "Parallelism can raise CPU% but cut latency; effect varies with query mix and NUMA."
+
+ex:TempDBFiles a cfg:SqlConfig ;
+  cfg:desc "Number of TempDB data files" ;
+  cfg:unit "count" ;
+  cfg:defaultValue "1" ;
+  cfg:currentValue "8" ;
+  cfg:minValue "1" ;
+  cfg:maxValue "1024" ;
+  cfg:appliesTo ex:SQLInstanceA ;
+  to:affects ex:LockWaitsPerSec ;
+  to:expectedDirection "-" ;
+  to:explanation "More files reduce allocation contention; lock/latch waits often drop."
+
+ex:OptimizeForAdHoc a cfg:SqlConfig ;
+  cfg:desc "Optimize for ad hoc workloads" ;
+  cfg:unit "bool" ;
+  cfg:defaultValue "false" ;
+  cfg:currentValue "true" ;
+  cfg:appliesTo ex:SQLInstanceA ;
+  to:affects ex:PLE ;
+  to:expectedDirection "+" ;
+  to:explanation "Reduces plan cache bloat, indirectly easing memory pressure → better PLE."
+
+#################################################################
+# Windows configs (limited)
+#################################################################
+
+ex:PowerPlan a cfg:WindowsConfig ;
+  cfg:desc "Windows Power Plan" ;
+  cfg:unit "enum" ;
+  cfg:defaultValue "Balanced" ;
+  cfg:currentValue "HighPerformance" ;
+  cfg:appliesTo ex:ServerA ;
+  to:affects ex:CPU_Util ;
+  to:expectedDirection "-" ;
+  to:explanation "High performance reduces CPU throttling; for same work, util% may drop at higher sustained freq."
+
+ex:PageFileSize a cfg:WindowsConfig ;
+  cfg:desc "System page file size" ;
+  cfg:unit "GB" ;
+  cfg:defaultValue "Auto" ;
+  cfg:currentValue "64" ;
+  cfg:appliesTo ex:ServerA ;
+  to:affects ex:Mem_AvailMB ;
+  to:expectedDirection "nonlinear" ;
+  to:explanation "Paging policy interacts with memory pressure; insufficient pagefile can worsen low-memory conditions."
+
+#################################################################
+# Example causal link to disk latency (storage stripe size, if you want one)
+#################################################################
+
+ex:StorageStripeSize a cfg:WindowsConfig ;
+  cfg:desc "Storage stripe/allocation unit size" ;
+  cfg:unit "KB" ;
+  cfg:currentValue "64" ;
+  cfg:appliesTo ex:ServerA ;
+  to:affects ex:Disk_ReadLatency ;
+  to:expectedDirection "nonlinear" ;
+  to:explanation "Mismatch between stripe and IO pattern can raise read latency; tuning lowers it."
