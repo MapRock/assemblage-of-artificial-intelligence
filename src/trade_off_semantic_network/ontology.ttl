@@ -1,0 +1,140 @@
+@prefix ex:   <http://example.org/ex#> .
+@prefix sn:   <http://example.org/sn#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+#################################################################
+# Core Classes (Semantic Network)
+#################################################################
+
+sn:Thing              a owl:Class .
+sn:Organization       a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:SoftwareProduct    a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:SoftwareVersion    a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:SoftwareComponent  a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:Service            a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:Database           a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:Instance           a owl:Class ; rdfs:subClassOf sn:Thing .
+
+sn:Computer           a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:CPU                a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:Memory             a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:Storage            a owl:Class ; rdfs:subClassOf sn:Thing .
+sn:OS                 a owl:Class ; rdfs:subClassOf sn:SoftwareProduct .
+
+#################################################################
+# Object Properties
+#################################################################
+
+sn:hasComponent   a owl:ObjectProperty ; rdfs:domain sn:Thing ; rdfs:range sn:SoftwareComponent .
+sn:hasVersion     a owl:ObjectProperty ; rdfs:domain sn:SoftwareProduct ; rdfs:range sn:SoftwareVersion .
+sn:runsOn         a owl:ObjectProperty ; rdfs:domain sn:Instance ; rdfs:range sn:Computer .
+sn:hasOS          a owl:ObjectProperty ; rdfs:domain sn:Computer ; rdfs:range sn:OS .
+sn:usesCPU        a owl:ObjectProperty ; rdfs:domain sn:Computer ; rdfs:range sn:CPU .
+sn:usesMemory     a owl:ObjectProperty ; rdfs:domain sn:Computer ; rdfs:range sn:Memory .
+sn:usesStorage    a owl:ObjectProperty ; rdfs:domain sn:Computer ; rdfs:range sn:Storage .
+sn:vendor         a owl:ObjectProperty ; rdfs:domain sn:Thing ; rdfs:range sn:Organization .
+
+#################################################################
+# Datatype Properties
+#################################################################
+
+sn:name           a owl:DatatypeProperty ; rdfs:range xsd:string .
+sn:model          a owl:DatatypeProperty ; rdfs:range xsd:string .
+sn:cores          a owl:DatatypeProperty ; rdfs:range xsd:int .
+sn:logicalCPUs    a owl:DatatypeProperty ; rdfs:range xsd:int .
+sn:frequencyGHz   a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+sn:ramGB          a owl:DatatypeProperty ; rdfs:range xsd:int .
+sn:sizeGB         a owl:DatatypeProperty ; rdfs:range xsd:int .
+sn:edition        a owl:DatatypeProperty ; rdfs:range xsd:string .
+sn:versionString  a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+#################################################################
+# Vendors
+#################################################################
+
+ex:Microsoft  a sn:Organization ; sn:name "Microsoft" .
+ex:Dell       a sn:Organization ; sn:name "Dell" .
+ex:Intel      a sn:Organization ; sn:name "Intel" .
+
+#################################################################
+# OS
+#################################################################
+
+ex:WindowsServer2019 a sn:OS ;
+  sn:name "Windows Server" ;
+  sn:versionString "2019" ;
+  sn:vendor ex:Microsoft .
+
+ex:WindowsServer2022 a sn:OS ;
+  sn:name "Windows Server" ;
+  sn:versionString "2022" ;
+  sn:vendor ex:Microsoft .
+
+#################################################################
+# SQL Server product + versions
+#################################################################
+
+ex:SQLServer a sn:SoftwareProduct ;
+  sn:name "Microsoft SQL Server" ;
+  sn:vendor ex:Microsoft ;
+  sn:hasVersion ex:SQL2019 , ex:SQL2022 .
+
+ex:SQL2019 a sn:SoftwareVersion ;
+  sn:versionString "2019" ;
+  sn:edition "Enterprise" .
+
+ex:SQL2022 a sn:SoftwareVersion ;
+  sn:versionString "2022" ;
+  sn:edition "Enterprise" .
+
+#################################################################
+# Components (limited set)
+#################################################################
+
+ex:DatabaseEngine a sn:SoftwareComponent ; sn:name "Database Engine" .
+ex:SQLAgent       a sn:SoftwareComponent ; sn:name "SQL Server Agent" .
+ex:SSIS           a sn:SoftwareComponent ; sn:name "Integration Services" .
+ex:SSAS           a sn:SoftwareComponent ; sn:name "Analysis Services" .
+ex:SSRS           a sn:SoftwareComponent ; sn:name "Reporting Services" .
+
+#################################################################
+# Machine (example box)
+#################################################################
+
+ex:ServerA a sn:Computer ;
+  sn:name "Prod-SQL-01" ;
+  sn:vendor ex:Dell ;
+  sn:hasOS ex:WindowsServer2022 ;
+  sn:usesCPU ex:CPU_Gold_6338 ;
+  sn:usesMemory ex:RAM_512GB ;
+  sn:usesStorage ex:Storage_NVMe_Tier .
+
+ex:CPU_Gold_6338 a sn:CPU ;
+  sn:model "Intel Xeon Gold 6338" ;
+  sn:vendor ex:Intel ;
+  sn:cores 32 ;
+  sn:logicalCPUs 64 ;
+  sn:frequencyGHz 2.0 .
+
+ex:RAM_512GB a sn:Memory ; sn:ramGB 512 .
+
+ex:Storage_NVMe_Tier a sn:Storage ;
+  sn:model "4x NVMe RAID10" ;
+  sn:sizeGB 4096 .
+
+#################################################################
+# SQL Instance on the machine
+#################################################################
+
+ex:SQLInstanceA a sn:Instance ;
+  sn:name "MSSQLSERVER" ;
+  sn:vendor ex:Microsoft ;
+  sn:runsOn ex:ServerA ;
+  sn:hasComponent ex:DatabaseEngine, ex:SQLAgent, ex:SSIS ;
+  sn:hasVersion ex:SQL2022 .
+
+# Example DBs
+ex:DB_Sales a sn:Database .
+ex:DB_Sales  sn:name "SalesDW" .
