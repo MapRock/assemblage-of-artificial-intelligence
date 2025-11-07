@@ -1,0 +1,163 @@
+@prefix ex:   <http://example.org/ex#> .
+@prefix sn:   <http://example.org/sn#> .
+@prefix mt:   <http://example.org/metric#> .
+@prefix cfg:  <http://example.org/config#> .
+@prefix to:   <http://example.org/to#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+#################################################################
+# Trade-off / causal properties for metric→metric
+#################################################################
+
+to:influences           a owl:ObjectProperty ; rdfs:domain mt:Metric ; rdfs:range mt:Metric .
+to:expectedDirection    a owl:DatatypeProperty ; rdfs:range xsd:string .   # "+", "-", "nonlinear"
+to:lagMs                a owl:DatatypeProperty ; rdfs:range xsd:int .      # approximate causal lag
+to:explanation          a owl:DatatypeProperty ; rdfs:range xsd:string .
+to:evidenceWeight       a owl:DatatypeProperty ; rdfs:range xsd:decimal .  # 0..1 (optional confidence)
+
+#################################################################
+# ELEMENTAL CHAINS (Windows/SQL) — keep each edge small & specific
+#################################################################
+
+# Memory pressure → paging → IO wait → latency
+ex:PageFaultsPerSec a mt:WindowsMetric ;
+  mt:desc "Memory\\Page Faults/sec" ;
+  mt:unit "per_sec" ;
+  mt:targets ex:ServerA .
+
+ex:IOWaitPct a mt:WindowsMetric ;
+  mt:desc "Processor Queue/IO Wait proxy (abstracted)" ;
+  mt:unit "percent" ;
+  mt:targets ex:ServerA .
+
+ex:QueryLatencyMs a mt:SqlMetric ;
+  mt:desc "End-to-end query latency (abstracted metric)" ;
+  mt:unit "ms" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:PageFaultsPerSec to:influences ex:Disk_ReadLatency ;
+  to:expectedDirection "+" ;
+  to:lagMs 50 ;
+  to:evidenceWeight 0.6 ;
+  to:explanation "More faults increase random reads against backing store."
+
+ex:Disk_ReadLatency to:influences ex:IOWaitPct ;
+  to:expectedDirection "+" ;
+  to:lagMs 20 ;
+  to:evidenceWeight 0.7 ;
+  to:explanation "Higher read latency stalls threads, raising perceived IO wait."
+
+ex:IOWaitPct to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "+" ;
+  to:lagMs 30 ;
+  to:evidenceWeight 0.8 ;
+  to:explanation "Wait inflation elongates task completion → higher end-to-end latency."
+
+# Buffer pool health → page faults & latency
+ex:PLE to:influences ex:PageFaultsPerSec ;
+  to:expectedDirection "-" ;
+  to:lagMs 1000 ;
+  to:evidenceWeight 0.7 ;
+  to:explanation "Higher page life indicates fewer evictions → fewer faults."
+
+ex:PLE to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "-" ;
+  to:lagMs 1500 ;
+  to:evidenceWeight 0.6 ;
+  to:explanation "Warmer cache means fewer physical reads on critical paths."
+
+# CPU saturation & parallelism effects
+ex:CPU_Util to:influences ex:BatchReqPerSec ;
+  to:expectedDirection "nonlinear" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.5 ;
+  to:explanation "Throughput rises with utilization until saturation; beyond that, context switching & contention reduce throughput."
+
+ex:CPU_Util to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "+" ;
+  to:lagMs 10 ;
+  to:evidenceWeight 0.6 ;
+  to:explanation "Near/at saturation, runnable queues grow and increase latency."
+
+# Logging & disk — commit path
+ex:LogFlushWait to:influences ex:Disk_ReadLatency ;
+  to:expectedDirection "+" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.5 ;
+  to:explanation "Flush contention often correlates with storage pressure; not strictly causal for reads but indicative of shared path contention."
+
+ex:LogFlushWait to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "+" ;
+  to:lagMs 5 ;
+  to:evidenceWeight 0.8 ;
+  to:explanation "Synchronous commits block transaction completion until log flush completes."
+
+# Contention → waits → latency
+ex:LockWaitsPerSec to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "+" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.85 ;
+  to:explanation "Lock/latch waits directly extend statement duration."
+
+# Memory availability → buffer churn
+ex:Mem_AvailMB to:influences ex:PLE ;
+  to:expectedDirection "+" ;
+  to:lagMs 1000 ;
+  to:evidenceWeight 0.6 ;
+  to:explanation "More available memory reduces buffer churn, improving page life expectancy."
+
+# Work arrival → throughput → latency (Little’s Law intuition)
+ex:RPCCompletedPerSec to:influences ex:BatchReqPerSec ;
+  to:expectedDirection "+" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.7 ;
+  to:explanation "More RPC completions generally reflect higher SQL batch throughput."
+
+ex:BatchReqPerSec to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "nonlinear" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.6 ;
+  to:explanation "As arrival rate approaches service capacity, queueing delays increase superlinearly."
+
+# Read path specifics — cache miss → physical read → read latency
+ex:BufferCacheHitRatio a mt:SqlMetric ;
+  mt:desc "Buffer Manager: Buffer cache hit ratio" ;
+  mt:unit "ratio" ;
+  mt:counterPath "\\SQLServer:Buffer Manager\\Buffer cache hit ratio" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:BufferCacheHitRatio to:influences ex:Disk_ReadLatency ;
+  to:expectedDirection "-" ;
+  to:lagMs 200 ;
+  to:evidenceWeight 0.75 ;
+  to:explanation "Higher hit ratio reduces physical reads, lowering average read latency on the workload."
+
+# Write path specifics — log flush throughput → commit latency
+ex:LogFlushesPerSec a mt:SqlMetric ;
+  mt:desc "Databases(_Total): Log Flushes/sec" ;
+  mt:unit "per_sec" ;
+  mt:counterPath "\\SQLServer:Databases(_Total)\\Log Flushes/sec" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:LogFlushesPerSec to:influences ex:LogFlushWait ;
+  to:expectedDirection "nonlinear" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.55 ;
+  to:explanation "At higher flush rates, contention on the log device can increase average flush wait."
+
+#################################################################
+# OPTIONAL: abstract “query queue length” as a bridge metric
+#################################################################
+
+ex:RunnableTasks a mt:SqlMetric ;
+  mt:desc "Scheduler runnable tasks count (abstracted)" ;
+  mt:unit "count" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:RunnableTasks to:influences ex:QueryLatencyMs ;
+  to:expectedDirection "+" ;
+  to:lagMs 0 ;
+  to:evidenceWeight 0.8 ;
+  to:explanation "Runnable queue depth directly translates to wait-to-run time added to latency."
