@@ -1,0 +1,88 @@
+@prefix ex:   <http://example.org/ex#> .
+@prefix sn:   <http://example.org/sn#> .
+@prefix mt:   <http://example.org/metric#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+
+#################################################################
+# Classes
+#################################################################
+
+mt:Metric           a owl:Class .
+mt:WindowsMetric    a owl:Class ; rdfs:subClassOf mt:Metric .
+mt:SqlMetric        a owl:Class ; rdfs:subClassOf mt:Metric .
+mt:ProfilerMetric   a owl:Class ; rdfs:subClassOf mt:Metric .
+
+#################################################################
+# Properties
+#################################################################
+
+mt:targets      a owl:ObjectProperty ; rdfs:domain mt:Metric ; rdfs:range sn:Thing .
+mt:unit         a owl:DatatypeProperty ; rdfs:range xsd:string .
+mt:counterPath  a owl:DatatypeProperty ; rdfs:range xsd:string .
+mt:desc         a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+#################################################################
+# Windows Perf (limited set)
+#################################################################
+
+ex:CPU_Util a mt:WindowsMetric ;
+  mt:desc "Processor(_Total)\\% Processor Time" ;
+  mt:unit "percent" ;
+  mt:counterPath "\\Processor(_Total)\\% Processor Time" ;
+  mt:targets ex:ServerA .
+
+ex:Mem_AvailMB a mt:WindowsMetric ;
+  mt:desc "Memory\\Available MBytes" ;
+  mt:unit "MB" ;
+  mt:counterPath "\\Memory\\Available MBytes" ;
+  mt:targets ex:ServerA .
+
+ex:Disk_ReadLatency a mt:WindowsMetric ;
+  mt:desc "PhysicalDisk(_Total)\\Avg. Disk sec/Read" ;
+  mt:unit "sec" ;
+  mt:counterPath "\\PhysicalDisk(_Total)\\Avg. Disk sec/Read" ;
+  mt:targets ex:ServerA .
+
+#################################################################
+# SQL Server Perf (limited set)
+#################################################################
+
+ex:PLE a mt:SqlMetric ;
+  mt:desc "Buffer Manager: Page life expectancy" ;
+  mt:unit "seconds" ;
+  mt:counterPath "\\SQLServer:Buffer Manager\\Page life expectancy" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:BatchReqPerSec a mt:SqlMetric ;
+  mt:desc "SQL Statistics: Batch Requests/sec" ;
+  mt:unit "per_sec" ;
+  mt:counterPath "\\SQLServer:SQL Statistics\\Batch Requests/sec" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:LockWaitsPerSec a mt:SqlMetric ;
+  mt:desc "Locks(_Total): Lock Waits/sec" ;
+  mt:unit "per_sec" ;
+  mt:counterPath "\\SQLServer:Locks(_Total)\\Lock Waits/sec" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:LogFlushWait a mt:SqlMetric ;
+  mt:desc "Databases(_Total): Log Flush Wait Time" ;
+  mt:unit "ms" ;
+  mt:counterPath "\\SQLServer:Databases(_Total)\\Log Flush Wait Time" ;
+  mt:targets ex:SQLInstanceA .
+
+#################################################################
+# Profiler-ish (abstracted as rates)
+#################################################################
+
+ex:RPCCompletedPerSec a mt:ProfilerMetric ;
+  mt:desc "RPC:Completed events per second" ;
+  mt:unit "per_sec" ;
+  mt:targets ex:SQLInstanceA .
+
+ex:StmtCompletedPerSec a mt:ProfilerMetric ;
+  mt:desc "SQL:StmtCompleted events per second" ;
+  mt:unit "per_sec" ;
+  mt:targets ex:SQLInstanceA .
