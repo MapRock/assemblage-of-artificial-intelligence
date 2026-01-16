@@ -1,0 +1,85 @@
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix wd:   <https://www.wikidata.org/entity/> .
+@prefix ex:   <https://softcodedlogic.com/exploration/> .
+
+#################################################################
+# Ontology header (needed by Protégé)
+#################################################################
+
+ex:ExplorerSubgraph a owl:Ontology ;
+  rdfs:label "Explorer Subgraph (Hypothesis Overlay)"@en .
+
+#################################################################
+# Minimal anchor class so OntoGraf renders individuals as nodes
+# (This is not 'is-a' domain ontology; it's a display/type anchor.)
+#################################################################
+
+ex:ExplorerNode a owl:Class ;
+  rdfs:label "Explorer node"@en .
+
+#################################################################
+# Relationship family: "how things are used / involved with"
+#################################################################
+
+ex:usageRelation a owl:ObjectProperty ;
+  rdfs:label "usage relation (exploratory)"@en .
+
+ex:ingredientOf a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "ingredient of (exploratory)"@en .
+
+ex:feedstockFor a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "feedstock for (exploratory)"@en .
+
+ex:usedIn a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "used in (exploratory)"@en .
+
+ex:consumedWith a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "consumed with (exploratory)"@en .
+
+ex:inputTo a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "input to (exploratory)"@en .
+
+ex:blendedInto a owl:ObjectProperty ;
+  rdfs:subPropertyOf ex:usageRelation ;
+  rdfs:label "blended into (exploratory)"@en .
+
+#################################################################
+# Nodes (Wikidata IRIs where possible), declared as NamedIndividuals
+#################################################################
+
+wd:Q11575 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "maize (corn)"@en .
+wd:Q543127 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "bourbon whiskey"@en .
+wd:Q153 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "ethanol"@en .
+wd:Q55642411 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "tortilla"@en .
+wd:Q768267 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "breakfast cereal"@en .
+wd:Q2836947 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "animal feed"@en .
+wd:Q39558 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "gasoline"@en .
+wd:Q3246609 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "mixed drink"@en .
+wd:Q191655 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "taco"@en .
+wd:Q8495 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "milk"@en .
+wd:Q192628 a owl:NamedIndividual, ex:ExplorerNode ; rdfs:label "beef"@en .
+
+#################################################################
+# Explorer network edges (at least two hops)
+#################################################################
+
+# Level 1 from corn
+wd:Q11575 ex:ingredientOf wd:Q543127 .
+wd:Q11575 ex:feedstockFor wd:Q153 .
+wd:Q11575 ex:ingredientOf wd:Q55642411 .
+wd:Q11575 ex:ingredientOf wd:Q768267 .
+wd:Q11575 ex:inputTo wd:Q2836947 .
+
+# Level 2 expansions
+wd:Q543127 ex:usedIn wd:Q3246609 .
+wd:Q55642411 ex:usedIn wd:Q191655 .
+wd:Q153 ex:blendedInto wd:Q39558 .
+wd:Q768267 ex:consumedWith wd:Q8495 .
+wd:Q2836947 ex:inputTo wd:Q192628 .
