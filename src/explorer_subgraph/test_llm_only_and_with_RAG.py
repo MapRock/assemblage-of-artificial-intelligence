@@ -10,11 +10,15 @@ load_dotenv()
 # ----------------------------
 # Config (env)
 # ----------------------------
-MODEL = os.getenv("CHATGPT_MODEL", "gpt-3.5-turbo-instruct")
-EMBED_MODEL = os.getenv("CHATGPT_EMBEDDING_MODEL", "text-embedding-ada-002")
+MODEL = os.getenv("CHATGPT_MODEL", "gpt-4.1-nano")
+EMBED_MODEL = os.getenv("CHATGPT_EMBEDDING_MODEL", "text-embedding-3-small")
 MAX_TOKENS = int(os.getenv("CHATGPT_MAX_RESPONSE_TOKENS", "600"))
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Prompt file must live next to this script
+PROMPT_FILE = "test_llm_only_and_with_RAG.txt"
+
 
 # ----------------------------
 # Helpers
@@ -22,31 +26,37 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def now_ms() -> float:
     return time.perf_counter() * 1000.0
 
-def llm_related_only(source_label: str, context: str, n_min=6, n_max=8) -> dict:
-    prompt = f"""
-Return ONLY valid JSON. No markdown.
 
-TASK:
-Given a source object, propose {n_min} to {n_max} related objects that the source may play a role in.
-Not synonyms/antonyms/homonyms.
+def load_prompt(filename: str) -> str:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(script_dir, filename)
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read().strip()
 
-Each description must be one concrete sentence suitable for semantic embeddings.
 
-In the returning JSON, transform the "source Label" to the label of the Wikidata IRI closest to the specified context.
+def fill_prompt(template: str, source_label: str, source_iri: str, context_text: str) -> str:
+    source_iri = source_iri or ""
+    context_text = context_text or ""
 
-FORMAT:
-{{
-  "source": {{"label": "..."}},
-  "related": [
-    {{"label": "...", "description": "..."}}
-  ]
-}}
+    return (
+        template
+        .replace("{SOURCE_LABEL}", source_label)
+        .replace("{SOURCE_IRI_OR_EMPTY}", source_iri)
+        .replace("{CONTEXT_TEXT}", context_text)
+    )
 
-INPUT:
-Source label: {source_label}
-Context: {context}
-""".strip()
 
+def prepare_output_files(base_dir: str, prefix: str) -> dict:
+    os.makedirs(base_dir, exist_ok=True)
+    return {
+        "prompt_path": os.path.join(base_dir, f"{prefix}.prompt.txt"),
+        "step1_path": os.path.join(base_dir, f"{prefix}.step1.json"),
+        "step2_path": os.path.join(base_dir, f"{prefix}.step2.json"),
+        "manifest_path": os.path.join(base_dir, f"{prefix}.manifest.json"),
+    }
+
+
+def llm_related_only(prompt: str) -> dict:
     t0 = now_ms()
 
     resp = openai.ChatCompletion.create(
@@ -84,7 +94,6 @@ def wikidata_qid(label: str):
     r = requests.get(url, params=params, headers=headers, timeout=15)
 
     if r.status_code == 403:
-        # Fallback: try a more browser-like UA (some environments get blocked otherwise)
         headers["User-Agent"] = (
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
             "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -98,7 +107,7 @@ def wikidata_qid(label: str):
 
 
 def embed_texts(texts):
-    # Legacy Embedding API
+    # Legacy Embedding API (your original style)
     resp = openai.Embedding.create(
         model=EMBED_MODEL,
         input=texts
@@ -143,28 +152,67 @@ def step2_ground_and_embed(step1_payload: dict, do_embeddings: bool = True) -> d
 # Run
 # ----------------------------
 if __name__ == "__main__":
-    source = "corn"
-    context = "Agricultural commodity; widely used in food products, animal feed, and industrial processing."
+    # Inputs
+    SOURCE_LABEL = "corn"
+    SOURCE_IRI = ""  # optional; can be None/empty
+    CONTEXT_TEXT = "Agricultural commodity; widely used in food products, animal feed, and industrial processing."
+
+    # Read + fill prompt
+    template = load_prompt(PROMPT_FILE)
+    prompt = fill_prompt(template, SOURCE_LABEL, SOURCE_IRI, CONTEXT_TEXT)
+
+    # Output paths (child of where python is run)
+    output_dir = os.path.join(os.getcwd(), "output")
+    prefix = f"explorer_{SOURCE_LABEL}"
+    paths = prepare_output_files(output_dir, prefix)
+
+    # Save filled prompt
+    with open(paths["prompt_path"], "w", encoding="utf-8") as f:
+        f.write(prompt)
 
     print(f"MODEL={MODEL}")
     print(f"EMBED_MODEL={EMBED_MODEL}")
-    print(f"Source: {source}")
-    print(f"Context: {context}")
+    print(f"Source: {SOURCE_LABEL}")
+    print(f"Context: {CONTEXT_TEXT}")
 
-    # Step 1
-    s1 = llm_related_only(source, context)
-
+    # Step 1: LLM-only
+    s1 = llm_related_only(prompt)
     print("\nStep 1 (LLM-only) latency ms:", round(s1["latency_ms"], 1))
+
+    with open(paths["step1_path"], "w", encoding="utf-8") as f:
+        json.dump(s1, f, indent=2)
 
     # Step 2: grounding + embeddings
     s2 = step2_ground_and_embed(s1, do_embeddings=True)
     print("Step 2 (ground + embed) latency ms:", round(s2["latency_ms"], 1))
     print("  (embedding portion) ms:", round(s2["embed_latency_ms"], 1))
 
-    # Show a compact sample
+    with open(paths["step2_path"], "w", encoding="utf-8") as f:
+        json.dump(s2, f, indent=2)
+
+    # Manifest summary (easy to diff across runs)
+    manifest = {
+        "model": MODEL,
+        "embed_model": EMBED_MODEL,
+        "max_tokens": MAX_TOKENS,
+        "source_label": SOURCE_LABEL,
+        "source_iri": SOURCE_IRI,
+        "context_text": CONTEXT_TEXT,
+        "step1_latency_ms": s1["latency_ms"],
+        "step2_latency_ms": s2["latency_ms"],
+        "embed_latency_ms": s2["embed_latency_ms"],
+        "total_latency_ms": s1["latency_ms"] + s2["latency_ms"],
+        "files": paths,
+    }
+
+    with open(paths["manifest_path"], "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    # Compact sample to stdout
     out = {
         "step1_latency_ms": s1["latency_ms"],
         "step2_latency_ms": s2["latency_ms"],
+        "embed_latency_ms": s2["embed_latency_ms"],
         "source": s2["data"]["source"],
         "related_sample": s2["data"]["related"][:3],
     }

@@ -1,0 +1,21 @@
+Return ONLY valid JSON. No markdown.
+
+TASK:
+Given a source object, propose {N_MIN} to {N_MAX} related objects that the source may play a role in.
+Not synonyms/antonyms/homonyms.
+
+Each description must be one concrete sentence suitable for semantic embeddings.
+
+In the returning JSON, transform the "source Label" to the label of the Wikidata IRI closest to the specified context.
+
+FORMAT:
+{
+  "source": {"label": "..."},
+  "related": [
+    {"label": "...", "description": "..."}
+  ]
+}
+
+INPUT:
+Source label: {SOURCE_LABEL}
+Context: {CONTEXT_TEXT}
