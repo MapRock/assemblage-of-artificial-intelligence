@@ -1,0 +1,5 @@
+product_pk,product_code,product_caption,product_description,product_iri
+1,PRD-001,Corn Grain,"Raw agricultural corn grain used for food production, animal feed, and industrial processing such as ethanol.", 
+2,PRD-002,Bourbon,Distilled alcoholic beverage primarily made from corn mash and aged in charred oak barrels., 
+3,PRD-003,Ethanol,"Industrial alcohol produced through fermentation of corn and other biomass, used as fuel additive.", 
+4,PRD-004,Corn Tortillas,"Flatbread made primarily from nixtamalized corn, common in Latin American cuisine.", 
