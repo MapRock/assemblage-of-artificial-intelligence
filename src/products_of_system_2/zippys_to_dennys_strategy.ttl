@@ -1,0 +1,135 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix ex:    <http://example.org/zippy-strategy#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+# Ontology / Vocabulary definitions (minimal TBox)
+ex:Strategy          rdf:type owl:Class .
+ex:Attribute         rdf:type owl:Class .
+ex:Gain              rdf:type owl:Class .
+ex:Risk              rdf:type owl:Class .
+ex:Goal              rdf:type owl:Class .
+
+ex:hasAttribute      rdf:type owl:ObjectProperty ;
+                     rdfs:domain ex:Strategy ;
+                     rdfs:range ex:Attribute .
+ex:hasGain           rdf:type owl:ObjectProperty ;
+                     rdfs:domain ex:Attribute ;
+                     rdfs:range ex:Gain .
+ex:hasRisk           rdf:type owl:ObjectProperty ;
+                     rdfs:domain ex:Attribute ;
+                     rdfs:range ex:Risk .
+ex:contributesTo     rdf:type owl:ObjectProperty ;
+                     rdfs:domain ex:Attribute ;
+                     rdfs:range ex:Goal .
+ex:label             rdf:type owl:DatatypeProperty ;
+                     rdfs:range xsd:string .
+ex:description       rdf:type owl:DatatypeProperty ;
+                     rdfs:range xsd:string .
+
+# Overarching goal instance
+ex:MainlandPowerhouseGoal rdf:type ex:Goal ;
+    ex:label "Become a restaurant powerhouse on the Mainland like Denny's" ;
+    ex:description "Achieve nationwide ubiquity, consistent revenue growth, strong brand recognition, and cultural relevance similar to Denny's, while preserving Zippy's core Hawaiian identity and unique fusion menu." .
+
+# Main Strategy instance
+ex:ZippyMainlandStrategy rdf:type ex:Strategy ;
+    ex:label "Zippy's Mainland Expansion Strategy" ;
+    ex:description "Adapt selected Denny's attributes to enable scalable, successful expansion beyond Las Vegas while protecting Hawaiian authenticity." .
+
+# Attribute 1: Extended or 24/7 Operations
+ex:Attr_24_7 rdf:type ex:Attribute ;
+    ex:label "Extended or 24/7 Operations" ;
+    ex:description "Extend hours to 24/7 or late-night where demand exists, tied to Hawaiian themes." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_Accessibility ;
+    ex:hasRisk ex:Risk_OperationalStrain .
+
+ex:Gain_Accessibility rdf:type ex:Gain ;
+    ex:label "Increased Accessibility" ;
+    ex:description "Boost foot traffic from night-shift workers, travelers, and diverse demographics, driving higher volume sales in competitive markets." .
+
+ex:Risk_OperationalStrain rdf:type ex:Risk ;
+    ex:label "Operational Strain" ;
+    ex:description "Higher labor costs, employee burnout, and potential quality inconsistencies if staffing isn't scaled, risking erosion of aloha service vibe." .
+
+# Attribute 2: Value-Driven Pricing and Promotions
+ex:Attr_ValuePricing rdf:type ex:Attribute ;
+    ex:label "Value-Driven Pricing and Promotions" ;
+    ex:description "Introduce tiered value menus and deals featuring Hawaiian staples." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_LoyaltyBoost ;
+    ex:hasRisk ex:Risk_MarginErosion .
+
+ex:Gain_LoyaltyBoost rdf:type ex:Gain ;
+    ex:label "Customer Loyalty Boost" ;
+    ex:description "Attract price-sensitive consumers, increase repeat visits, and position Zippy's as an everyday value option." .
+
+ex:Risk_MarginErosion rdf:type ex:Risk ;
+    ex:label "Profit Margin Erosion" ;
+    ex:description "Squeeze margins if costs rise, risking perception as 'cheap' instead of premium Hawaiian comfort food." .
+
+# Attribute 3: Franchising Model
+ex:Attr_Franchising rdf:type ex:Attribute ;
+    ex:label "Franchising Model for Scalable Expansion" ;
+    ex:description "Shift toward franchising with partners adhering to core recipes and cultural standards." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_RapidGrowth ;
+    ex:hasRisk ex:Risk_ConsistencyLoss .
+
+ex:Gain_RapidGrowth rdf:type ex:Gain ;
+    ex:label "Rapid Geographic Growth" ;
+    ex:description "Enable quick scaling across states with minimal corporate capital, building a broad network." .
+
+ex:Risk_ConsistencyLoss rdf:type ex:Risk ;
+    ex:label "Brand Consistency Loss" ;
+    ex:description "Varying quality or cultural deviations across franchises, damaging reputation without strong oversight." .
+
+# Attribute 4: Menu Versatility
+ex:Attr_MenuVersatility rdf:type ex:Attribute ;
+    ex:label "Menu Versatility with All-Day Availability" ;
+    ex:description "Offer all-day Hawaiian staples and subtle mainland-friendly additions." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_BroaderAppeal ;
+    ex:hasRisk ex:Risk_Overcomplication .
+
+ex:Gain_BroaderAppeal rdf:type ex:Gain ;
+    ex:label "Broader Appeal Expansion" ;
+    ex:description "Cater to varied meal times and preferences, drawing families and casual diners as a versatile option." .
+
+ex:Risk_Overcomplication rdf:type ex:Risk ;
+    ex:label "Menu Overcomplication" ;
+    ex:description "Dilute focus on core items, causing kitchen inefficiencies or customer confusion." .
+
+# Attribute 5: Inclusive Branding
+ex:Attr_InclusiveBranding rdf:type ex:Attribute ;
+    ex:label "Inclusive Branding and Community Focus" ;
+    ex:description "Amplify ohana vibe through events, inclusivity, and community ties." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_CulturalLoyalty ;
+    ex:hasRisk ex:Risk_Misappropriation .
+
+ex:Gain_CulturalLoyalty rdf:type ex:Gain ;
+    ex:label "Cultural Loyalty Building" ;
+    ex:description "Foster emotional connections, turning locations into community hubs with long-term advocacy." .
+
+ex:Risk_Misappropriation rdf:type ex:Risk ;
+    ex:label "Cultural Misappropriation" ;
+    ex:description "Backlash if mainland adaptations seem inauthentic, alienating transplants and others." .
+
+# Attribute 6: Digital and Marketing Integration
+ex:Attr_DigitalMarketing rdf:type ex:Attribute ;
+    ex:label "Digital and Marketing Integration" ;
+    ex:description "Enhance app and targeted campaigns to engage younger demographics." ;
+    ex:contributesTo ex:MainlandPowerhouseGoal ;
+    ex:hasGain ex:Gain_EngagementReach ;
+    ex:hasRisk ex:Risk_TechOverload .
+
+ex:Gain_EngagementReach rdf:type ex:Gain ;
+    ex:label "Engagement and Reach Amplification" ;
+    ex:description "Boost online orders, visibility, and sustained growth through digital tools." .
+
+ex:Risk_TechOverload rdf:type ex:Risk ;
+    ex:label "Tech Dependency Overload" ;
+    ex:description "Exclude non-tech customers or face disruptions, harming the personal welcoming experience." .
