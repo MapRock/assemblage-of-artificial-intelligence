@@ -1,3 +1,4 @@
+% Copy manhattan_options.pl and manhattan_cocktail.pl to c:/temp/.
 :- consult('c:/temp/manhattan_options.pl').
 
 recipe_steps(Type, Steps) :-
@@ -14,4 +15,5 @@ recipe_steps(Type, Steps) :-
         stir('20-30_seconds'),
         strain(into_glass),
         garnish(Garnish)
+
     ].
