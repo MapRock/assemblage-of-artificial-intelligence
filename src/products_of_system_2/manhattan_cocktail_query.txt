@@ -1,1 +1,1 @@
-?- make_cocktail(manhattan).
+recipe_steps(classic, Steps).
