@@ -18,26 +18,7 @@ MAX_TOKENS = int(os.getenv("CHATGPT_MAX_RESPONSE_TOKENS", "220"))
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-FILE_PATH = r"c:\temp\kahili_ginger_bloom_in_boise_1.txt"
-#FILE_PATH = r"c:\temp\finding_a_cat.txt"
 EMBED_MODEL = "text-embedding-3-small"
-PROMPT ="I'm having {problems} with my {plant} plant thriving outdoors in {place}. I've had it for a long time, it grows, but never {blooms}. We tried everything we could think of."
-p_tuples = [
-    ("problems","kahili ginger", "Boise, ID", "blooms"),
-    ("problems","kahili ginger", "Twin Falls, ID", "blooms"),
-    ("problems","kahili ginger", "Phoenix, AZ", "blooms"),
-    ("problems","kahili ginger", "Yakutsk, Siberia", "blooms"),
-    ("problems","white ginger", "Phoenix, AZ", "blooms"),
-    ("problems","white ginger", "Boise, ID", "blooms"),
-    ("problems","white ginger", "Twin Falls, ID", "blooms"),
-    ("problems","white ginger", "Yakutsk, Siberia", "blooms"),
-    ("problems","heliconia", "Phoenix, AZ", "blooms"),
-    ("problems","heliconia", "Boise, ID", "blooms"),
-    ("problems","heliconia", "Twin Falls, ID", "blooms"),
-    ("problems","heliconia", "Yakutsk, Siberia", "blooms"),
-    ("fun","sequioa", "my mega yacht in the south of France", "falls over"),
-
-]
 
 # ----------------------------
 # Math helper
