@@ -1,20 +1,20 @@
-event_type,description
-chief_complaint,Initial report of the main problem that caused the customer to seek help. Usually describes the symptom from the customer perspective such as water is lukewarm pressure is low system not working application crashing or cannot log in.
-background,Context and history that explain what led to the problem. Includes recent changes unusual usage prior repairs or events that happened before the issue started such as started after update began after guests stayed or noticed problem following maintenance.
-diagnosis,The expert statement of the likely cause of the issue based on the complaint and background. This is a hypothesis about what is wrong and may include phrases such as likely cause appears to be suspect that or seems related to.
-setup_sensors,Preparation of tools or monitoring devices used to gather diagnostic information. Includes connecting gauges enabling logs attaching sensors configuring monitors or setting up measurement tools.
-collect_data,Gathering raw observations or measurements from instruments sensors logs or monitoring systems. Examples include recording readings measuring pressure capturing logs or running diagnostic tests.
-analyze_data,Interpretation of collected data in order to determine what the measurements mean. The expert reviews readings compares values and identifies patterns or anomalies that suggest the cause of the problem.
-treatment_plan,Description of the proposed corrective action that will resolve the problem. This explains the repair replacement configuration change or procedure that will be performed to fix the issue.
-estimate_cost,Calculation or estimation of the expected cost time or resources required to perform the proposed treatment plan including labor materials or service charges.
-present_treatment_cost,Communication of the treatment plan and the estimated cost to the customer before work begins. The expert explains the repair approach and associated charges so the customer can approve or decline.
-customer_rejects_treatment,Customer declines or refuses the proposed treatment plan or estimated cost which means the repair will not proceed at that time.
-customer_accepts_treatment,Customer approves the treatment plan and authorizes the repair work to proceed.
-execute_treatment,The technician or expert performs the repair or corrective actions described in the treatment plan such as replacing parts installing components adjusting systems or applying the fix.
-test_treatment_application,Verification step where the technician tests the system after the repair to confirm the problem is resolved and that the system operates correctly.
-prepare_report,Creation of documentation summarizing the incident including observations diagnostic steps actions taken and results of the repair.
-present_report,Delivery or submission of the incident report or documentation to the customer or organization for review.
-customer_accept_outcome,Customer confirms that the repair solved the issue and indicates satisfaction with the result.
-customer_rejects_outcome,Customer reports that the problem remains or that the repair outcome is unsatisfactory which may require further investigation.
-bill_submitted,Service provider issues an invoice or billing statement for the work that was performed.
-customer_paid,Confirmation that the customer has paid the invoice and the financial transaction is complete.
+event_type,description,example_text
+chief_complaint,Initial report of the main problem that caused the customer to seek help and describes the visible symptom or failure from the customer perspective,Customer reports the system is not working and the main function fails when they attempt to use it
+background,Context and history explaining events or conditions leading up to the issue including recent changes prior incidents or unusual activity,Customer explains the issue started after a recent change and mentions that the system had been working normally before that time
+diagnosis,Expert statement of the likely cause of the issue based on the complaint and gathered background information,Technician believes the problem is likely caused by a configuration issue that is preventing the system from operating correctly
+setup_sensors,Preparation of monitoring tools or diagnostic instruments that will gather information about the system behavior,Technician connects monitoring tools and enables logging so system measurements can be captured during testing
+collect_data,Gathering raw measurements logs readings or observations from instruments sensors or monitoring systems,Technician records system readings and collects log output while the system is running
+analyze_data,Interpretation of the collected measurements or logs to determine patterns anomalies or likely causes of the issue,Technician reviews the recorded measurements and identifies abnormal values that indicate a fault condition
+treatment_plan,Proposed corrective action that describes the repair replacement adjustment or procedure intended to resolve the issue,Technician recommends replacing the faulty component and adjusting the configuration to restore normal operation
+estimate_cost,Calculation or estimation of the cost time or resources required to perform the proposed treatment plan,Technician estimates the repair will require several hours of work and additional replacement parts
+present_treatment_cost,Communication of the proposed repair plan and cost estimate to the customer for approval before work begins,Technician explains the recommended repair and the expected cost so the customer can decide whether to proceed
+customer_rejects_treatment,Customer declines the proposed repair plan or refuses the estimated cost and chooses not to proceed,Customer decides not to proceed with the repair after reviewing the proposed work and estimated cost
+customer_accepts_treatment,Customer approves the treatment plan and authorizes the expert to proceed with the repair or corrective action,Customer reviews the proposal and agrees to move forward with the recommended repair
+execute_treatment,Expert performs the repair replacement adjustment or corrective action described in the treatment plan,Technician installs the replacement component and applies the configuration changes required to fix the issue
+test_treatment_application,Verification step where the expert tests the system after the repair to confirm that the issue has been resolved,Technician runs the system again and confirms that it now operates normally without the previous failure
+prepare_report,Creation of documentation summarizing the issue investigation actions taken and final outcome of the incident,Technician prepares a report describing the diagnosis repair steps and the final condition of the system
+present_report,Delivery or submission of the incident report or documentation to the customer or organization,Technician sends the completed service report to the customer and records the work in the service system
+customer_accept_outcome,Customer confirms that the repair solved the problem and expresses satisfaction with the result,Customer confirms the system is functioning properly and indicates the issue appears resolved
+customer_rejects_outcome,Customer reports that the problem remains or that the repair outcome did not resolve the issue,Customer reports that the issue still occurs and requests additional investigation
+bill_submitted,Service provider issues an invoice or billing statement for the work that was performed,Service provider sends an invoice detailing the work completed and the associated charges
+customer_paid,Confirmation that the customer has paid the invoice and the financial transaction is complete,Service provider records that payment has been received and the invoice is closed
