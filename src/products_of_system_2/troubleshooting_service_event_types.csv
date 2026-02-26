@@ -1,0 +1,20 @@
+event_type,description
+chief_complaint,Initial report of the main problem that caused the customer to seek help. Usually describes the symptom from the customer perspective such as water is lukewarm pressure is low system not working application crashing or cannot log in.
+background,Context and history that explain what led to the problem. Includes recent changes unusual usage prior repairs or events that happened before the issue started such as started after update began after guests stayed or noticed problem following maintenance.
+diagnosis,The expert statement of the likely cause of the issue based on the complaint and background. This is a hypothesis about what is wrong and may include phrases such as likely cause appears to be suspect that or seems related to.
+setup_sensors,Preparation of tools or monitoring devices used to gather diagnostic information. Includes connecting gauges enabling logs attaching sensors configuring monitors or setting up measurement tools.
+collect_data,Gathering raw observations or measurements from instruments sensors logs or monitoring systems. Examples include recording readings measuring pressure capturing logs or running diagnostic tests.
+analyze_data,Interpretation of collected data in order to determine what the measurements mean. The expert reviews readings compares values and identifies patterns or anomalies that suggest the cause of the problem.
+treatment_plan,Description of the proposed corrective action that will resolve the problem. This explains the repair replacement configuration change or procedure that will be performed to fix the issue.
+estimate_cost,Calculation or estimation of the expected cost time or resources required to perform the proposed treatment plan including labor materials or service charges.
+present_treatment_cost,Communication of the treatment plan and the estimated cost to the customer before work begins. The expert explains the repair approach and associated charges so the customer can approve or decline.
+customer_rejects_treatment,Customer declines or refuses the proposed treatment plan or estimated cost which means the repair will not proceed at that time.
+customer_accepts_treatment,Customer approves the treatment plan and authorizes the repair work to proceed.
+execute_treatment,The technician or expert performs the repair or corrective actions described in the treatment plan such as replacing parts installing components adjusting systems or applying the fix.
+test_treatment_application,Verification step where the technician tests the system after the repair to confirm the problem is resolved and that the system operates correctly.
+prepare_report,Creation of documentation summarizing the incident including observations diagnostic steps actions taken and results of the repair.
+present_report,Delivery or submission of the incident report or documentation to the customer or organization for review.
+customer_accept_outcome,Customer confirms that the repair solved the issue and indicates satisfaction with the result.
+customer_rejects_outcome,Customer reports that the problem remains or that the repair outcome is unsatisfactory which may require further investigation.
+bill_submitted,Service provider issues an invoice or billing statement for the work that was performed.
+customer_paid,Confirmation that the customer has paid the invoice and the financial transaction is complete.
