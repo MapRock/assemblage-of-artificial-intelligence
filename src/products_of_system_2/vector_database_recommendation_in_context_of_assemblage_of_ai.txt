@@ -1,0 +1,29 @@
+You are an expert in enterprise AI architectures, knowledge graphs, and vector databases in 2026. I just read Eugene's blog post "The Products of System 2 – Prolog in the LLM Era" (Feb 27, 2026). The key section is "The Enterprise Vector Memory".
+I need a vector database (or hybrid graph+vector system) that serves as the semantic index / enterprise memory cache for the following exact use case:
+
+It indexes and enables fast fuzzy rediscovery of many different artifact types via embeddings: states, plans, stories, Prolog rules/snippets, text documents, serialized Python/ML models (pickle/PMML), JSON, RDF/OWL knowledge graphs, IRIs, URLs to services/functions, etc.
+For each artifact it stores:
+The embedding vector itself
+A short abstract/summary describing the artifact
+Rich, arbitrary metadata/attributes (file type, last update time, confidence scores, provenance, IRI references, domain tags, etc.)
+A pointer/reference to the full artifact (which lives in blob storage or another system)
+
+Full text or document content should be stored alongside the embedding when useful (so I can retrieve the actual content without always hitting blob storage).
+It must support fast similarity search (cosine or Euclidean) on the embeddings.
+Because the overall framework heavily uses RDF IRIs, story graphs, conditional trade-off graphs, and Prolog snippets grounded via IRIs, strong preference for native graph capabilities (nodes/relationships with properties) so the vector index can sit directly on top of or inside a knowledge graph.
+It needs to act as a cache for an "Explorer subgraph" that resolves and caches new IRIs and their summaries.
+Enterprise-grade: scalable to millions/billions of vectors, good governance/provenance, querying that works well with LLMs, Prolog, RDF tools, and hybrid vector + graph traversal.
+
+I personally love Neo4j because it is a mature graph database with excellent native vector indexes (including the new native VECTOR type, metadata filtering inside the vector index as of 2026.01, rich properties on nodes/relationships for text + attributes, and seamless Cypher integration). Please include Neo4j in your recommendations and compare everything else to it.
+Task:
+Give me your top 5 recommendations (ranked by best overall fit for the exact use case above). For each one:
+
+Short description of why it fits (or doesn't perfectly fit)
+How well it handles storing full text + embedding + rich arbitrary attributes/metadata
+Graph capabilities (if any) and how well they integrate with vector search
+Pros and cons specifically for this "Enterprise Vector Memory" pattern in a Prolog/RDF/LLM-heavy architecture
+Deployment model (fully managed, self-hosted OSS, hybrid) and rough pricing note for 2026
+Any standout integrations (LangChain/LlamaIndex, RDF export, Prolog, etc.)
+
+End with a concise comparison table and a one-sentence recommendation of the single best choice if I want maximum graph power + vector performance with minimal operational pain.
+Be honest about trade-offs. Base your answer on real 2026 capabilities (Neo4j vector improvements, Weaviate hybrid search, ArangoDB multi-model, Qdrant filtering, Pinecone, Milvus/Zilliz, pgvector, etc.). Focus on fit for the described architecture, not generic RAG.
