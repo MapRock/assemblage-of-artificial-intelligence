@@ -1,4 +1,4 @@
-# Routine Service Delivery Event Types (Embedding-Optimized Descriptions)
+# Routine Service Delivery Event Types
 
 The events of a routine service delivery, generally requiring trained service providers. For examples of routine service delivery:
 
