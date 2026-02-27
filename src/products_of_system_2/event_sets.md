@@ -13,6 +13,9 @@ Captures a typical diagnostic-repair workflow in average ordinal sequence (event
 - Includes explicit verification that the problem is resolved
 - Handles rejection scenarios (treatment or outcome)
 
+**Event Set**:
+  https://github.com/MapRock/assemblage-of-artificial-intelligence/blob/main/src/products_of_system_2/troubleshooting_service_event_types.md
+
 ## Event Set: Routine Service Event Set
 **Purpose**: Proactive, recurring, or scheduled routine service delivery by trained providers for expected, non-emergency tasks  
 **(e.g.** restaurant dining service, regular lawn mowing, annual medical checkup, house cleaning**)**
@@ -25,3 +28,6 @@ Outlines a standard procedural flow in average ordinal order (flexible, with pos
 - Prioritizes value-added support and small enhancements
 - Emphasizes clean, courteous closure
 - No deep problem diagnosis — assumes the service is routine/preventive/performative
+
+**Event Set**:
+  https://github.com/MapRock/assemblage-of-artificial-intelligence/blob/main/src/products_of_system_2/routine_service_event_types.md
