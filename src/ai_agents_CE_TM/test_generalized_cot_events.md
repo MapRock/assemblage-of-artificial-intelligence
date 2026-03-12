@@ -1,5 +1,9 @@
 # Test the Generalized Events
 
+Ask SuperGrok the question: Does the ancestor of Hawaii's koa tree comes from Australia?
+
+and receive a reponse, and a table of the steps it took, mapped to a set of generalized labels.
+
 See: https://github.com/MapRock/assemblage-of-artificial-intelligence/blob/main/src/ai_agents_CE_TM/generalized_chain_of_thought_events.md
 
 ## Prompt to SuperGrok
@@ -10,7 +14,7 @@ https://github.com/MapRock/assemblage-of-artificial-intelligence/blob/main/src/a
 
 Answer this question:
 
-Does the ancestor of Hawaii's koa tree comes from Australia.
+Does the ancestor of Hawaii's koa tree comes from Australia?
 
 Return a markdown table of Chain-of-Thought questions you requested towards resolving the question. Please match each question to a label (from Table of Chain-of-Thought Events). Please include the question of the step (Question), the response (Response), Start Timestamp, End Timestamp, the label you matched to that CoT table), and the agent that answered the step question.
 
