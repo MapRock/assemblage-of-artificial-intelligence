@@ -1,6 +1,6 @@
 # 50 Innovations of Business Intelligence from the Early 90s to the LLM-driven Era of AI
 
-This is a list of BI innovations that express **what each innovation contributed so later tools — including AI agents — do not have to reinvent that layer themselves, in real time**.
+This is a list of BI innovations, in roughly chronological order, that express **what each innovation contributed so later tools — including AI agents — do not have to reinvent that layer themselves, in real time**.
 
 The underlying theme is: **BI spent decades organizing chaos**. We learned a lot of lessons along the way, regarding data quality, performance, user-friendliness, security, integration, ...
 
