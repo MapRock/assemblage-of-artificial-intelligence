@@ -120,7 +120,7 @@ So an AI agent ideally should not have to rediscover joins, invent metrics, infe
 
 ## The big picture
 
-Seen this way, BI created layers of **pre-solved problems**, at the very least, it does a ton of heavy lifting that would stall AI processes for lengthy times.
+Seen this way, BI created layers of **pre-solved problems**, at the very least, it does a ton of heavy lifting that would stall AI processes for lengthy times. That's is really the idea of BI. It was and still is to provide results at the **speed of thought**, fast enough to not derail an analyst in hot pursuit of a solution. Today, BI can offer the same promise to AI agents.
 
 At first, the problem was just:
 * How do we query data?
