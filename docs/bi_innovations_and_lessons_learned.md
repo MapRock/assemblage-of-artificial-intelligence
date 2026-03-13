@@ -120,19 +120,16 @@ So an AI agent ideally should not have to rediscover joins, invent metrics, infe
 Seen this way, BI created layers of **pre-solved problems**.
 
 At first, the problem was just:
-**How do we query data?**
+* How do we query data?
 
-Then:
-**How do we organize it so business people can trust it?**
+* Then: How do we organize it so business people can trust it?
 
-Then:
-**How do we make it fast enough and understandable enough to use daily?**
+* Then: How do we make it fast enough and understandable enough to use daily?
 
-Then:
-**How do we bring in prediction, text, events, and semantics?**
+* Then: How do we bring in prediction, text, events, and semantics?
 
 Now the question is:
-**How do AI agents stand on top of all that rather than redo it badly?**
+**How do AI agents stand on top of all that rather than redo it on-the-fly, figuring out each environment from scratch?**
 
 That is really the punch line.
 
