@@ -6,7 +6,7 @@ The underlying theme is: **BI spent decades organizing chaos**. We learned a lot
 
 So an AI agent ideally should not have to rediscover joins, invent metrics, infer business definitions, guess grain, or reconstruct process context from scratch every time.
 
-## 50 BI innovations and what they saved later systems from having to do, in roughly chronological order:
+## 50 BI innovations and what they saved later systems from having to do:
 
 | Innovation                                | What it added                                               | What an AI agent no longer has to worry about as much                      |
 | ----------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------- |
