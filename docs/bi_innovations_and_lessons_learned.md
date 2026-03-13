@@ -1,4 +1,4 @@
-This is a list of BI innovations that express **what each innovation contributed so later tools — including AI agents — do not have to reinvent that layer themselves**.
+This is a list of BI innovations that express **what each innovation contributed so later tools — including AI agents — do not have to reinvent that layer themselves, in real time**.
 
 The underlying theme is: **BI spent decades organizing chaos**.
 So an AI agent ideally should not have to rediscover joins, invent metrics, infer business definitions, guess grain, or reconstruct process context from scratch every time.
@@ -59,7 +59,7 @@ So an AI agent ideally should not have to rediscover joins, invent metrics, infe
 | 50. Generative AI copilots for BI         | Conversational access to governed analytics                 | Acting as both query engine and explainer without infrastructure beneath   |
 
 
-## OK, Smart Guy, can you name 50 more:
+## Oh yeah, Smart Guy, name 50 more:
 
 
 | #  | Innovation                          | What it added                                              | What an AI agent no longer has to worry about as much                          |
