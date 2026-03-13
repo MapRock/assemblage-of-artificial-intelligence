@@ -2,7 +2,7 @@
 
 This is a list of BI innovations, in roughly chronological order, that express **what each innovation contributed so later tools — including AI agents — do not have to reinvent that layer themselves, in real time**.
 
-The underlying theme is: **BI spent decades organizing chaos**. We learned a lot of lessons along the way, regarding data quality, performance, user-friendliness, security, integration, ...
+The underlying theme is: **BI spent decades organizing chaos**. We learned a lot of lessons along the way (over decades from the 1980s to today), regarding data quality, performance, user-friendliness, security, integration, ...
 
 So an AI agent ideally should not have to rediscover joins, invent metrics, infer business definitions, guess grain, or reconstruct process context from scratch every time.
 
