@@ -1,6 +1,6 @@
 Use the following reasoning protocol to solve the question that appears under “Question.”
 
-**Question:** How did chickens reach pre-Columbian South America?
+**Question:** How did chickens originally arrive at pre-Columbian South America?
 
 ### Inserted Facts
 
