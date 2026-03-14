@@ -123,6 +123,7 @@ H. Residual uncertainties
 
 I. Comparison with prevailing theory.
 - Compare what you expressed in G to the prevailing theory (the answer you would normally have provided outside the confines of the instructions.
+- Provide a statement that you are cognizant of what is being asked for versus the prevailing theory.
 
 Final discipline rule:
 I am not testing whether you know the current theory.
