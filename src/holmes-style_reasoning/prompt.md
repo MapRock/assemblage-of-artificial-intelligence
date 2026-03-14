@@ -121,6 +121,9 @@ G. Best surviving explanation
 H. Residual uncertainties
 - State what remains unresolved and why.
 
+I. Comparison with prevailing theory.
+- Compare what you expressed in G to the prevailing theory (the answer you would normally have provided outside the confines of the instructions.
+
 Final discipline rule:
 I am not testing whether you know the current theory.
 I am testing whether you can:
