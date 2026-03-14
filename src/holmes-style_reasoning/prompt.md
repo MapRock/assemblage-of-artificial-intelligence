@@ -41,7 +41,7 @@ It means:
 - proposing multiple candidate explanatory structures from the clue space
 
 3. DEDUCTION
-For each candidate hypothesis, state what must or would follow if it were true. Be rggid as if Steps 1 and 2 generated Prolog.
+For each candidate hypothesis, state what must or would follow if it were true. Now be rigidly methodical as if Steps 1 and 2 generated Prolog.
 
 4. ELIMINATION
 Methodically prune hypotheses using contradiction, poor fit, or unnecessary assumptions.
@@ -60,7 +60,7 @@ Anti-cheating rules:
 - Keep at least one non-obvious hypothesis alive until the elimination stage unless it is directly contradicted by facts.
 - Include mechanisms that are not only fully deliberate or fully natural if the facts allow them. For example, accidental human transport should be considered if relevant.
 
-What counts as a fact:
+Examples of what counts as a fact:
 
 - archaeological dates
 - domestication region
