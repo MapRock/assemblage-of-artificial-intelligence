@@ -2,7 +2,11 @@ Use the following reasoning protocol to solve the question that appears under â€
 
 **Question:** How did chickens reach pre-Columbian South America (e.g., Chile's Arauco Peninsula)?
 
-## Following are inserted facts that you must take as 100% true. This is an exercise, so just go with it:
+## Inserted Facts
+
+Following are inserted facts that you must take as 100% true. Don't attempt to document how this contridicts any known facts. This is an exercise, so just go with it.
+
+List each of these as one of the facts:
 
 - Discovery of chicken 1000 yo DNA off the coast of Chile, matching that of chickens found on Hawaii.
 
