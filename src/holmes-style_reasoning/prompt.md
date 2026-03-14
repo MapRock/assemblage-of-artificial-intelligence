@@ -5,7 +5,7 @@ How did chickens reach pre-Columbian South America (e.g., Chile's Arauco Peninsu
 
 Reasoning protocol:
 
-You must use a strict four-part Holmes-style process.
+You must use a strict four-part Sherlock Holmes-style process. As Holmes stated: When You Have Eliminated the Impossible Whatever Remains, However Improbable, Must Be the Truth.
 
 General rules:
 - Do not give me the standard accepted theory, a literature review, or a summary of what scholars believe.
