@@ -1,81 +1,55 @@
-% A. Restated problem (as comment)
-% Problem: Is there evidence that chickens reached South America before 1492 AD, and if so, how?
+% Core entities
+chicken(gallus_gallus_domesticus).
+site(el_arenal_1, arauco_peninsula, chile).
+location(arauco_peninsula, '37°22′15″S', '73°36′45″W').
 
-% B. Fact inventory (selected core facts as Prolog facts)
-fact(chickens_domesticated_southeast_asia, approx_8000_years_ago).
-fact(chickens_in_polynesia, dated_2000_to_3000_years_ago).
-fact(european_contact_south_america, year(1492)).
-fact(spanish_introduced_chickens, around_year(1528)).
-fact(el_arenal_1_bones, 50_chicken_bones, min_5_individuals).
-fact(el_arenal_1_radiocarbon, one_bone, calibrated_ad(1304,1424)).
-fact(el_arenal_1_dna, haplogroup_e, matches_some_polynesian_and_worldwide).
-fact(haplogroup_e, common_worldwide, including_europe_asia_polynesia_chile).
-fact(2014_study, possible_modern_dna_contamination, no_unique_polynesian_south_american_match).
-fact(2018_re_excavation, no_additional_chicken_bones, new_dates_ad(1300,1640)).
-fact(distance_easter_island_chile, approx_2000_miles).
-fact(chickens_cannot_cross_ocean_naturally).
-fact(sweet_potatoes, south_american_origin, found_pre_columbian_polynesia).
-fact(no_other_confirmed_pre_1492_chicken_bones_south_america).
+% Facts from evidence
+fact(chicken_bones_recovered(el_arenal_1, 50, min_individuals(5))).
+fact(occupation_period(el_arenal_1, ad(700), ad(1390))).  % from TL on ceramics
+fact(direct_radiocarbon(chicken_bone(el_arenal_1), '622 ± 35 BP', calibrated(ad(1321..1407), '1σ'), calibrated(ad(1304..1424), '2σ'))).
+fact(direct_radiocarbon(chicken_bone(el_arenal_1), '510 ± 30 BP', calibrated_pre_1492)).
+fact(direct_radiocarbon(chicken_bone(el_arenal_1), '503 ± 30 BP', calibrated_pre_1492)).
+fact(isotope_terrestrial_diet(chicken_bone(el_arenal_1), delta_c13('-20.9‰'), no_marine_reservoir_correction)).
+fact(ancient_mtdna_haplogroup(chicken_bone(el_arenal_1), 'Haplogroup E')).
+fact(mtdna_match(polynesian_sites, ['Tonga (Mele Havea)', 'Samoa (Fatu-ma-Futi)', 'Easter Island (early Anakena)', 'Hawai\'i (early)'])).
+fact(polynesian_chickens_introduced(lapita_expansion, ~3000_bp)).
+fact(polynesian_reach(eastern_polynesia, ~ad(1000..1400))).
+fact(no_earlier_chicken_remains(south_america, pre_el_arenal)).
+fact(chickens_require_human_transport(ocean_crossing)).
 
-% C. Factual/clue space (as relations and constraints)
-relation(chicken_bones_el_arenal_1, associated_mapuche_culture).
-relation(mt_dna_haplogroup_e, connects_el_arenal_to_polynesia_and_modern).
-relation(sweet_potatoes, evidence_pre_columbian_contact_polynesia_south_america).
+% Relations
+relation(mtdna_affinity, el_arenal_1, polynesia).
+relation(timing_alignment, el_arenal_chickens, late_eastern_polynesian_expansion).
+relation(geographic_barrier, pacific_ocean, natural_dispersal_impossible).
 
-constraint(radiocarbon_dates, straddle_pre_post_1492, vulnerable_to_error).
-constraint(ocean_distance, requires_human_transport).
-constraint(haplogroup_e, not_unique_to_polynesia).
-constraint(absence_other_sites, single_site_evidence_only).
-constraint(2018_re_excavation, failed_replicate_chicken_find).
-constraint(contamination_risk, high_for_ancient_dna).
+% Constraints
+constraint(requires_human_transport(chickens, trans_pacific)).
+constraint(no_natural_ocean_crossing(gallus_gallus)).
+constraint(bottleneck_live_survival(voyage, multiple_individuals)).
+constraint(evidence_absence(earlier_sites, south_america)).
+constraint(mtdna_not_asian_european_baseline, el_arenal_haplogroup_e).
 
-% D. Candidate hypotheses
-hypothesis(1, polynesian_intentional_transport, ad_1300, live_chickens).
-hypothesis(2, post_columbian_intrusion, after_1492, spanish_introduction).
-hypothesis(3, accidental_drift_voyage, sporadic_pre_1492, few_survivors).
-hypothesis(4, misidentification_contamination, no_pre_columbian, modern_material).
-hypothesis(5, asian_non_polynesian_trade, pre_1492_early, asian_landraces).
+% Hypotheses (numbered as in original)
+hypothesis(1, intentional_polynesian_voyage(contact_or_trade, ~ad(1300..1400))).
+hypothesis(2, accidental_drift_voyage(polynesian_canoe, currents)).
+hypothesis(3, pre_polynesian_asian_contact(coastal_hopping)).
+hypothesis(4, earlier_unknown_mechanism(polynesian_mtdna_convergence)).
 
-% Simple deduction rules (what each hypothesis predicts / is consistent with)
-deduction(1, predicts_pre_1492_arrival).
-deduction(1, predicts_polynesian_dna_markers).
-deduction(1, sensitive_to_contamination).
-deduction(1, implies_repeated_contact).
+% Sample deductions (partial; extensible)
+deduction(1, timing, predicts(ad(1000..1400))).
+deduction(1, route, trans_pacific_west_to_east).
+deduction(1, biology, live_domestic_with_haplogroup_e).
+deduction(1, dna, exact_near_match_to_polynesian_prehistoric).
+deduction(2, contact, one_way_non_return).
+deduction(3, dna, expected_asian_clusters_not_polynesian).
+deduction(4, archaeology, expects_widespread_earlier_remains).
 
-deduction(2, predicts_post_1492).
-deduction(2, predicts_european_haplogroups).
-deduction(2, consistent_with_dates_up_to_1640).
+% Elimination / pruning results
+status(1, survives).
+status(2, survives(but_weakened)).
+status(3, eliminated(conflicts_with_polynesian_specific_mtdna)).
+status(4, eliminated(no_support_for_earlier_absence_natural_mechanism)).
 
-deduction(3, predicts_low_survival).
-deduction(3, implausible_without_human_care).
-
-deduction(4, predicts_no_pre_columbian).
-deduction(4, explains_disputed_dna_via_contamination).
-
-deduction(5, predicts_asian_artifacts).
-deduction(5, no_supporting_evidence).
-
-% E. Elimination / pruning rules
-conflict(1, contamination_evidence) :- fact(2014_study, possible_modern_dna_contamination).
-conflict(1, failed_replication) :- fact(2018_re_excavation, no_additional_chicken_bones).
-conflict(1, haplogroup_not_unique) :- constraint(haplogroup_e, not_unique_to_polynesia).
-
-conflict(3, biological_implausibility) :- fact(chickens_cannot_cross_ocean_naturally), deduction(3, predicts_low_survival).
-
-conflict(5, lack_evidence) :- deduction(5, predicts_asian_artifacts), not(fact(asian_artifacts_pre_columbian)).
-
-% Weakened hypotheses remain possible but damaged
-weakened(1) :- conflict(1, contamination_evidence); conflict(1, failed_replication).
-weakened(5) :- conflict(5, lack_evidence).
-
-% Eliminated hypotheses
-eliminated(3) :- conflict(3, biological_implausibility).
-eliminated(H) :- hypothesis(H, _, _), conflict(H, _), not(weakened(H)).
-
-% Surviving hypotheses (not fully eliminated)
-survives(H) :- hypothesis(H, _, _), not(eliminated(H)).
-
-% Query examples:
-% ?- survives(H).               % Which hypotheses survive?
-% ?- weakened(1).               % Is Polynesian transport weakened?
-% ?- eliminated(3).             % Is drift voyage eliminated?
+% Best surviving (main conclusion)
+best_explanation(polynesian_introduction, intentional_human_mediated, ~ad(1300..1400), from_eastern_polynesia_to_chilean_coast).
+% Variant (weak): includes accidental element in broader contact context
