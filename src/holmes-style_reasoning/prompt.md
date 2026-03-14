@@ -201,7 +201,7 @@ Tag each statement `[DEDUCTION]`.
 ### G. Best surviving explanation
 
 - Give the best explanation that remains after elimination.
-- Without hallicinating, please try to defend this, and for this step you may step outside of the facts you lists. You may find what remains is ludicrous, but in the Holmes spirit, it is what is left.
+- Without hallicinating, please defend your best expalantion, keeping in mind that defending doesn't mean against prevailing thought. For this step you may step outside of the facts you lists. You may find what remains is ludicrous, but in the Holmes spirit, it is what is left.
 - If it is still only tentative, say so.
 
 ### H. Residual uncertainties
