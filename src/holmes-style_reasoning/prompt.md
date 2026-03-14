@@ -20,6 +20,7 @@ Collect facts only.
 - No conclusions
 - No “likely”
 - No “suggests”
+- Keep open mind, not constrained by biases related to what would be the prevailing theory.
 - No inference language unless explicitly marked as inference rather than fact
 
 2. ABDUCTION
