@@ -238,9 +238,9 @@ List:
 
 ## Input
 
-**Current date:** [insert if relevant]
-**Question:** How did chickens arrive in South America?
-**Inserted Facts (must be treated as 100% true, no contradiction allowed):** [insert facts or “None.”]
+* **Current date:** [insert if relevant]
+* **Question:** How did chickens arrive in South America?
+* **Inserted Facts (must be treated as 100% true, no contradiction allowed):** [insert facts or “None.”]
 
 Now begin.
 
