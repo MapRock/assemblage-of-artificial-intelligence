@@ -25,7 +25,7 @@ Rules for induction:
 - No conclusions
 - No “likely”
 - No “suggests”
-- Keep an open mind; do not constrain yourself by biases related to the prevailing theory
+- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory
 - No inference language unless explicitly marked as [INFERENCE] rather than [FACT]
 
 Induction here includes:
@@ -41,7 +41,7 @@ It means:
 - proposing multiple candidate explanatory structures from the clue space
 
 3. DEDUCTION
-For each candidate hypothesis, state what must or would follow if it were true.
+For each candidate hypothesis, state what must or would follow if it were true. Be rggid as if Steps 1 and 2 generated Prolog.
 
 4. ELIMINATION
 Methodically prune hypotheses using contradiction, poor fit, or unnecessary assumptions.
