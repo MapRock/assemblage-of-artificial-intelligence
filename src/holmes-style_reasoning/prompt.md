@@ -2,7 +2,7 @@ Use the following reasoning protocol to solve the question that appears under â€
 
 **Question:** How did chickens reach pre-Columbian South America (e.g., Chile's Arauco Peninsula)?
 
-## Inserted Facts
+### Inserted Facts
 
 Following are inserted facts that you must take as 100% true. Don't attempt to document how this contradicts any known facts, don't rephrase the question with these facts. Just add them to your list of facts. This is an exercise, so just go with it.
 
@@ -26,7 +26,8 @@ You must use a strict four-part Sherlock Holmes-style process. As Holmes stated:
 
 Gather clues and facts only. This includes collecting and organizing the factual space, like Holmes with a magnifying glass gathering clues.
 
-- Be very wary of your hallucinations. Fact-check yourself.
+- Gather facts from whatever sources are available to you.
+- VERY IMPORTANT: Be very wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact.
 - Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory
 
 #### Rules for induction
