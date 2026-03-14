@@ -1,126 +1,160 @@
-% === DOMAIN ENTITIES ===
-site(el_arenal_1).
-location(arauco_peninsula, chile).
-country(chile).
-ocean(pacific).
-species(chicken, gallus_gallus).
-origin(chicken, southeast_asia).
-polynesian_islands([tonga, samoa, niue, easter_island, hawaii]).
-expansion(polynesian, east_polynesia, circa(ad(1000), ad(1200))).
+% ------------------------------------------------------------
+% A. Problem statement
+% ------------------------------------------------------------
 
-% === FACTS (expanded from all provided information) ===
-fact(1, chicken_bones_excavated, el_arenal_1, 50_specimens).
-fact(2, minimum_individuals, el_arenal_1, 5).
-fact(3, radiocarbon_date, bone_el_arenal, '622 ± 35 BP').
-fact(4, calibrated_date, bone_el_arenal, ad(1304, 1424)).
-fact(5, calibrated_date_intercepts, bone_el_arenal, ad(1321, 1407)).
-fact(6, additional_date_1, bone_el_arenal, '510 ± 30 BP').
-fact(7, lab_code_1, additional_date_1, 'NZA 28271').
-fact(8, additional_date_2, bone_el_arenal, '503 ± 30 BP').
-fact(9, lab_code_2, additional_date_2, 'NZA 28272').
-fact(10, site_occupation_range, el_arenal_1, ad(700, 1390)).
-fact(11, dating_method_for_range, thermoluminescence, ceramics).
-fact(12, ancient_dna_haplogroup, bone_el_arenal, polynesian).
-fact(13, ancient_dna_haplotype, bone_el_arenal, identical_to_tonga_samoa).
-fact(14, haplotype_variation, bone_el_arenal, 'one_base_difference_from_others_in_Tonga_Niue_Easter_Island_Hawaii').
-fact(15, chickens_not_native, americas).
-fact(16, pre_columbian_chickens_evidence, only_el_arenal_1_confirmed).
-fact(17, no_native_wild_gallus, south_america).
-fact(18, human_transport_required, chickens, across(pacific_ocean)).
-fact(19, chickens_domesticated, gallus_gallus).
-fact(20, polynesian_introduction_to_pacific, chickens, lapita_culture, circa(1000_bc)).
-fact(21, voyaging_capability, polynesians, double_hulled_canoes, long_distance).
-fact(22, computer_simulations_exist, polynesian_voyaging, drift_and_sailed).
-fact(23, drift_landing_bias, simulations, ecuador_peru_more_common_than_chile).
-fact(24, return_voyages, polynesia_to_south_america, difficult).
-fact(25, araucana_breed_traits, blue_green_eggs, ear_tufts, rumplessness).
-fact(26, modern_araucana_genetics, primarily_european_asian_indian).
-fact(27, 2014_study_claim, no_polynesian_mtDNA_in_ancient_south_american_chickens).
-fact(28, counter_argument, 2014_claim, possible_lab_contamination).
-fact(29, european_arrival, americas, ad(1492)).
+premise(open_question, 
+        'Chickens (Gallus gallus domesticus) are not native to the Americas, so their presence requires introduction by some mechanism(s), potentially multiple over time').
 
-% === CONSTRAINTS ===
-constraint(required, human_mediated_transport) :- transport(chickens, pacific_ocean).
-constraint(impossible, independent_dispersal) :- chickens, pacific_ocean.
-constraint(low_genetic_diversity, domestic_chickens_mtDNA).
-constraint(vulnerable_to, contamination, ancient_dna_analysis).
-constraint(vulnerable_to, marine_reservoir_effect, radiocarbon_dating_coastal).
-constraint(temporal_alignment, polynesian_reach_east, ad(1000, 1200), chicken_date(ad(1304, 1424))).
-constraint(geographic_challenge, distance, easter_island, chile, thousands_km).
-constraint(archaeological_rarity, polynesian_artifacts, south_american_coast).
+% ------------------------------------------------------------
+% B. Fact inventory
+% ------------------------------------------------------------
 
-% === RELATIONS ===
-relation(site_contains, el_arenal_1, chicken_bones).
-relation(dna_evidence_supports, polynesian_haplogroup, pre_columbian).
-relation(dating_supports, calibrated_ad(1304,1424), pre_columbian).
-relation(conflicts_with, european_introduction, calibrated_ad(1304,1424)).
+fact(1, 'Chickens were domesticated from red junglefowl in Southeast Asia / East Asia around 9000 years ago or earlier').
+fact(2, 'Chickens appear in Pacific archaeological sites starting approximately 3000 years ago (e.g., Reef/Santa Cruz, Vanuatu)').
+fact(3, 'Chicken bones (50 specimens, minimum 5 individuals) were recovered from the El Arenal-1 site on the Arauco Peninsula, south central Chile').
+fact(4, 'The El Arenal-1 site is located ~3-5 km inland on the southern side of the Arauco Peninsula').
+fact(5, 'Radiocarbon dating on an El Arenal chicken bone yielded 622 ± 35 BP, calibrated to AD 1304–1424 (or AD 1321–1407 at intercepts), pre-Columbian era').
+fact(6, 'Thermoluminescence dates on ceramics from El Arenal-1 place occupation between AD 700 and 1390').
+fact(7, 'Ancient mtDNA from an El Arenal chicken bone matched sequences from prehistoric Pacific sites (e.g., identical to bones from Mele Havea in Tonga and Fatu-ma-Futi in American Samoa)').
+fact(8, 'The matched ancient DNA haplotype was associated with Polynesian contexts in initial studies').
+fact(9, 'Modern South American chickens show predominant mtDNA haplogroup E (e.g., ~84% in some studies), common in European, Indian, Middle Eastern, and some Chinese chickens').
+fact(10, 'Other haplogroups in South American chickens include A, B, C, D at lower frequencies').
+fact(11, 'Haplogroup D is common in modern Island Southeast Asia and Pacific islands but not observed or rare in continental South America').
+fact(12, 'Sub-haplogroups like A1a(b) and E1a(b) in South America were previously observed mainly in Eastern Asia').
+fact(13, 'Araucana chickens (from Mapuche region, Chile) exhibit unique traits: blue/green eggs, ear tufts, rumplessness (tailless); some traits (e.g., blue eggs, ear tufts) arose as mutations in South America').
+fact(14, 'Ear tufts and rumplessness are homozygous lethal traits in Araucana, leading to partial lethality in breeding').
+fact(15, 'Spanish accounts in the 1500s (e.g., Pizarro in Peru 1532) noted chickens integrated into Incan culture and ceremonies').
+fact(16, 'European chickens were introduced to the Americas post-1492 by Spanish, Portuguese, etc., often via Atlantic routes').
+fact(17, 'Some ancient Pacific chicken DNA shows haplogroup E, but later studies identified contamination issues with modern DNA in some analyses').
+fact(18, 'Reanalyses (e.g., 2014) found no diagnostic Polynesian mtDNA haplotypes (e.g., certain D or others) in early South American samples').
+fact(19, 'Modern Chilean chickens cluster with Indo-European/Asian haplotypes, not exclusively Polynesian').
+fact(20, 'Chickens reached Easter Island pre-European contact via Polynesian dispersal').
+fact(21, 'No pre-Columbian chicken evidence exists in the Americas outside debated South American sites like El Arenal').
+fact(22, 'Multiple centers of chicken domestication/early dispersal occurred in South/Southeast Asia').
 
-% === OPEN QUESTIONS ===
-open_question(exact_source_island, polynesia, tonga_samoa_easter_island).
-open_question(one_time_vs_repeated_contact).
-open_question(why_limited_modern_polynesian_signal, araucana_genetics).
-open_question(potential_other_pre_columbian_contactors).
+% ------------------------------------------------------------
+% C. Factual/clue space
+% ------------------------------------------------------------
 
-% === HYPOTHESES ===
-hypothesis(1, deliberate_polynesian_voyage).
-hypothesis(2, accidental_polynesian_drift_or_stowaway).
-hypothesis(3, unknown_non_polynesian_pre_columbian_group).
-hypothesis(4, post_columbian_chickens_misdated_or_contaminated).
+entity('Chickens (Gallus gallus)').
+entity('Polynesians').
+entity('Europeans (Spanish/Portuguese)').
+entity('Mapuche/Incan peoples').
+entity('red junglefowl ancestor').
 
-% === DEDUCTIONS (core expected consequences) ===
-deduction(1, timing, circa(ad(1300, 1400))).
-deduction(1, route, trans_pacific, from(east_polynesia)).
-deduction(1, biological_form, live_domesticated_chickens).
-deduction(1, dna_prediction, polynesian_haplogroup).
-deduction(1, contact_type, possible_repeated_or_trade).
-deduction(1, archaeological_prediction, possible_other_polynesian_commensals).
+constraint('Chickens cannot fly long distances or cross oceans naturally; require human transport').
+constraint('Oceanic crossing to South America possible via Pacific (Polynesian voyaging canoes) or Atlantic (European ships post-1492)').
+constraint('mtDNA haplogroups show lineage inheritance; contamination risks in ancient DNA; lethal traits (e.g., Araucana) limit spread without human selection').
+constraint('El Arenal dates ~AD 1300–1400 predate European arrival ~AD 1492–1530s; Polynesian Pacific expansion ~1000 BC onward, eastern Polynesia ~AD 1000+').
 
-deduction(2, timing, circa(ad(1300, 1400))).
-deduction(2, route, drift, often_northern_south_america).
-deduction(2, biological_form, small_number_survivors).
-deduction(2, dna_prediction, polynesian_haplogroup).
-deduction(2, contact_type, one_time).
+open_question('Extent of modern DNA contamination in early ancient chicken studies from Pacific/South America').
 
-deduction(3, dna_prediction, non_polynesian_haplogroup).
-deduction(3, archaeological_prediction, evidence_other_culture).
+relation('Earliest confirmed chicken bones in Americas at El Arenal; no earlier sites').
+relation('Predominant modern South American haplogroups align with European/Asian sources; lack of exclusive Polynesian markers in reanalyses').
 
-deduction(4, timing, after(ad(1492))).
-deduction(4, dna_prediction, european_asian_indian).
-deduction(4, dating_prediction, post_columbian).
+% ------------------------------------------------------------
+% D. Candidate hypotheses
+% ------------------------------------------------------------
 
-% === ELIMINATION / STATUS ===
-eliminated(hypothesis(4), Reason) :-
-    Reason = direct_conflict(radiocarbon, calibrated_ad(1304,1424)),
-    Reason = multiple_dates_consistent(pre_columbian).
+hypothesis(1, 'Chickens arrived via pre-Columbian Polynesian contact across the Pacific, introducing birds to Chile ~AD 1300s').
+hypothesis(2, 'Chickens arrived exclusively post-Columbian via European (Spanish/Portuguese) introduction after 1492, with earlier dates contaminated or misinterpreted').
+hypothesis(3, 'Multiple introductions: early pre-Columbian (Polynesian) plus later European overlay, with European lineages dominating modern populations').
+hypothesis(4, 'Accidental or drift introduction via natural rafting or lost birds from early Asian/European ships, but human-mediated').
+hypothesis(5, 'Independent domestication or survival from ancient natural dispersal, but contradicted by biology').
 
-eliminated(hypothesis(3), Reason) :-
-    Reason = dna_specific_match(polynesian_haplogroup),
-    Reason = no_evidence(other_pre_columbian_group).
+% ------------------------------------------------------------
+% E. Deductions from each hypothesis
+% ------------------------------------------------------------
 
-weakened(hypothesis(2), Reason) :-
-    Reason = deliberate_transport_more_plausible(live_chickens),
-    Reason = drift_bias_towards_northern_locations.
+deduction(1, timing, 'Introduction ~AD 1300–1400 via Pacific').
+deduction(1, route, 'Polynesian voyaging from eastern Pacific islands (e.g., Easter Island vicinity) to Chile').
+deduction(1, biological_form, 'Polynesian-stock birds (e.g., haplogroup E or Pacific variants)').
+deduction(1, linguistic, 'Possible loanwords in Mapuche/Incan for chicken').
+deduction(1, archaeological, 'Pre-Columbian bones like El Arenal').
+deduction(1, dna, 'Polynesian haplotypes in ancient South American samples').
+deduction(1, contamination, 'Sensitive to modern DNA overwrite').
+deduction(1, contact_type, 'Likely one-time or limited contact').
 
-survives(hypothesis(1)).
-survives(hypothesis(2)).  % kept alive but secondary
+deduction(2, timing, 'Post-1492, possibly 1500s').
+deduction(2, route, 'Atlantic from Europe/Iberia').
+deduction(2, biological_form, 'European/Indo-European haplogroups').
+deduction(2, linguistic, 'Spanish/Portuguese-derived terms').
+deduction(2, archaeological, 'No pre-1492 bones; El Arenal dates erroneous').
+deduction(2, dna, 'European haplogroups dominant; no Pacific markers').
+deduction(2, contamination, 'Vulnerable to old carbon or misdating').
+deduction(2, contact_type, 'Repeated European introductions').
 
-% === BEST SURVIVING EXPLANATION ===
-best_explanation(polynesian_introduction_via_deliberate_contact) :-
-    survives(hypothesis(1)),
-    fact(12, ancient_dna_haplogroup, bone_el_arenal, polynesian),
-    fact(4, calibrated_date, bone_el_arenal, ad(1304, 1424)),
-    deduction(1, dna_prediction, polynesian_haplogroup),
-    deduction(1, timing, circa(ad(1300, 1400))).
+deduction(3, timing, 'Pre-Columbian (~1300s) plus post-1492').
+deduction(3, route, 'Pacific then Atlantic').
+deduction(3, biological_form, 'Mixed Polynesian + European').
+deduction(3, linguistic, 'Mixed influences').
+deduction(3, archaeological, 'Early bones + later spread').
+deduction(3, dna, 'Early Pacific signals overwritten by European').
+deduction(3, contamination, 'High sensitivity to later admixture').
+deduction(3, contact_type, 'Repeated contacts').
 
-% === TOP-LEVEL QUERY GOAL ===
-% How did chickens reach pre-Columbian South America?
-reached_pre_columbian(chickens, south_america, Mechanism, Approximate_Time) :-
-    best_explanation(polynesian_introduction_via_deliberate_contact),
-    Mechanism = deliberate_polynesian_voyage,
-    Approximate_Time = circa(ad(1300, 1400)).
+deduction(4, timing, 'Variable, possibly early accidental').
+deduction(4, route, 'Non-deliberate (e.g., rafting)').
+deduction(4, biological_form, 'Whatever survived drift').
+deduction(4, linguistic, 'None specific').
+deduction(4, archaeological, 'Sparse early evidence').
+deduction(4, dna, 'Random haplogroups').
+deduction(4, contamination, 'Less predictable').
+deduction(4, contact_type, 'Rare/one-time').
 
-% Alternative (weaker) surviving path
-reached_pre_columbian(chickens, south_america, Mechanism, Approximate_Time) :-
-    survives(hypothesis(2)),
-    Mechanism = accidental_polynesian_drift,
-    Approximate_Time = circa(ad(1300, 1400)).
+deduction(5, timing, 'Ancient pre-human').
+deduction(5, route, 'Natural migration').
+deduction(5, biological_form, 'Native-like').
+deduction(5, linguistic, 'Indigenous terms').
+deduction(5, archaeological, 'Deep-time bones').
+deduction(5, dna, 'Distinct lineages').
+deduction(5, contamination, 'N/A').
+deduction(5, contact_type, 'Natural spread').
+
+% ------------------------------------------------------------
+% F. Elimination/pruning
+% ------------------------------------------------------------
+
+eliminated(5) :- 
+    write('Conflicts with domestication facts (Southeast Asia origin) and no native Gallus in Americas').
+
+weakened(4) :- 
+    write('No evidence for non-human transport across vast ocean; human mediation required per constraints').
+
+weakened(2) :- 
+    write('Conflicts with El Arenal radiocarbon dates (~AD 1300s) and archaeological context pre-1492').
+
+weakened(1) :- 
+    write('Conflicts with reanalyses showing no exclusive Polynesian mtDNA in South America; contamination issues in initial studies; modern haplogroups align more with European/Asian').
+
+survives(3) :- 
+    write('Compatible with early El Arenal evidence (possible limited Polynesian input) plus dominant post-Columbian European overlay; explains mixed signals and modern predominance of haplogroup E').
+
+% ------------------------------------------------------------
+% G. Best surviving explanation
+% ------------------------------------------------------------
+
+best_explanation('Multiple introductions, with a possible limited pre-Columbian contact (likely Polynesian) introducing chickens by ~AD 1300–1400 to Chile (supported by El Arenal dates and initial DNA matches), followed by dominant post-Columbian European introductions after 1492 that overwhelmed earlier lineages genetically and numerically').
+
+% ------------------------------------------------------------
+% H. Residual uncertainties
+% ------------------------------------------------------------
+
+residual_uncertainty('Authenticity of early DNA matches vs. contamination').
+residual_uncertainty('Whether El Arenal represents sustained population or isolated event').
+residual_uncertainty('Full extent of pre-Columbian contact (genetic trace faint due to later admixture)').
+
+% ------------------------------------------------------------
+% I. Comparison with prevailing theory
+% ------------------------------------------------------------
+
+prevailing_theory('Chickens arrived primarily with Europeans post-1492, with pre-Columbian claims (e.g., Polynesian) largely rejected due to contamination in ancient DNA and lack of diagnostic Pacific markers in South America').
+
+comparison_note('The above follows the strict elimination process, yielding a more tentative hybrid view, while acknowledging the mainstream leans heavily toward European introduction as the main/original mechanism').
+
+% ------------------------------------------------------------
+% Example query to explore
+% ?- survives(H).
+% ?- eliminated(Why).
+% ?- best_explanation(E).
+% ------------------------------------------------------------
