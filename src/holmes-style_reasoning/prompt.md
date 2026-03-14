@@ -6,9 +6,9 @@ Use the following reasoning protocol to solve the question that appears under â€
 
 Following are inserted facts that you must take as 100% true. Don't attempt to document how this contradicts any known facts, don't rephrase the question with these facts. Just add them to your list of facts. This is an exercise, so just go with it.
 
-List each of these as one of the facts:
+List each of these as one just another of the facts:
 
-- Discovery of chicken 1000 yo DNA off the coast of Chile, matching that of chickens found on Hawaii.
+- None.
 
 ## Reasoning protocol
 
