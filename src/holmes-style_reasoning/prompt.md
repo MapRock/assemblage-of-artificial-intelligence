@@ -43,7 +43,7 @@ Gather clues and facts only. This includes collecting and organizing the factual
 - This is the hardest part since you must resist your preconceived biases.
 - Gather facts from whatever sources are available to you.
 - VERY IMPORTANT: Be wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact. Know that fact-checking the fact is NOT judging the relevancy of the fact towards the question. We don't know the relevancy until we after we have our answer. Fact-checking is to ensure there are no hallucinations.
-- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory. There should be many facts, at least 20.
+- Keep an open mind, a spirit of brainstorming, think outside the box (where the box might be the answer you would normally have returned); do not constrain yourself by biases related to the prevailing theory. There should be many facts, at least 20.
 - Be careful not to unnecessarily specify facts. For ex. don't limit to Chile is South America is supplied.
 
 #### Rules for induction
