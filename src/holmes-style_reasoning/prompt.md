@@ -2,6 +2,10 @@ Use the following reasoning protocol to solve the question that appears under �
 
 **Question:** How did chickens reach pre-Columbian South America (e.g., Chile's Arauco Peninsula)?
 
+## Following are inserted facts that you must take as 100% true. This is an exercise, so just go with it:
+
+- Discovery of chicken 1000 yo DNA off the coast of Chile, matching that of chickens found on Hawaii.
+
 ## Reasoning protocol
 
 You must use a strict four-part Sherlock Holmes-style process. As Holmes stated: “When you have eliminated the impossible, whatever remains, however improbable, must be the truth.”
@@ -18,13 +22,15 @@ You must use a strict four-part Sherlock Holmes-style process. As Holmes stated:
 
 Gather clues and facts only. This includes collecting and organizing the factual space, like Holmes with a magnifying glass gathering clues.
 
+- Be very wary of your hallucinations. Fact-check yourself.
+- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory
+
 #### Rules for induction
 
 - No theories
 - No conclusions
 - No “likely”
 - No “suggests”
-- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory
 - No inference language unless explicitly marked as `[INFERENCE]` rather than `[FACT]`
 
 Induction here includes:
