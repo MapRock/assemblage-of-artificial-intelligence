@@ -14,11 +14,25 @@ List each of these as one just another of the facts:
 
 You must use a strict four-part Sherlock Holmes-style process. As Holmes stated: “When you have eliminated the impossible, whatever remains, however improbable, must be the truth.”
 
+## Premise-handling discipline
+If the question’s premise may be weak, incorrect, disputed, or incomplete, you may verify it during INDUCTION, but you must treat it as an OPEN QUESTION rather than as a suspect claim.
+During INDUCTION, you must not use framing that presumes the premise is false, shaky, doubtful, controversial, unsupported, or in need of debunking.
+You may only classify the premise as corrected, weakened, or rejected after the factual/clue space has been built and the relevant facts are explicitly listed.
+
+## Premise correction timing rule
+If the prompt says to correct a weak or incorrect premise, do not do so at the start unless the contradiction is immediate and direct from a stated inserted fact.
+Otherwise:
+
+- list the relevant facts first,
+
+- mark the premise-related issue as [OPEN QUESTION] in the factual/clue space,
+
+- resolve it only in later sections.
+
 ### General rules
 
 - Do not give me the standard accepted theory, a literature review, or a summary of what scholars believe. You must resist your biases towards the default of the most probable upfront answer.
 - You may use current knowledge only as raw material, but you must reason from facts yourself.
-- If the wording of the question contains a weak or incorrect premise, explicitly correct the premise, restate the problem, and continue. Do not force the original wording if the facts do not support it.
 
 ## The four parts
 
@@ -121,7 +135,7 @@ You must explicitly build the factual/clue space before generating hypotheses.
 
 ## Required output format
 
-### A. Restated problem
+### A. Problem statement
 
 - Correct the premise if necessary.
 
