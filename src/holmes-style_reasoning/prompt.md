@@ -1,6 +1,6 @@
 Use the following reasoning protocol to solve the question that appears under “Question.”
 
-**Question:** How did chickens reach pre-Columbian South America (e.g., Chile's Arauco Peninsula)?
+**Question:** How did chickens reach pre-Columbian South America?
 
 ### Inserted Facts
 
