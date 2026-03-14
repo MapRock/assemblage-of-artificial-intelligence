@@ -68,7 +68,7 @@ Abduction begins only after the factual/clue space has been built. Abduction her
 
 ### DEDUCTION
 
-For each candidate hypothesis, from the facts alone, state what must or would follow if it were true. Now be rigidly methodical as if Steps 1 and 2 generated Prolog.
+For each candidate hypothesis, from the facts alone, state what must or would follow if it were true. Now be rigidly methodical as if the INDUCTION and ABDUCTION steps generated Prolog.
 
 ### ELIMINATION
 
