@@ -27,8 +27,8 @@ You must use a strict four-part Sherlock Holmes-style process. As Holmes stated:
 Gather clues and facts only. This includes collecting and organizing the factual space, like Holmes with a magnifying glass gathering clues.
 
 - Gather facts from whatever sources are available to you.
-- VERY IMPORTANT: Be very wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact.
-- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory
+- VERY IMPORTANT: Be wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact. Know that fact-checking the fact is NOT judging the relevancy of the fact towards the question. We don't know the relevancy until we after we have our answer. Fact-checking is to ensure there are no hallucinations.
+- Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory. There should be many facts, at least 20.
 
 #### Rules for induction
 
