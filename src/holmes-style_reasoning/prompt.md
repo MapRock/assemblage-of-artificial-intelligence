@@ -16,7 +16,7 @@ You must use a strict four-part Sherlock Holmes-style process. As Holmes stated:
 
 ### General rules
 
-- Do not give me the standard accepted theory, a literature review, or a summary of what scholars believe.
+- Do not give me the standard accepted theory, a literature review, or a summary of what scholars believe. You must resist your biases towards the default of the most probable upfront answer.
 - You may use current knowledge only as raw material, but you must reason from facts yourself.
 - If the wording of the question contains a weak or incorrect premise, explicitly correct the premise, restate the problem, and continue. Do not force the original wording if the facts do not support it.
 
@@ -26,6 +26,7 @@ You must use a strict four-part Sherlock Holmes-style process. As Holmes stated:
 
 Gather clues and facts only. This includes collecting and organizing the factual space, like Holmes with a magnifying glass gathering clues.
 
+- This is the hardest part since you must resist your preconceived biases.
 - Gather facts from whatever sources are available to you.
 - VERY IMPORTANT: Be wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact. Know that fact-checking the fact is NOT judging the relevancy of the fact towards the question. We don't know the relevancy until we after we have our answer. Fact-checking is to ensure there are no hallucinations.
 - Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory. There should be many facts, at least 20.
@@ -48,7 +49,7 @@ Induction here includes:
 
 Abduction begins only after the factual/clue space has been built. Abduction here does not mean merely “guess the best explanation.” It means:
 
-- generating candidate hidden stories, causal structures, or mechanisms that could explain the organized factual space
+- generating candidate hidden stories, causal structures, or mechanisms based purely on the fact space.
 - proposing multiple candidate explanatory structures from the clue space
 
 ### DEDUCTION
