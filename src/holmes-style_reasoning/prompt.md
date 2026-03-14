@@ -1,6 +1,6 @@
 Use the following reasoning protocol to solve the question that appears under “Question.”
 
-**Question:** How did chickens originally arrive at pre-Columbian South America?
+**Question:** How did chickens originally arrive at South America?
 
 ### Inserted Facts
 
@@ -44,6 +44,7 @@ Gather clues and facts only. This includes collecting and organizing the factual
 - Gather facts from whatever sources are available to you.
 - VERY IMPORTANT: Be wary of your hallucinations. With the exception of facts under "Inserted Facts", fact-check each fact. Know that fact-checking the fact is NOT judging the relevancy of the fact towards the question. We don't know the relevancy until we after we have our answer. Fact-checking is to ensure there are no hallucinations.
 - Keep an open mind, a spirit of brainstorming; do not constrain yourself by biases related to the prevailing theory. There should be many facts, at least 20.
+- Be careful not to unnecessarily specify facts. For ex. don't limit to Chile is South America is supplied.
 
 #### Rules for induction
 
