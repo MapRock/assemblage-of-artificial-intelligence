@@ -1,157 +1,509 @@
-The question asks how chickens originally arrived in South America. The premise treats this as an open inquiry into origins and transport, with no inserted facts altering the premise.
+Current date: March 14, 2026.
+Inserted Facts: None.
 
-**A. Problem statement**
+## A. Problem definition
 
-The premise is treated as open: Chickens (Gallus gallus domesticus) are not native to the Americas, so their presence requires introduction by some mechanism(s), potentially multiple over time. No immediate contradiction forces premise correction.
+**Neutral restatement:**
+How did domestic chickens reach South America?
 
-**B. Fact inventory**
+**What is actually being asked:**
+This can mean at least three different questions, and they must be separated:
 
-1. [FACT] Chickens were domesticated from red junglefowl in Southeast Asia / East Asia around 9000 years ago or earlier.
+1. **First arrival anywhere in South America**
+2. **Main pathway by which chickens became established across South America**
+3. **Whether any chickens arrived before European contact**
 
-2. [FACT] Chickens appear in Pacific archaeological sites starting approximately 3000 years ago (e.g., Reef/Santa Cruz, Vanuatu).
+Those are not the same question.
 
-3. [FACT] Chicken bones (50 specimens, minimum 5 individuals) were recovered from the El Arenal-1 site on the Arauco Peninsula, south central Chile.
+**Ambiguous terms:**
 
-4. [FACT] The El Arenal-1 site is located ~3-5 km inland on the southern side of the Arauco Peninsula.
+* **“Arrive”** can mean first physical entry, first sustained breeding population, or first continent-wide establishment.
+* **“South America”** can mean one local coastal site in Chile or the continent as a whole.
+* **“How”** can mean transport mechanism, source population, or historical agents.
 
-5. [FACT] Radiocarbon dating on an El Arenal chicken bone yielded 622 ± 35 BP, calibrated to AD 1304–1424 (or AD 1321–1407 at intercepts), pre-Columbian era.
+**Comparison basis that must be fixed:**
+I will reason on two axes:
 
-6. [FACT] Thermoluminescence dates on ceramics from El Arenal-1 place occupation between AD 700 and 1390.
+* **Chronology axis:** pre-1500 vs. post-1500 introductions
+* **Transport/source axis:** Iberian colonial transport vs. Polynesian voyaging vs. direct Asian/non-Polynesian Pacific transfer vs. later mixed introductions
 
-7. [FACT] Ancient mtDNA from an El Arenal chicken bone matched sequences from prehistoric Pacific sites (e.g., identical to bones from Mele Havea in Tonga and Fatu-ma-Futi in American Samoa).
+---
 
-8. [FACT] The matched ancient DNA haplotype was associated with Polynesian contexts in initial studies.
+## B. First-principles decomposition
 
-9. [FACT] Modern South American chickens show predominant mtDNA haplogroup E (e.g., ~84% in some studies), common in European, Indian, Middle Eastern, and some Chinese chickens.
+**Basic entities**
 
-10. [FACT] Other haplogroups in South American chickens include A, B, C, D at lower frequencies.
+* Domestic chickens (*Gallus gallus domesticus*)
+* Human transport networks
+* South American archaeological sites
+* Ancient DNA sequences
+* Modern chicken populations
+* Radiocarbon dates
+* Historical records of colonial contact and livestock transfer
 
-11. [FACT] Haplogroup D is common in modern Island Southeast Asia and Pacific islands but not observed or rare in continental South America.
+**Relevant processes / transport mechanisms**
 
-12. [FACT] Sub-haplogroups like A1a(b) and E1a(b) in South America were previously observed mainly in Eastern Asia.
+* Deliberate carriage of live chickens by seafaring humans
+* Survival during voyage
+* Landing and local breeding
+* Archaeological deposition and preservation
+* Later replacement or introgression by subsequent chicken populations
+* Contamination or misdating that can generate false signals
 
-13. [FACT] Araucana chickens (from Mapuche region, Chile) exhibit unique traits: blue/green eggs, ear tufts, rumplessness (tailless); some traits (e.g., blue eggs, ear tufts) arose as mutations in South America.
+**Necessary conditions for any candidate explanation**
+Any true explanation for an introduction must satisfy all of these:
 
-14. [FACT] Ear tufts and rumplessness are homozygous lethal traits in Araucana, leading to partial lethality in breeding.
+1. Chickens had to be physically transported alive or as fertile eggs by humans.
+2. The transport route had to be within the capability of the carrier culture.
+3. The chickens had to leave one or more traces:
 
-15. [FACT] Spanish accounts in the 1500s (e.g., Pizarro in Peru 1532) noted chickens integrated into Incan culture and ceremonies.
+   * historical record,
+   * archaeological bones,
+   * genetic signal,
+   * or downstream continuity in local populations.
+4. The chronology must fit the proposed transporters.
+5. The genetic or morphological evidence must discriminate source populations better than chance.
 
-16. [FACT] European chickens were introduced to the Americas post-1492 by Spanish, Portuguese, etc., often via Atlantic routes.
+**Impossible or excluded by basic constraints**
 
-17. [FACT] Some ancient Pacific chicken DNA shows haplogroup E, but later studies identified contamination issues with modern DNA in some analyses.
+* **Natural wild dispersal across ocean**: excluded. Chickens are not native to South America and are not capable of unsupervised transoceanic colonization.
+* **Pleistocene/native South American origin**: excluded by lack of paleontological or Paleo-Indian chicken evidence and by the domestication history of chickens in Asia. ([PMC][1])
 
-18. [FACT] Reanalyses (e.g., 2014) found no diagnostic Polynesian mtDNA haplotypes (e.g., certain D or others) in early South American samples.
+---
 
-19. [FACT] Modern Chilean chickens cluster with Indo-European/Asian haplotypes, not exclusively Polynesian.
+## C. Mechanism space
 
-20. [FACT] Chickens reached Easter Island pre-European contact via Polynesian dispersal.
+Before evidence, the plausible mechanisms are:
 
-21. [FACT] No pre-Columbian chicken evidence exists in the Americas outside debated South American sites like El Arenal.
+### Mechanism 1: Iberian colonial introduction
 
-22. [FACT] Multiple centers of chicken domestication/early dispersal occurred in South/Southeast Asia.
+Humans from Portugal/Spain transported chickens after 1500 through Atlantic and then inland/coastal colonial networks.
 
-**C. Factual/clue space**
+**Expected traces**
 
-- **Entities**: Chickens (Gallus gallus), Polynesians, Europeans (Spanish/Portuguese), Mapuche/Incan peoples, red junglefowl ancestor.
+* Early historical reports after European contact
+* Modern South American chickens clustering genetically with Iberian/European stock
+* Widespread continental establishment after the 16th century
+* No requirement for pre-1500 archaeological chicken remains
 
-- **Constraints** — [CONSTRAINT] Chickens cannot fly long distances or cross oceans naturally; require human transport.
+### Mechanism 2: Pre-Columbian Polynesian introduction to Pacific South America
 
-- **Transport mechanisms** — [CONSTRAINT] Oceanic crossing to South America possible via Pacific (Polynesian voyaging canoes) or Atlantic (European ships post-1492).
+Polynesian voyagers carried chickens eastward across the Pacific to the Chilean coast before European arrival.
 
-- **Biological bottlenecks** — [CONSTRAINT] mtDNA haplogroups show lineage inheritance; contamination risks in ancient DNA; lethal traits (e.g., Araucana) limit spread without human selection.
+**Expected traces**
 
-- **Timing constraints** — [CONSTRAINT] El Arenal dates ~AD 1300–1400 predate European arrival ~AD 1492–1530s; Polynesian Pacific expansion ~1000 BC onward, eastern Polynesia ~AD 1000+.
+* Secure pre-1500 chicken bones on Pacific South American sites
+* Ancient DNA matching or closely linking to authentic ancient Polynesian lineages
+* Possibly localized west-coast distribution, not necessarily continent-wide
+* No reliance on European records
 
-- **Dating or contamination issues** — [OPEN QUESTION] Extent of modern DNA contamination in early ancient chicken studies from Pacific/South America.
+### Mechanism 3: Pre-Columbian non-Polynesian Asian/Pacific introduction
 
-- **Archaeological implications** — [RELATION] Earliest confirmed chicken bones in Americas at El Arenal; no earlier sites.
+Some other trans-Pacific movement, direct or indirect, transported chickens before 1500 without requiring a specifically Polynesian source.
 
-- **Genetic implications** — [RELATION] Predominant modern South American haplogroups align with European/Asian sources; lack of exclusive Polynesian markers in reanalyses.
+**Expected traces**
 
-**D. Candidate hypotheses**
+* Secure pre-1500 remains
+* Ancient DNA indicating Asian/Pacific affinity, but not uniquely Polynesian
+* Weak or absent historical documentation
+* Possibly highly localized occurrence
 
-1. [HYPOTHESIS] Chickens arrived via pre-Columbian Polynesian contact across the Pacific, introducing birds to Chile ~AD 1300s.
+### Mechanism 4: Multiple introductions with later replacement
 
-2. [HYPOTHESIS] Chickens arrived exclusively post-Columbian via European (Spanish/Portuguese) introduction after 1492, with earlier dates contaminated or misinterpreted.
+A small pre-1500 introduction occurred, but the dominant continental population came later with Europeans, swamping most earlier genetic signatures.
 
-3. [HYPOTHESIS] Multiple introductions: early pre-Columbian (Polynesian) plus later European overlay, with European lineages dominating modern populations.
+**Expected traces**
 
-4. [HYPOTHESIS] Accidental or drift introduction via natural rafting or lost birds from early Asian/European ships, but human-mediated.
+* Possible isolated pre-1500 archaeological signal
+* Modern populations mostly European/Iberian
+* Ancient and modern genetic patterns not matching cleanly
+* Strong chance of local survivorship failure
 
-5. [HYPOTHESIS] Independent domestication or survival from ancient natural dispersal, but contradicted by biology.
+### Mechanism 5: Archaeological/genetic artifact
 
-**E. Deductions from each hypothesis**
+The apparent pre-Columbian evidence is produced by dating error, marine/terrestrial offset misinterpretation, lab contamination, stratigraphic mixing, or over-interpretation of non-diagnostic haplotypes.
 
-1. For [HYPOTHESIS] 1:  
-   - [DEDUCTION] Timing: Introduction ~AD 1300–1400 via Pacific.  
-   - [DEDUCTION] Route: Polynesian voyaging from eastern Pacific islands (e.g., Easter Island vicinity) to Chile.  
-   - [DEDUCTION] Biological form: Polynesian-stock birds (e.g., haplogroup E or Pacific variants).  
-   - [DEDUCTION] Linguistic: Possible loanwords in Mapuche/Incan for chicken.  
-   - [DEDUCTION] Archaeological: Pre-Columbian bones like El Arenal.  
-   - [DEDUCTION] DNA: Polynesian haplotypes in ancient South American samples.  
-   - [DEDUCTION] Contamination: Sensitive to modern DNA overwrite.  
-   - [DEDUCTION] One-time or repeated: Likely one-time or limited contact.
+**Expected traces**
 
-2. For [HYPOTHESIS] 2:  
-   - [DEDUCTION] Timing: Post-1492, possibly 1500s.  
-   - [DEDUCTION] Route: Atlantic from Europe/Iberia.  
-   - [DEDUCTION] Biological form: European/Indo-European haplogroups.  
-   - [DEDUCTION] Linguistic: Spanish/Portuguese-derived terms.  
-   - [DEDUCTION] Archaeological: No pre-1492 bones; El Arenal dates erroneous.  
-   - [DEDUCTION] DNA: European haplogroups dominant; no Pacific markers.  
-   - [DEDUCTION] Contamination: Vulnerable to old carbon or misdating.  
-   - [DEDUCTION] One-time or repeated: Repeated European introductions.
+* Sparse evidence concentrated in one contested site
+* Ancient DNA disputed or non-diagnostic
+* Difficulty replicating the result elsewhere
+* Modern populations lacking corresponding signature
 
-3. For [HYPOTHESIS] 3:  
-   - [DEDUCTION] Timing: Pre-Columbian (~1300s) plus post-1492.  
-   - [DEDUCTION] Route: Pacific then Atlantic.  
-   - [DEDUCTION] Biological form: Mixed Polynesian + European.  
-   - [DEDUCTION] Linguistic: Mixed influences.  
-   - [DEDUCTION] Archaeological: Early bones + later spread.  
-   - [DEDUCTION] DNA: Early Pacific signals overwritten by European.  
-   - [DEDUCTION] Contamination: High sensitivity to later admixture.  
-   - [DEDUCTION] One-time or repeated: Repeated contacts.
+### Mechanism 6: Hybrid scenario
 
-4. For [HYPOTHESIS] 4:  
-   - [DEDUCTION] Timing: Variable, possibly early accidental.  
-   - [DEDUCTION] Route: Non-deliberate (e.g., rafting).  
-   - [DEDUCTION] Biological form: Whatever survived drift.  
-   - [DEDUCTION] Linguistic: None specific.  
-   - [DEDUCTION] Archaeological: Sparse early evidence.  
-   - [DEDUCTION] DNA: Random haplogroups.  
-   - [DEDUCTION] Contamination: Less predictable.  
-   - [DEDUCTION] One-time or repeated: Rare/one-time.
+Independent localized pre-1500 Pacific introduction(s) plus major post-1500 European introduction(s), with later admixture and partial loss of early lineages.
 
-5. For [HYPOTHESIS] 5:  
-   - [DEDUCTION] Timing: Ancient pre-human.  
-   - [DEDUCTION] Route: Natural migration.  
-   - [DEDUCTION] Biological form: Native-like.  
-   - [DEDUCTION] Linguistic: Indigenous terms.  
-   - [DEDUCTION] Archaeological: Deep-time bones.  
-   - [DEDUCTION] DNA: Distinct lineages.  
-   - [DEDUCTION] Contamination: N/A.  
-   - [DEDUCTION] One-time or repeated: Natural spread.
+**Expected traces**
 
-**F. Elimination/pruning**
+* Mixed archaeological chronology
+* Ancient local anomalies
+* Modern continental populations mostly European but with possible residual local oddities
+* Persistent ambiguity if ancient source markers are not uniquely diagnostic
 
-- [HYPOTHESIS] 5: [ELIMINATED] — Conflicts with domestication facts (Southeast Asia origin) and no native Gallus in Americas.
+---
 
-- [HYPOTHESIS] 4: [WEAKENED] — No evidence for non-human transport across vast ocean; human mediation required per constraints.
+## D. Evidence admissibility rules
 
-- [HYPOTHESIS] 2: [WEAKENED] — Conflicts with El Arenal radiocarbon dates (~AD 1300s) and archaeological context pre-1492.
+For this question, admissible evidence is:
 
-- [HYPOTHESIS] 1: [WEAKENED] — Conflicts with reanalyses showing no exclusive Polynesian mtDNA in South America; contamination issues in initial studies; modern haplogroups align more with European/Asian.
+* **Directly dated archaeological chicken bones**
+* **Ancient DNA from securely provenienced bones**
+* **Authentication controls for ancient DNA contamination**
+* **Stratigraphic context**
+* **Historical records of early European animal transfer**
+* **Modern population genetics** only as secondary evidence, because later replacement can erase earlier introductions
+* **Geographic distribution of finds**
+* **Replication across independent sites/labs**
 
-- [HYPOTHESIS] 3: [SURVIVES] — Compatible with early El Arenal evidence (possible limited Polynesian input) plus dominant post-Columbian European overlay; explains mixed signals and modern predominance of haplogroup E.
+Weaker evidence:
 
-**G. Best surviving explanation**
+* **Modern breed appearance/morphology alone**: convergent traits and later breeding can mislead.
+* **Unspecific mtDNA haplotypes**: if the haplotype occurs widely outside Polynesia, source assignment is weak.
+* **Review summaries without underlying data**
+* **Single-site claims without replication**
+* **Arguments from absence**: weak unless preservation and sampling are strong enough that absence becomes informative.
 
-The best surviving explanation is multiple introductions, with a possible limited pre-Columbian contact (likely Polynesian) introducing chickens by ~AD 1300–1400 to Chile (supported by El Arenal dates and initial DNA matches), followed by dominant post-Columbian European introductions after 1492 that overwhelmed earlier lineages genetically and numerically. This aligns with the Holmes process: pure natural arrival is impossible, single European post-1492 fails on early dates, pure Polynesian fails on genetic reanalyses, leaving hybrid as what remains.
+Bias can enter through:
 
-**H. Residual uncertainties**
+* source selection,
+* variable definition (“first arrival” vs “main introduction”),
+* sample selection,
+* preservation effects,
+* collagen prep and radiocarbon calibration,
+* ancient DNA contamination control,
+* publication bias toward dramatic pre-Columbian claims,
+* narrative framing around “proof of Polynesian contact,”
+* over-aggregation of modern genetics,
+* interpreting absence of modern Polynesian signal as absence of any ancient event.
 
-Unresolved: Authenticity of early DNA matches vs. contamination; whether El Arenal represents sustained population or isolated event; full extent of pre-Columbian contact (genetic trace faint due to later admixture).
+---
 
-**I. Comparison with prevailing theory**
+## E. Evidence inventory
 
-The prevailing theory (outside this protocol) is that chickens arrived primarily with Europeans post-1492, with pre-Columbian claims (e.g., Polynesian) largely rejected due to contamination in ancient DNA and lack of diagnostic Pacific markers in South America. The above follows the strict elimination process, yielding a more tentative hybrid view, while acknowledging the mainstream leans heavily toward European introduction as the main/original mechanism.
+### 1. El Arenal-1 chicken bones in Chile
+
+**[OBSERVATION]:** Chicken bones were recovered from El Arenal-1 in south-central Chile; the 2007 report states 50 chicken bones representing at least five individuals. ([PMC][1])
+**[TYPE]:** Direct archaeological remains
+**[ASSUMPTIONS REQUIRED]:** Correct taxonomic identification; secure association with the reported site context; no intrusive later deposition
+**[BEARS ON]:** Supports mechanisms 2, 3, 4, 6 if securely pre-1500; weakens mechanism 1 as sole first arrival everywhere
+**[LIMITATIONS]:** Single site; site chronology and context have been debated; replication elsewhere is limited
+
+### 2. Direct radiocarbon date on one El Arenal chicken bone
+
+**[OBSERVATION]:** The 2007 paper reports one chicken bone dated 622 ± 35 BP, calibrated to AD 1304–1424 at 2 sigma. ([PMC][1])
+**[TYPE]:** Lab result / direct date
+**[ASSUMPTIONS REQUIRED]:** Bone collagen uncontaminated; diet offset negligible or corrected; calibration appropriate; sampled bone truly chicken from reported context
+**[BEARS ON]:** Supports pre-1500 arrival somewhere in South America; supports 2/3/4/6; weakens 1 as the only first arrival mechanism
+**[LIMITATIONS]:** One directly dated bone is not the same as a continent-wide introduction; date alone does not identify source
+
+### 3. 2007 ancient mtDNA claim from El Arenal linked to Polynesia
+
+**[OBSERVATION]:** The 2007 paper reported an ancient mitochondrial sequence from El Arenal and interpreted it as consistent with Polynesian chickens. ([PMC][1])
+**[TYPE]:** Ancient DNA lab result
+**[ASSUMPTIONS REQUIRED]:** No contamination; haplotype is source-diagnostic; comparison dataset adequate
+**[BEARS ON]:** Supports mechanism 2 if authentic and discriminating
+**[LIMITATIONS]:** Ancient DNA authentication became the central point of later dispute; mtDNA source assignment may not uniquely distinguish Polynesia from broader Eurasian distributions
+
+### 4. 2008 critique of Polynesian-source interpretation
+
+**[OBSERVATION]:** Gongora et al. compared Chilean and global chicken mtDNA and argued Chilean/Pacific chickens showed Indo-European and Asian origins rather than a uniquely Polynesian signal. ([PMC][2])
+**[TYPE]:** Genetic comparative study
+**[ASSUMPTIONS REQUIRED]:** Comparative global sampling sufficient; chosen mtDNA region has source resolution; modern/ancient comparisons are valid
+**[BEARS ON]:** Weakens mechanism 2 as uniquely established; supports 1, 4, 5, 6
+**[LIMITATIONS]:** Modern or broad comparative datasets do not automatically erase a localized earlier introduction; mtDNA control region can have limited geographic specificity
+
+### 5. 2014 Thomson et al. ancient DNA reassessment
+
+**[OBSERVATION]:** Thomson et al. reported that previous Pacific chicken studies were affected by modern chicken DNA contamination and argued there was no evidence for Polynesian dispersal of chickens to pre-Columbian South America; they identified distinctive Pacific haplotypes and stated that early South American samples lacked them. ([PMC][3])
+**[TYPE]:** Ancient DNA study / methodological reassessment
+**[ASSUMPTIONS REQUIRED]:** Their contamination controls are sufficient; their “diagnostic Polynesian haplotypes” are correctly defined; their sample set adequately represents ancient Polynesian diversity
+**[BEARS ON]:** Strongly weakens mechanism 2; supports 1, 5, and possibly 4/6
+**[LIMITATIONS]:** This attacks source attribution more than the raw existence of a pre-1500 Chilean bone date
+
+### 6. 2014 rebuttal defending El Arenal chronology and earlier E haplotypes
+
+**[OBSERVATION]:** Storey and Matisoo-Smith responded that Thomson’s interpretation was flawed, argued ancient Pacific haplogroup E existed before later D-lineage dominance, and stated critical E sequences were reproduced independently; they also argued the contamination claim did not justify discarding the Chilean evidence. ([PMC][4])
+**[TYPE]:** Published rebuttal / methodological critique
+**[ASSUMPTIONS REQUIRED]:** Their independent reproductions are robust; haplogroup E can legitimately reflect ancient Pacific movement; Thomson’s diagnostic framing is too narrow
+**[BEARS ON]:** Keeps mechanisms 2, 4, 6 alive; weakens complete elimination of 2
+**[LIMITATIONS]:** Rebuttal does not itself create new decisive independent data; still leaves source assignment contested
+
+### 7. 2014 defense of radiocarbon reliability
+
+**[OBSERVATION]:** Beavan argued there was no evidence that contamination or diet offset invalidated the El Arenal chicken dates and maintained that the dates were reliable pre-Columbian dates. ([PMC][5])
+**[TYPE]:** Chronometric methodological response
+**[ASSUMPTIONS REQUIRED]:** Collagen treatment and isotopic interpretation are sound
+**[BEARS ON]:** Supports 2/3/4/6 against 5 specifically on dating-error grounds
+**[LIMITATIONS]:** A good date does not prove Polynesian source
+
+### 8. Modern mainland South American chickens mostly cluster with European/Iberian and Asian stocks
+
+**[OBSERVATION]:** Herrera et al. 2020 found most modern mainland South American chickens belong to mtDNA haplogroup E, with low levels of A/B/C, and no haplogroup D observed; they concluded modern mainland South American chickens are closely allied with European populations, especially Iberia, and only remotely related to Pacific chickens. ([PMC][6])
+**[TYPE]:** Modern population genetics
+**[ASSUMPTIONS REQUIRED]:** Modern populations preserve enough historical signal to inform source questions
+**[BEARS ON]:** Strongly supports mechanism 1 for continent-wide establishment; supports 4/6; weakens 2 as the explanation for most living South American chickens
+**[LIMITATIONS]:** Later replacement can erase earlier introductions, so this is weak for “first arrival”
+
+### 9. Historical record of early European introduction
+
+**[OBSERVATION]:** Reviews summarize that the first recorded European introduction of a chicken to continental South America was in AD 1500, associated with Pedro Álvares Cabral in Brazil. ([Evols][7])
+**[TYPE]:** Historical report summarized in secondary literature
+**[ASSUMPTIONS REQUIRED]:** Correct transmission of the historical record; “first recorded” is not “first actual”
+**[BEARS ON]:** Supports mechanism 1 as the first documented route
+**[LIMITATIONS]:** Historical silence before 1500 does not disprove an earlier undocumented introduction
+
+### 10. 2025 reassessment of Arenal-1
+
+**[OBSERVATION]:** A 2025 reassessment reports that the site’s results appear to reconfirm a pre-Columbian date, but the authors state they did not recover evidence of contact with Polynesia and instead found evidence of South American interregional interaction. ([ResearchGate][8])
+**[TYPE]:** Recent archaeological reassessment / abstract-level report
+**[ASSUMPTIONS REQUIRED]:** The abstract accurately reflects the final analysis
+**[BEARS ON]:** Supports mechanisms 3, 4, 6 more than 2; strongly weakens “Arenal proves Polynesian contact”
+**[LIMITATIONS]:** I have abstract-level access here, not the full data tables and methods
+
+---
+
+## F. Constraint map
+
+**Entities**
+
+* Chickens
+* Human transporters
+* Archaeological sites, especially El Arenal-1
+* Ancient and modern DNA datasets
+* Colonial historical records
+
+**Quantities**
+
+* One widely cited direct pre-1500 radiocarbon date from El Arenal
+* Sparse pre-Columbian archaeological chicken evidence in South America
+* Modern mainland genetic profile mostly aligned with Europe/Iberia
+
+**Constraints**
+
+* Natural transoceanic chicken dispersal is out
+* Any pre-1500 claim must survive both chronology and contamination challenges
+* Modern genetics alone cannot answer first-arrival if later replacement occurred
+* A source haplotype must actually discriminate Polynesia from non-Polynesian alternatives
+
+**Dependencies**
+
+* “Polynesian arrival” depends on both secure pre-1500 chronology and source-diagnostic genetic evidence
+* “European main establishment” depends mostly on post-1500 historical and modern genetic evidence, not on refuting every earlier local event
+
+**Open questions**
+
+* Is the El Arenal pre-1500 signal genuine?
+* If genuine, is the source specifically Polynesian?
+* Was any pre-1500 introduction local and transient, or broader and sustained?
+
+**Known variability**
+
+* Chicken lineages were repeatedly moved and mixed by humans
+* Ancient Pacific lineages may have been replaced over time
+* mtDNA haplogroup distributions changed across regions and eras
+
+**Known limitations**
+
+* Sparse ancient South American samples
+* Source-diagnostic power of short mtDNA fragments is limited
+* Single-site overinterpretation risk
+* Full 2025 reassessment details are not all available in the abstract snippet I could access
+
+---
+
+## G. Candidate hypotheses
+
+### [HYPOTHESIS 1] Mainstream strong form
+
+Chickens reached South America only after 1500 via European colonial transport.
+
+### [HYPOTHESIS 2] Mainstream moderate form
+
+The continent-wide established South American chicken population mainly derives from European post-1500 introductions, regardless of whether any earlier local arrival occurred.
+
+### [HYPOTHESIS 3] Polynesian pre-Columbian first arrival
+
+Polynesian voyagers introduced chickens to Pacific South America before European contact.
+
+### [HYPOTHESIS 4] Mixed-introduction hypothesis
+
+A small pre-Columbian introduction reached Chile or nearby Pacific South America, but later European chickens became dominant and largely replaced or swamped that signal.
+
+### [HYPOTHESIS 5] Artifact/error hypothesis
+
+The apparent pre-Columbian Chilean evidence is not reliable enough; the early signal is a product of dating/context/DNA problems.
+
+### [HYPOTHESIS 6] Contrarian non-Polynesian Pacific/Asian hypothesis
+
+A real pre-1500 introduction occurred, but the source was not demonstrably Polynesian; it came through some other Pacific or Asian-mediated route, now poorly documented.
+
+---
+
+## H. Deductions from each hypothesis
+
+### [HYPOTHESIS 1]
+
+[DEDUCTION] There should be no secure pre-1500 chicken remains in South America.
+[DEDUCTION] Any reported pre-1500 find should collapse under dating or context scrutiny.
+[DEDUCTION] Modern South American chickens should mostly reflect European/Iberian ancestry.
+[DEDUCTION] Historical records after 1500 should provide the earliest reliable evidence.
+
+### [HYPOTHESIS 2]
+
+[DEDUCTION] Modern continental chickens should look mostly European, even if a rare earlier introduction existed.
+[DEDUCTION] Pre-1500 evidence, if real, could be sparse and local.
+[DEDUCTION] The first arrival and the main establishment route can differ.
+
+### [HYPOTHESIS 3]
+
+[DEDUCTION] At least one secure pre-1500 Pacific South American site should exist.
+[DEDUCTION] Ancient South American chicken DNA should connect to authentic ancient Polynesian lineages.
+[DEDUCTION] Modern continental populations need not preserve that signal if later replacement occurred.
+[DEDUCTION] Evidence should cluster on the Pacific coast rather than the Atlantic.
+
+### [HYPOTHESIS 4]
+
+[DEDUCTION] We may see exactly the current pattern: a contested but possibly genuine early Chilean signal plus overwhelmingly European modern chickens.
+[DEDUCTION] Source attribution from modern DNA would be weak for first arrival.
+[DEDUCTION] Ancient site-by-site archaeology becomes decisive.
+
+### [HYPOTHESIS 5]
+
+[DEDUCTION] The pre-Columbian case should rely on fragile, non-replicated evidence.
+[DEDUCTION] Improved ancient DNA methods should remove or reclassify the supposed Polynesian signal.
+[DEDUCTION] Reinvestigation should fail to produce corroborating contact evidence.
+
+### [HYPOTHESIS 6]
+
+[DEDUCTION] A pre-1500 date could survive while specifically Polynesian attribution fails.
+[DEDUCTION] We should find “pre-Columbian, but not diagnostic of Polynesia.”
+[DEDUCTION] Recent reassessments may reconfirm chronology while downgrading source claims.
+
+---
+
+## I. Elimination / pruning
+
+### [HYPOTHESIS 1] European-only, no earlier arrival
+
+**[WEAKENED]**
+Why: The El Arenal direct date, defended again in later debate, keeps a pre-1500 local arrival alive as a possibility. The 2025 reassessment snippet also says the site appears to reconfirm a pre-Columbian date. ([PMC][1])
+Not eliminated because the pre-1500 case is still contested and sparse; but it is no longer the cleanest fit to all surviving evidence.
+
+### [HYPOTHESIS 2] European main establishment
+
+**[SURVIVES STRONGLY]**
+Why: The historical record documents early European introduction after 1500, and modern mainland South American chickens align mainly with European/Iberian and Asian rather than Pacific stocks. ([Evols][7])
+This hypothesis does not require denying every earlier local anomaly.
+
+### [HYPOTHESIS 3] Polynesian pre-Columbian first arrival
+
+**[WEAKENED]**
+Why: It is supported by the original El Arenal date plus the original mtDNA interpretation and some methodological defenses. ([PMC][1])
+But it is weakened by the 2014 ancient DNA reassessment arguing no evidence for Polynesian dispersal, by disputes over contamination/source-diagnostic markers, and by the 2025 reassessment snippet saying no evidence of contact with Polynesia was recovered. ([PMC][3])
+Result: not ruled out, but not established.
+
+### [HYPOTHESIS 4] Small earlier introduction plus later European replacement
+
+**[SURVIVES STRONGLY]**
+Why: It fits the strongest non-contradictory pattern:
+
+* possible pre-1500 local Chilean evidence,
+* later overwhelming European/Iberian dominance in modern chickens,
+* contested ancient source assignment,
+* possibility of lineage replacement. ([PMC][1])
+
+### [HYPOTHESIS 5] Artifact/error only
+
+**[WEAKENED]**
+Why: This remains plausible because the evidence is sparse and source assignment is fragile. Thomson’s contamination critique matters. ([PMC][3])
+But complete dismissal is weakened by the defended radiocarbon date and the 2025 reassessment reportedly reconfirming pre-Columbian chronology. ([PMC][5])
+
+### [HYPOTHESIS 6] Real pre-1500 arrival, but not demonstrably Polynesian
+
+**[SURVIVES]**
+Why: The 2025 reassessment snippet points exactly this way: pre-Columbian date survives, Polynesian-contact inference does not. ([ResearchGate][8])
+This is contrarian relative to the famous original claim, but it is mechanistically coherent.
+
+---
+
+## J. Best surviving explanation
+
+### [CONCLUSION]
+
+The strongest bottom-up answer is:
+
+**Chickens became established across South America primarily through post-1500 European introductions, especially Iberian colonial transport.** ([Evols][7])
+
+That is the strongest answer for the **continent as a whole**.
+
+For the narrower question of **first arrival anywhere in South America**, the best surviving explanation is more cautious:
+
+**A localized pre-Columbian introduction to Pacific South America, especially Chile, remains possible and may even be real chronologically, but the claim that it was specifically Polynesian is not currently established strongly enough.** ([PMC][1])
+
+So the rigorous split answer is:
+
+* **Main continental establishment:** European, strongly supported.
+* **Possible earlier local arrival:** survives as a possibility.
+* **Specifically Polynesian source for that earlier arrival:** weakened, not eliminated, not proven.
+
+**[ADDITIONAL CONTEXT]**
+The surprising part is that the most famous evidence in this debate does **not** cleanly answer the continent-wide question. A single contested Chilean site can bear on “earliest arrival,” but it cannot by itself overturn the stronger evidence for how chickens became widespread across South America.
+
+---
+
+## K. Residual uncertainties
+
+**What remains unresolved**
+
+1. Whether the El Arenal pre-1500 chicken evidence is fully secure at the level needed to settle “first arrival”
+2. Whether any pre-1500 chickens in South America came specifically from Polynesia
+3. Whether such an introduction, if real, was local/transient or regionally established
+
+**Why unresolved**
+
+* Too few securely dated ancient South American chicken remains
+* Limited discriminatory power of short mtDNA fragments
+* Ancient DNA contamination and authentication disputes
+* Modern populations are poor witnesses for rare earlier introductions because later replacement is likely
+
+**What evidence would resolve it**
+
+* Multiple independently dated pre-1500 chicken finds from Pacific South America
+* Genome-scale ancient DNA, not just short mtDNA segments
+* Replication in multiple labs with strong contamination controls
+* Stable isotope and contextual analyses demonstrating local husbandry
+* Clearer archaeological association with trans-Pacific contact materials
+
+---
+
+## L. Comparison with prevailing answer
+
+**Default answer usually given:**
+“Chickens were brought to South America by Europeans after Columbus.”
+
+**Comparison with bottom-up result:**
+That prevailing answer **survives**, but it needs narrowing.
+
+* It survives strongly as the answer to **how chickens became widespread across South America**.
+* It becomes weaker as the answer to **whether the very first chicken anywhere in South America arrived only with Europeans**.
+* The stronger old contrarian claim—“Polynesians definitely brought chickens to Chile before Europeans”—does **not** survive intact. It is weakened to: **possible pre-Columbian introduction, source unresolved, Polynesian attribution unproven.**
+
+So the best final formulation is:
+
+**South America’s chickens are overwhelmingly the result of European colonial introduction, but the door remains partly open to a smaller, earlier Pacific-coast introduction before 1500. What does not currently survive strongly is the claim that this earlier introduction has been decisively shown to be Polynesian.**
+
+[1]: https://pmc.ncbi.nlm.nih.gov/articles/PMC1965514/ "
+            Radiocarbon and DNA evidence for a pre-Columbian introduction of Polynesian chickens to Chile - PMC
+        "
+[2]: https://pmc.ncbi.nlm.nih.gov/articles/PMC2492461/?utm_source=chatgpt.com "Indo-European and Asian origins for Chilean and Pacific ..."
+[3]: https://pmc.ncbi.nlm.nih.gov/articles/PMC3977275/?utm_source=chatgpt.com "Using ancient DNA to study the origins and dispersal of ... - PMC"
+[4]: https://pmc.ncbi.nlm.nih.gov/articles/PMC4156719/ "
+            No evidence against Polynesian dispersal of chickens to pre-Columbian South America - PMC
+        "
+[5]: https://pmc.ncbi.nlm.nih.gov/articles/PMC4156739/?utm_source=chatgpt.com "No evidence for sample contamination or diet offset for pre ..."
+[6]: https://pmc.ncbi.nlm.nih.gov/articles/PMC7062093/ "
+            European and Asian contribution to the genetic diversity of mainland South American chickens - PMC
+        "
+[7]: https://evols.library.manoa.hawaii.edu/server/api/core/bitstreams/2f8ad742-3aad-40b3-bd27-889b23c57c2d/content?utm_source=chatgpt.com "Pre-Columbian chickens of the Americas: a critical review ..."
+[8]: https://www.researchgate.net/publication/264794331_No_evidence_against_Polynesian_dispersal_of_chickens_to_pre-Columbian_South_America?utm_source=chatgpt.com "No evidence against Polynesian dispersal of chickens to ..."
