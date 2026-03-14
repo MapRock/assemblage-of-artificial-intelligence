@@ -168,7 +168,7 @@ Each item in this section should be tagged as one of:
 
 ### D. Candidate hypotheses
 
-- Give at least 4 hypotheses if the facts permit.
+- Give at least 5 hypotheses if the facts permit.
 - Include non-obvious hypotheses if the facts allow them.
 - Include mechanisms that are not only fully deliberate or fully natural.
 - Each must be tagged `[HYPOTHESIS]`.
@@ -201,6 +201,7 @@ Tag each statement `[DEDUCTION]`.
 ### G. Best surviving explanation
 
 - Give the best explanation that remains after elimination.
+- Without hallicinating, please try to defend this, and for this step you may step outside of the facts you lists. You may find what remains is ludicrous, but in the Holmes spirit, it is what is left.
 - If it is still only tentative, say so.
 
 ### H. Residual uncertainties
