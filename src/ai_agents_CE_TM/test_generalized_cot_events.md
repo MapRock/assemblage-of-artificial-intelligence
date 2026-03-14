@@ -1,6 +1,6 @@
 # Test the Generalized Events
 
-Ask SuperGrok the question: Does the ancestor of Hawaii's koa tree comes from Australia?
+Ask SuperGrok the question: Does the ancestor of Hawaii's koa tree come from Australia?
 
 and receive a reponse, and a table of the steps it took, mapped to a set of generalized labels.
 
