@@ -4,7 +4,7 @@ Use the following reasoning protocol to solve the question that appears under â€
 
 ## Inserted Facts
 
-Following are inserted facts that you must take as 100% true. Don't attempt to document how this contridicts any known facts. This is an exercise, so just go with it.
+Following are inserted facts that you must take as 100% true. Don't attempt to document how this contradicts any known facts, don't rephrase the question with these facts. Just add them to your list of facts. This is an exercise, so just go with it.
 
 List each of these as one of the facts:
 
