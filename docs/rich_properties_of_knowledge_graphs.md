@@ -1,6 +1,6 @@
 # Appendix F – Rich Properties
 
-This version is deprecated. See [Appendix F – Rich Properties](https://github.com/MapRock/SemanticWebsOfMeaning/blob/main/appendices/appendix_f_rich_properties.md), as a more updated version.
+This version is deprecated. See [Appendix F – Rich Properties, <i>Semantic Webs of Meaning</i>](https://github.com/MapRock/SemanticWebsOfMeaning/blob/main/appendices/appendix_f_rich_properties.md), as a more updated version.
 
 **Euler’s abstraction (Königsberg, 1736)**
 
