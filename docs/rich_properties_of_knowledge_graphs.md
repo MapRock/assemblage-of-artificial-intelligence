@@ -1,5 +1,13 @@
 # Appendix F – Rich Properties
 
+**Euler’s abstraction (Königsberg, 1736)**
+
+Leonhard Euler faced the practical puzzle of whether one could walk the seven bridges of Königsberg, crossing each exactly once. He stripped away everything irrelevant to that question—the shapes and sizes of the landmasses, the lengths and appearance of the bridges, the curves of the river, the geography of the city. What remained was only the pattern of connection: four landmasses as vertices, seven bridges as edges linking them. From that pure connectivity he proved the walk impossible (four vertices of odd degree) and, in doing so, founded graph theory. The power of the move was precisely the loss: by discarding the “rich” physical details, the essential structure became visible and generalizable.
+
+**Restoring some of what was set aside**
+
+That same abstraction is the foundation of knowledge graphs: entities become nodes, relationships become edges, and everything that does not fit neatly into a triple is either omitted or awkwardly flattened. Rich properties are a deliberate restoration of part of what Euler set aside. They keep the graph’s abstract connectivity and semantic accessibility, while attaching the native artifacts—schematics, CAD models, diagrams, ML models, recordings, simulations—that still hold the spatial, visual, procedural, or computational richness that cannot be expressed without loss as ordinary RDF. The graph records identity, metadata, and links into the artifact; the artifact itself preserves the fidelity the pure graph had to discard. In short, the graph gives us Euler’s insight; the rich property gives back some of the world he had to ignore.
+
 ## F.1 Beyond Simple Properties
 
 Knowledge graphs are usually introduced through relatively simple properties:
@@ -697,3 +705,5 @@ The knowledge graph does not need to reproduce every detail of a schematic, mode
 The external artifact preserves nuance and fidelity. The knowledge graph provides identity, context, governance, integration, and reasoning.
 
 Together, they describe more than either could describe alone.
+
+See: [Embedding Machine Learning Models into Knowledge Graphs](https://eugeneasahara.com/2025/01/09/machine-learning-models-embedded-in-knowledge-graphs/).
