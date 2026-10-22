@@ -1,5 +1,7 @@
 # Appendix F – Rich Properties
 
+This version is deprecated. See [Appendix F – Rich Properties](https://github.com/MapRock/SemanticWebsOfMeaning/blob/main/appendices/appendix_f_rich_properties.md), as a more updated version.
+
 **Euler’s abstraction (Königsberg, 1736)**
 
 Leonhard Euler faced the practical puzzle of whether one could walk the seven bridges of Königsberg, crossing each exactly once. He stripped away everything irrelevant to that question—the shapes and sizes of the landmasses, the lengths and appearance of the bridges, the curves of the river, the geography of the city. What remained was only the pattern of connection: four landmasses as vertices, seven bridges as edges linking them. From that pure connectivity he proved the walk impossible (four vertices of odd degree) and, in doing so, founded graph theory. The power of the move was precisely the loss: by discarding the “rich” physical details, the essential structure became visible and generalizable.
