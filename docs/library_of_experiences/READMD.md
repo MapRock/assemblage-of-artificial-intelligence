@@ -6,6 +6,68 @@ The central idea is that creativity often emerges from recognizing transferable 
 
 The experiments explore two complementary techniques: **vector similarity over LLM-generated story abstractions** to identify promising candidates, followed by **direct pairwise LLM reasoning** to examine causal relationships, functional roles, and possible transfers. The longer-term vision connects these experiences to knowledge graphs, Time Molecules, and an Enterprise Knowledge Graph, allowing organizations to preserve and reuse knowledge accumulated through experience.
 
+## Python Requirements and Running the Experiments
+
+Both experiments require **Python 3.10 or later** and access to the OpenAI API.
+
+### Python Dependencies
+
+The experiments use OpenAI models, NumPy, pandas, python-dotenv, and PyYAML.
+
+```bash
+python -m pip install "openai==0.28.1" numpy pandas python-dotenv PyYAML
+```
+
+**Compatibility note:** The original experimental scripts use the legacy OpenAI Python API (`openai.ChatCompletion.create` and `openai.Embedding.create`), so the OpenAI package is pinned to version 0.28.1. A future update to the current API would remove this restriction.
+
+### API Configuration
+
+Set the `OPENAI_API_KEY` environment variable or provide it in a local `.env` file:
+
+```text
+OPENAI_API_KEY=your_api_key
+```
+
+Do not commit API keys or `.env` files to GitHub.
+
+The scripts also support the optional `CHATGPT_MODEL` environment variable. Their original defaults are `gpt-4.1-nano` for Experiment 1 and `gpt-4.1` for Experiment 2.
+
+### Story Files
+
+Both experiments share the same external story library:
+
+| File | Purpose |
+|---|---|
+| `query_stories.yaml` | Query Stories describing problems to investigate |
+| `candidate_stories.yaml` | Candidate Stories available for analogy matching |
+| `story_loader.py` | Shared loader that reconstructs the original Python story structures |
+
+The YAML files must reside alongside `story_loader.py`. Story texts and titles can be edited independently of the experimental Python code.
+
+The original experimental narratives are also preserved in [Analogy_Experiment_Original_Stories.md](Analogy_Experiment_Original_Stories.md).
+
+### Running the Experiments
+
+From this directory:
+
+**Experiment 1 — Vector similarity and Candidate Story retrieval**
+
+```bash
+python two_text_similarity_select_query.py
+```
+
+**Experiment 2 — Direct pairwise LLM analogy evaluation**
+
+```bash
+python two_text_similarity_pairwise.py
+```
+
+Both scripts use `SELECTED_QUERY_INDEX` to select the Query Story (`0` for Warehouse Manager, `1` for Siddhartha Gautama).
+
+The programs currently run independently. Experiment 1 uses LLM-generated abstractions and embeddings to rank candidates, while Experiment 2 evaluates original story pairs without embeddings. Integrating the two into a single retrieval-and-reasoning pipeline is a subsequent development step.
+
+**Note:** Both experiments make billable OpenAI API calls. Results may vary across executions because LLM outputs are not completely deterministic.
+
 
 ### ChatGPT Incident Statement — November 20, 2026
 
