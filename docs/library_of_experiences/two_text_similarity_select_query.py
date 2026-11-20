@@ -137,9 +137,7 @@ def summarize_story(story_text, is_query=False):
                     "relationships, not just abstract nouns. Distinguish "
                     "observations from inferences and do not invent solutions.\n\n"
 
-                    "Keep in mind that the problem, "
-                    + ("desired outcome" if is_query else "observed outcome")
-                    + ", and solution will be used on a similarity comparison, "
+                    "Keep in mind that the derived problem, desired outcome or observed outcome, and solution will be used in a similarity comparison, "
                     "so focus on capturing the essential elements so that topics across domains have a chance to map.\n\n"
 
                     "Return only valid JSON, without Markdown.\n\n"
