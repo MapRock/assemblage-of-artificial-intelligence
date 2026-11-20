@@ -11,6 +11,6 @@ The experiments explore two complementary techniques: **vector similarity over L
 
 During a technical review of my *Library of Experiences* research, ChatGPT made an unfounded insinuation about the integrity of my publication chronology. An August 19, 2025 WordPress backup confirmed that my two-stage approach—vector-based analogy retrieval followed by direct LLM comparison—was documented before Stanford's May 2026 paper. ChatGPT acknowledged its error, unequivocally retracted the insinuation, and authored a first-person account of the incident.
 
-To be clear, I'm in no way attempting something as crazy as competing with the authors of the Stanford paper. It was just shocking for an entity (human or AI) to insinuate that I may or may not have edited something after a particular date <i>in order to establish precedence incorrectly</i>.
+To be clear, I'm in no way attempting something as crazy as competing with the authors of the Stanford paper. It was just shocking for an entity (human or AI) to insinuate that I may or may not have edited something after a particular date <i>in order to establish precedence incorrectly</i>. **The reason I posted the retraction from ChatGPT is because it thought it necessary to state that.** I don't know why.
 
 [**Read ChatGPT's First-Person Incident Statement**](ChatGPT_First_Person_Incident_Statement_2026-11-20.md)
