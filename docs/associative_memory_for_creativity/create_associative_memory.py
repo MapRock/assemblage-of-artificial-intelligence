@@ -22,7 +22,10 @@ PART 3: Immediately verify the graph, test exact self-retrieval, and search
         Produce human-readable Markdown and machine-readable JSON reports.
 
 *** COST SAFETY ***
-- This script NEVER calls an ideation/reasoning LLM. Only embeddings API.
+- No idea-generation or pairwise-comparison calls are made. For a NEW query
+  without a supplied generalized version, ONE short LLM rewrite is made.
+- Its response is cached by exact query and model/prompt settings; failed model
+  responses are retained and NOT retried automatically.
 - Existing embeddings are cached BY MODEL + DIMENSIONS + EXACT TEXT HASH.
 - Pressing F5 again does NOT re-embed unchanged texts (including demo queries).
 - The graph is rebuilt transactionally only if the source catalog changed.
@@ -59,11 +62,23 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 EMBEDDING_DIMENSIONS = 512       # Supported by text-embedding-3-small
 INDEX_ORIGINAL_STORY = False    # Later experiment; first test TWO separate views
 
-TOP_MATCHES_PER_VIEW = 3        # Show different ranks from both retrieval paths
-RUN_DEMO_QUERIES = True         # Pressing F5 tests examples automatically
-ASK_FOR_QUERY_AT_END = False   # Set True to type new situations in terminal
-CUSTOM_QUERY = ""              # Or enter your own solution-free situation here
-CUSTOM_QUERY_GENERALIZED = "" # Optional generalized version; blank uses same text
+TOP_MATCHES_PER_VIEW = 3        # Maximum *eligible* stories admitted per view
+MIN_SIMILARITY_CONCRETE = 0.30  # Experimental cutoff: tune after examining rankings
+MIN_SIMILARITY_GENERAL = 0.30   # Separate, independently adjustable cutoff
+STRONG_MATCH_SCORE = 0.60       # Label only; does NOT change retrieval eligibility
+RUN_DEMO_QUERIES = True         # Demo queries retain their supplied generalizations
+ASK_FOR_QUERY_AT_END = False   # Set True to enter a new situation in the terminal
+CUSTOM_QUERY = ""              # Your new UNRESOLVED situation here
+CUSTOM_QUERY_GENERALIZED = "" # Leave blank to generate/cache a generalization
+
+QUERY_REWRITE_MODEL = "gpt-6.2-astra" # Same known-working API model as Part 1
+QUERY_REWRITE_EFFORT = "low"
+QUERY_REWRITE_PROMPT_VERSION = "generalized-query-v1"
+QUERY_REWRITE_MAX_TOKENS = 450
+QUERY_REWRITE_MAX_INPUT_CHARS = 4000  # Independent guard for new model call
+QUERY_REWRITE_MAX_ESTIMATED_USD = 0.08 # Guard per new rewrite (not account cap)
+REWRITE_INPUT_PRICE_PER_MILLION = 8.0 # Operator estimate; update for billing
+REWRITE_OUTPUT_PRICE_PER_MILLION = 40.0
 
 # Embeddings cost $0.02 / 1M tokens as of Nov 2026. This is a soft guard
 # against accidental enormous inputs, not an accurate billing guarantee.
@@ -149,6 +164,19 @@ CREATE TABLE IF NOT EXISTS node_embeddings (
        REFERENCES embedding_cache(model,dimensions,text_hash)
 );
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS query_rewrite_cache (
+    request_key TEXT PRIMARY KEY,
+    model TEXT NOT NULL,
+    prompt_version TEXT NOT NULL,
+    query_text TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('success','invalid')),
+    generalized_text TEXT,
+    raw_response TEXT NOT NULL,
+    input_tokens INTEGER,
+    output_tokens INTEGER,
+    estimated_cost_usd REAL,
+    created_at TEXT NOT NULL
+);
 """
 
 
@@ -332,6 +360,109 @@ def make_client() -> Any:
     return OpenAI(max_retries=0, timeout=90.0)
 
 
+# Only used for NEW queries without a generalized version. This function never
+# creates ideas, changes the source catalog, or modifies the graph's story nodes.
+QUERY_REWRITE_SYSTEM = """Rewrite a NEW predicament as a generalized, solution-free
+retrieval representation. Preserve its actual structural relationships, participants'
+roles, constraints, and goals. Abstract away incidental domain nouns only where
+this preserves meaning. Never invent events, hidden causes, solutions, outcomes,
+or morals. Avoid generic empty abstractions. Return ONLY a JSON object with one
+string field named generalized_situation, no markdown fences."""
+
+
+def extract_generalized(raw: str, original: str) -> str:
+    """Strictly validate the reply; don't silently use concrete text as substitute."""
+    cleaned = raw.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", cleaned, flags=re.I).strip()
+    doc=json.loads(cleaned)
+    if not isinstance(doc,dict) or set(doc)!={"generalized_situation"}:
+        raise ValueError("Query rewrite must contain only generalized_situation")
+    result=doc["generalized_situation"]
+    if not isinstance(result,str):
+        raise ValueError("Query generalized_situation must be text")
+    result=result.strip()
+    if not 15 <= len(result.split()) <= 120:
+        raise ValueError("Generalized query must be 15–120 words")
+    if len(result)>MAX_TEXT_CHARS or result==original.strip():
+        raise ValueError("Query generalization is invalid or identical to input")
+    return result
+
+
+def generalized_query(db: sqlite3.Connection, situation: str,
+                      client_factory=None) -> str:
+    """One call per *new* input, durable cache, no automatic retries after bad output.
+
+    A network exception may still incur charges; the OpenAI client has retries=0.
+    """
+    situation=situation.strip()
+    if not situation:
+        raise ValueError("Cannot generalize empty query")
+    if len(situation)>QUERY_REWRITE_MAX_INPUT_CHARS:
+        raise ValueError(f"Query is longer than {QUERY_REWRITE_MAX_INPUT_CHARS} characters; "
+                         "shorten it before any model call")
+    key=digest(json.dumps({"model":QUERY_REWRITE_MODEL,
+                           "effort":QUERY_REWRITE_EFFORT,
+                           "version":QUERY_REWRITE_PROMPT_VERSION,
+                           "situation":situation},sort_keys=True,ensure_ascii=False))
+    found=db.execute("SELECT * FROM query_rewrite_cache WHERE request_key=?",(key,)).fetchone()
+    if found is not None:
+        if found["status"]!="success":
+            raise RuntimeError("This query rewrite previously returned an invalid response. "
+                               "Raw reply is retained in query_rewrite_cache; "
+                               "no automatic paid retry.")
+        print("  Query generalization: cached; 0 new model calls")
+        return found["generalized_text"]
+
+    user=("Generalize the following NEW, UNRESOLVED situation in 25–65 words. "
+          "Keep its meaningful asymmetries and constraints; describe the "
+          "predicament as it stands, NOT its solution.\n\n" + situation)
+    estimated=((len((QUERY_REWRITE_SYSTEM+user).encode('utf8'))+1000) *
+               REWRITE_INPUT_PRICE_PER_MILLION + QUERY_REWRITE_MAX_TOKENS *
+               REWRITE_OUTPUT_PRICE_PER_MILLION)/1_000_000
+    if estimated>QUERY_REWRITE_MAX_ESTIMATED_USD:
+        raise RuntimeError(f"Query rewrite reserve ${estimated:.4f} exceeds per-call "
+                           f"guard ${QUERY_REWRITE_MAX_ESTIMATED_USD:.4f}")
+    print(f"  Query generalization: ONE new low-effort model call "
+          f"(conservative reserve ${estimated:.4f})",flush=True)
+    client=(client_factory or make_client)()
+    kwargs={"model":QUERY_REWRITE_MODEL,
+            "input":[{"role":"system","content":QUERY_REWRITE_SYSTEM},
+                     {"role":"user","content":user}],
+            "max_output_tokens":QUERY_REWRITE_MAX_TOKENS,
+            "store":False}
+    if QUERY_REWRITE_EFFORT!="none":
+        kwargs["reasoning"]={"effort":QUERY_REWRITE_EFFORT}
+    response=client.responses.create(**kwargs)
+    raw=getattr(response,"output_text","") or ""
+    usage=getattr(response,"usage",None)
+    tokens_in=getattr(usage,"input_tokens",None) if usage else None
+    tokens_out=getattr(usage,"output_tokens",None) if usage else None
+    cost=((tokens_in or 0)*REWRITE_INPUT_PRICE_PER_MILLION+
+          (tokens_out or 0)*REWRITE_OUTPUT_PRICE_PER_MILLION)/1_000_000 if usage else None
+    try:
+        if getattr(response,"status","completed")!="completed":
+            raise ValueError("Query rewrite response was not complete")
+        result=extract_generalized(raw,situation)
+        status="success"
+    except (ValueError, TypeError, json.JSONDecodeError) as exc:
+        status="invalid"
+        result=None
+        invalid_reason=str(exc)
+    with db:
+        db.execute("""INSERT INTO query_rewrite_cache
+          (request_key,model,prompt_version,query_text,status,generalized_text,
+           raw_response,input_tokens,output_tokens,estimated_cost_usd,created_at)
+          VALUES (?,?,?,?,?,?,?,?,?,?,?)""",
+          (key,QUERY_REWRITE_MODEL,QUERY_REWRITE_PROMPT_VERSION,situation,
+           status,result,raw,tokens_in,tokens_out,cost,stamp()))
+    if status!="success":
+        raise RuntimeError("Model returned invalid query generalization: "+invalid_reason+
+                           "; cached raw response, will NOT automatically retry")
+    print(f"  Query generalization saved: {result}")
+    return result
+
+
 def embed_missing(db: sqlite3.Connection, texts: list[str], client_factory=None) -> int:
     """Embed only unique uncached strings. Keep each completed batch safely cached.
 
@@ -360,7 +491,8 @@ def embed_missing(db: sqlite3.Connection, texts: list[str], client_factory=None)
         group = missing[offset:offset+EMBEDDING_BATCH_SIZE]
         print(f"  API: embedding {len(group)} texts "
               f"({offset + 1}-{offset+len(group)} of {len(missing)})", flush=True)
-        # The only paid API method in this program.
+        # Paid embedding request; a missing query generalization may also need
+        # one small, separately cached Responses API request.
         response = client.embeddings.create(
             model=EMBEDDING_MODEL, dimensions=EMBEDDING_DIMENSIONS,
             input=group, encoding_format="float")
@@ -569,72 +701,146 @@ def rank_view(db: sqlite3.Connection, index: dict, field: str,
     return sorted(scores,key=lambda x:(-x["score"],x["story_id"]))
 
 
-def query_memory(db: sqlite3.Connection, index: dict, title: str,
-                 situation: str, generalized: str="") -> dict:
-    """Search vectors -> retrieve story nodes -> traverse graph to ideas/provenance.
+def thresholds() -> dict[str,float]:
+    values={"unresolved_situation":MIN_SIMILARITY_CONCRETE,
+            "generalized_situation":MIN_SIMILARITY_GENERAL}
+    if INDEX_ORIGINAL_STORY:
+        values["original_text"]=MIN_SIMILARITY_CONCRETE
+    for name,value in values.items():
+        if not -1 <= value <= 1:
+            raise ValueError(f"Similarity cutoff for {name} must lie in [-1,1]")
+    if TOP_MATCHES_PER_VIEW<1:
+        raise ValueError("TOP_MATCHES_PER_VIEW must be >=1")
+    return values
 
-    Keep the concrete and generalized similarity rankings INDEPENDENT.
-    No invented magic aggregate score, no premature threshold pruning.
+
+def query_memory(db: sqlite3.Connection, index: dict, title: str,
+                 situation: str, generalized: str) -> dict:
+    """Bounded, threshold-gated story retrieval; follow real graph edges.
+
+    A story gets in ONLY if its per-view score meets that view's cutoff AND
+    it is among that view's first K eligible stories. We do not pad to K.
+    Ranking is kept independently for each view; no synthetic aggregate score.
     """
-    generalized = generalized.strip() or situation
-    input_by_view={"unresolved_situation":situation,
-                   "generalized_situation":generalized,
-                   "original_text":situation}
+    if not generalized.strip():
+        raise ValueError("Missing generalized query: prepare before query_memory")
+    input_by_view={"unresolved_situation":situation.strip(),
+                   "generalized_situation":generalized.strip(),
+                   "original_text":situation.strip()}
+    cutoffs=thresholds()
     ranked={field:rank_view(db,index,field,input_by_view[field])
             for field in rep_kinds()}
+    selected_by_view={field:[r["story_id"] for r in rows
+                             if r["score"]>=cutoffs[field]][:TOP_MATCHES_PER_VIEW]
+                      for field,rows in ranked.items()}
+    # Interleave RANKS (not cosine values) across independent views. Both
+    # views' rank-1 candidates are examined before either view's rank-2.
     chosen=[]
-    for field,rows in ranked.items():
-        for row in rows[:TOP_MATCHES_PER_VIEW]:
-            if row["story_id"] not in chosen:
-                chosen.append(row["story_id"])
+    for pos in range(TOP_MATCHES_PER_VIEW):
+        for field in rep_kinds():
+            values=selected_by_view[field]
+            if pos<len(values) and values[pos] not in chosen:
+                chosen.append(values[pos])
     recalled=[]
     for sid in chosen:
+        scores={field:next(r["score"] for r in ranks if r["story_id"]==sid)
+                for field,ranks in ranked.items()}
+        passed=[field for field in rep_kinds() if sid in selected_by_view[field]]
+        original=graph_properties(db,graph_ids(sid))["original_text"]
+        ideas=graph_ideas(db,sid)
+        recorded=[i for i in ideas if i["origin"]=="ORIGINAL"]
+        direct=[i for i in ideas if i["origin"]=="DIRECT"]
+        inspired=[i for i in ideas if i["origin"]=="INSPIRED"]
+        strong=any(scores[field]>=STRONG_MATCH_SCORE for field in passed)
+        # A strong situation match gives a particularly natural context in
+        # which to inspect cached analogical inspirations. Still no claim of
+        # relevance or proven success for the generated ideas.
+        additional=(inspired+direct) if strong else (direct+inspired)
         recalled.append({"story_id":sid,
                          "title":graph_properties(db,graph_ids(sid))["title"],
-                         "scores_by_view":{
-                             field:next(r["score"] for r in ranks if r["story_id"]==sid)
-                             for field,ranks in ranked.items()},
-                         "ideas":graph_ideas(db,sid)})
-    return {"query_title":title, "situation":situation, "generalized_query":generalized,
-            "rankings":ranked, "recalled_stories":recalled}
+                         "scores_by_view":scores,
+                         "qualified_by_views":passed,
+                         "strong_match_heuristic":strong,
+                         "original_story":original,
+                         "recorded_approaches":recorded,
+                         "additional_ideas":additional,
+                         "ideas":recorded+additional})
+    return {"query_title":title,"situation":situation,
+            "generalized_query":generalized,
+            "cutoffs":cutoffs,"top_matches_per_view":TOP_MATCHES_PER_VIEW,
+            "strong_match_score":STRONG_MATCH_SCORE,
+            "rankings":ranked,"selected_by_view":selected_by_view,
+            "recalled_stories":recalled}
 
 
 def report_markdown(result: dict) -> str:
     lines=[f"# Associative recall — {result['query_title']}","",
            "## New unresolved situation","",result["situation"],"",
-           "## New generalized situation","",result["generalized_query"],"",
-           "Similarity scores are cosine similarities, **not** calibrated probabilities. "
-           "The two views are ranked independently; a partial/remote match may be "
-           "interesting even if it scores below another story.",""]
+           "## Generalized situation (provided or generated once and cached)","",
+           result["generalized_query"],"",
+           "Similarity is cosine similarity, **not** a probability that an analogy "
+           "will work. Each embedding view has its own independent ranking and "
+           "cutoff. We never pad the selection to a fixed number of stories.","",
+           f"Cutoffs: concrete **{result['cutoffs']['unresolved_situation']:.2f}**; "
+           f"generalized **{result['cutoffs']['generalized_situation']:.2f}**. "
+           f"Maximum per view: **{result['top_matches_per_view']}**.",""]
     for field,ranking in result["rankings"].items():
         lines.extend([f"## Similarity ranking: {field}","",
-                      "| Rank | Recalled story | Cosine similarity | In initial shortlist? |",
-                      "|---:|---|---:|:---:|"])
+                      "| Rank | Story | Similarity | Passed cutoff? | Selected? |",
+                      "|---:|---|---:|:---:|:---:|"])
         for n,row in enumerate(ranking,1):
+            eligible=row["score"]>=result["cutoffs"][field]
+            selected=row["story_id"] in result["selected_by_view"][field]
             lines.append(f"| {n} | {row['title']} | {row['score']:.4f} | "
-                         f"{'Yes' if n<=TOP_MATCHES_PER_VIEW else 'No'} |")
+                         f"{'Yes' if eligible else 'No'} | {'Yes' if selected else 'No'} |")
         lines.append("")
-    lines.extend(["## Ideas retrieved by traversing the graph", "",
-                  "Each idea was already in the completed creative library. "
-                  "The query does not create new ideas. Provenance belongs to the "
-                  "original cross-story comparison, not this retrieval.",""])
+    lines.extend(["## Recalled original experiences and ideas", "",
+                  "**First:** inspect the original story and any approaches actually "
+                  "recorded in it, including failures and known outcomes. A cross-domain "
+                  "approach is a source of analogy, not a ready-made solution. "
+                  "**Then:** inspect its cached speculative inspirations. A high-scoring "
+                  "story match may make those inspirations easier to adapt, but their "
+                  "relevance has NOT been individually evaluated.",""])
+    if not result["recalled_stories"]:
+        lines += ["**No stored story met the configured similarity cutoff.**", "",
+                  "No ideas recalled. Check the full rankings above before deciding "
+                  "whether to widen the search.",""]
     for n,story in enumerate(result["recalled_stories"],1):
         scores=", ".join(f"{field}: {score:.4f}"
                          for field,score in story["scores_by_view"].items())
-        lines.extend([f"### {n}. {story['title']}","",f"Similarity: {scores}","",
-                      f"Retrieved **{len(story['ideas'])}** stored ideas.",""])
-        for idea in story["ideas"]:
-            intro=f"#### [{idea['origin']}] {idea['caption']} (idea {idea['idea_id']})"
-            lines.extend([intro,""])
+        note=("Close match (experimental 0.60 label): cached inspirations may "
+              "transfer more directly." if story["strong_match_heuristic"] else
+              "Partial match: inspect the source experience for analogical mechanisms.")
+        lines.extend([f"### {n}. {story['title']}","",
+                      f"**Scores:** {scores}","",
+                      f"**Qualified through:** {', '.join(story['qualified_by_views'])}","",
+                      f"**Interpretation:** {note}","",
+                      "#### Original recorded experience","",story["original_story"],""])
+        if story["recorded_approaches"]:
+            lines.append("#### Recorded approaches / interventions — FIRST PRIORITY")
+            lines.append("")
+            for idea in story["recorded_approaches"]:
+                lines.extend([f"**{idea['caption']}** (idea {idea['idea_id']})","",
+                              idea["description"],"",
+                              f"**Underlying principle:** {idea['principle']}",""])
+                if idea.get("outcome_note"):
+                    lines.extend([f"**Actual reported outcome:** {idea['outcome_note']}",""])
+        else:
+            lines.extend(["*This source is an observation or predicament without "
+                          "an explicitly recorded intervention; examine its original "
+                          "relationships and details instead.*",""])
+        lines.extend(["#### Further cached ideas (speculative, not verified)","",
+                      f"{len(story['additional_ideas'])} additional ideas retained; "
+                      "none has been independently ranked against this new query.",""])
+        for idea in story["additional_ideas"]:
+            lines.extend([f"**[{idea['origin']}] {idea['caption']}** (idea {idea['idea_id']})",""])
             if idea.get("inspiration_source_title"):
-                lines.extend([f"**Originally inspired by:** {idea['inspiration_source_title']}",""])
+                lines.extend([f"*Originally inspired by: {idea['inspiration_source_title']}*",""])
             lines.extend([idea["description"],"",f"**Principle:** {idea['principle']}",""])
             if idea.get("source_detail"):
                 lines.extend([f"**Source detail:** {idea['source_detail']}",""])
             if idea.get("analogy"):
                 lines.extend([f"**Analogical bridge:** {idea['analogy']}",""])
-            if idea.get("outcome_note"):
-                lines.extend([f"**Recorded original outcome:** {idea['outcome_note']}",""])
     return "\n".join(lines)+"\n"
 
 
@@ -683,15 +889,20 @@ def make_readme(source: Path, counts: dict, queries: list[dict]) -> str:
         name=safe_filename(result["query_title"])
         lines.append(f"- [{result['query_title']}](retrieval_reports/{name}.md)")
     lines.extend(["", "Scores are cosine similarities, not probabilities. "
-                  "The script does not judge or filter inspirations for feasibility. "
-                  "No creative/reasoning model calls are made in Parts 2 + 3.", ""])
+                  "The script selects stories using per-view minimum cosine cutoffs "
+                  "and a per-view top-K ceiling, then displays original recorded "
+                  "approaches before cached speculative ideas. It does not evaluate "
+                  "individual ideas for relevance or feasibility. For a new query "
+                  "without its own generalization, one low-effort query rewrite "
+                  "call is made and cached. No creative ideation calls are made.", ""])
     return "\n".join(lines)
 
 
 def run() -> None:
     print("="*72)
     print("ASSOCIATIVE MEMORY — PART 2 GRAPH + EMBEDDINGS / PART 3 RECALL")
-    print("No creative reasoning calls. Existing catalog and idea DB stay untouched.")
+    print("No idea-generation calls. Unseen custom queries may incur ONE cached rewrite call.")
+    print("Existing creative catalog and idea DB stay untouched.")
     print("="*72)
     source = discover_catalog()
     print(f"Input catalog: {source}")
@@ -701,18 +912,25 @@ def run() -> None:
     OUTPUT_ROOT.mkdir(parents=True,exist_ok=True)
     db=open_database(DATABASE_PATH)
     try:
-        # Stage 1: collect ALL texts needing embeddings; dedupe and batch them.
-        # Probe inputs are not invented by LLMs; the user can edit/replace them.
+        # Stage 1: prepare (and cache) a real generalized version for EVERY
+        # new query missing one. The DEMO examples supply theirs explicitly so
+        # historic rankings remain reproducible and incur no rewrite expense.
         query_inputs=[]
         if RUN_DEMO_QUERIES:
             query_inputs.extend(DEMO_QUERIES)
         if CUSTOM_QUERY.strip():
             query_inputs.append(("My new predicament", CUSTOM_QUERY.strip(),
-                                 CUSTOM_QUERY_GENERALIZED.strip() or CUSTOM_QUERY.strip()))
+                                 CUSTOM_QUERY_GENERALIZED.strip()))
+        normalized_queries=[]
+        for name,situation,generalized in query_inputs:
+            if not generalized.strip():
+                print(f"Preparing generalized query: {name}")
+                generalized=generalized_query(db,situation)
+            normalized_queries.append((name,situation,generalized))
+        query_inputs=normalized_queries
         graph_texts=[s[field].strip() for s in stories for field in rep_kinds()]
         query_texts=[text for _,s,g in query_inputs for text in (s,g)]
-        all_texts=graph_texts + query_texts
-        embed_missing(db, all_texts)
+        embed_missing(db, graph_texts + query_texts)
 
         # Stage 2: NEVER wipe an existing good graph unless every new embedding exists.
         was_built=build_graph(db,stories,fingerprint)
@@ -732,17 +950,24 @@ def run() -> None:
             print(f"\nQUERY: {name}")
             for field,rankings in result["rankings"].items():
                 print(f"  {field} top matches:")
-                for row in rankings[:TOP_MATCHES_PER_VIEW]:
-                    print(f"    {row['score']:.4f}  {row['title']}")
-            print(f"  Recalled {len(result['recalled_stories'])} story catalogs / "
-                  f"{sum(len(x['ideas']) for x in result['recalled_stories'])} existing ideas")
+                for row in rankings:
+                    flag=("RECALL" if row['story_id'] in result['selected_by_view'][field]
+                          else "below cutoff" if row['score']<result['cutoffs'][field]
+                          else "outside top-K")
+                    print(f"    {row['score']:.4f}  {row['title']}: {flag}")
+            print(f"  Selected {len(result['recalled_stories'])} qualifying story catalogs; "
+                  f"{sum(len(x['ideas']) for x in result['recalled_stories'])} ideas are "
+                  "available behind them (not individually scored)")
+            for st in result['recalled_stories']:
+                print(f"    {st['title']}: {len(st['recorded_approaches'])} recorded "
+                      f"approaches FIRST, {len(st['additional_ideas'])} cached ideas")
             print(f"  Full idea details: {REPORT_ROOT / (filename+'.md')}")
         write_text(OUTPUT_ROOT/"README.md",make_readme(source,counts,results))
         print("\n"+"="*72)
         print("SUCCESS: graph built/verified and retrieval test completed")
         print(f"Graph database: {DATABASE_PATH}")
         print(f"Browse summary: {OUTPUT_ROOT / 'README.md'}")
-        print("Pressing F5 again reuses cached embeddings and graph if unchanged.")
+        print("Pressing F5 again reuses cached embeddings, query rewrites, and graph if unchanged.")
         print("="*72)
 
         if ASK_FOR_QUERY_AT_END:
@@ -758,14 +983,16 @@ def run() -> None:
                     print("Too long; shorten the input.")
                     continue
                 try:
-                    embed_missing(db,[s])
-                    result=query_memory(db,index,"Interactive query "+digest(s)[:8],s,s)
+                    g=generalized_query(db,s)
+                    embed_missing(db,[s,g])
+                    result=query_memory(db,index,"Interactive query "+digest(s)[:8],s,g)
                     filename=safe_filename(result["query_title"])
                     write_text(REPORT_ROOT/(filename+".md"),report_markdown(result))
                     for field,ranking in result["rankings"].items():
                         print(f"{field}: "+", ".join(
                             f"{r['title']} {r['score']:.3f}"
-                            for r in ranking[:TOP_MATCHES_PER_VIEW]))
+                            for r in ranking
+                            if r['story_id'] in result['selected_by_view'][field]))
                     print(f"Full report: {REPORT_ROOT/(filename+'.md')}")
                 except Exception as exc:
                     print(f"Search stopped without automatic retries: {exc}")
