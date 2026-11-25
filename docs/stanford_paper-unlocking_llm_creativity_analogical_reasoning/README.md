@@ -9,3 +9,5 @@ Andrew Shen, Shaul Druckmann, and James Zou (2026)
 - License: [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/)
 
 The accompanying PDF is an unmodified archival copy of the authors' paper, included for research and reference purposes. All credit belongs to the original authors. This repository is not affiliated with or endorsed by them.
+
+Subject of my blog: https://eugeneasahara.com/2026/11/25/a-stanford-paper-on-ai-creativity-that-deserves-much-more-attention/
